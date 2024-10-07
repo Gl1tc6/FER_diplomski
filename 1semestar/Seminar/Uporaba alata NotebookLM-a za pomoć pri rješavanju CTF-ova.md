@@ -55,7 +55,64 @@ osobno računalo preuzima obrađivački dio posla)==
 
 ---
 
-## Datum:
+## Datum: 7.10.2024
+
+Prije svega valjalo bi testirati osnovno znanje LM-a kako na engleskom tako i na hrvatskom jeziku.
+
+
+Nije moguce razgovarati sa LM-om bez postavljanja izvora pa sam prije svega postavio datoteku sa brojem 22 u nadi da cu dobiti nesto vise od samo toga. 
+Testiranje predznanja na engleskom jeziku:
+JA > "Disregard my source file. What can you tell me about yourself?"
+LM > "The sources and our conversation history do not contain information about you, so I cannot answer your question."
+
+JA > "Sto imas u svojim izvorima?"
+LM > "The information available in the sources you have provided is limited to a single excerpt: 
+
+*   The excerpt from "Pasted Text" contains only the number **22**. "
+
+JA > "Odgovaraj mi na hrvatskom"
+LM > "The sources you provided do not contain any information that would allow me to respond to your query in Croatian.
+The available information in our conversation history only confirms that your sources contain a single numerical excerpt, "22", from a source labeled "Pasted Text"[1]"
+
+Daljnji pokuaji da odgovori na hrvatskom su zavrsili neuspjehom iako razumije upite na hrvatskom.
+
+U nastavku pokusavamo dobiti znanje koje nije eksplicitno upisano.
+
+JA > Write a short script that results with said number.
+LM > [kratki igrokaz o kapetanu i inzinjeru na svemirskom brodu]
+
+JA > script in python and bash
+LM >
+""
+## Python and Bash Scripts Outputting 22
+
+Based on your previous input, the number you are interested in is **22** . Below are scripts in Python and Bash that will output this number:
+
+**Python**
+
+```python
+print(22)
+```
+
+This script uses the `print()` function to output the number 22 directly.
+
+**Bash**
+
+```bash
+echo 22
+```
+
+This script utilizes the `echo` command to print the number 22 to the console. 
+""
+
+Znaci bez dodatnih izvora LM ima nekakvo predznanje o jezicima.
+
+JA - Can you offer some sources (links, books, videos...) that mention 22
+LM -
+The sources and our conversation history do not contain any links, books, or videos that mention 22. The only available information is the number **22** itself, originally provided by you. 
+
+Osim toga ne može ništa više.
+
 
 
 ---
