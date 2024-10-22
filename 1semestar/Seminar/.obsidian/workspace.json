@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "8587a3c5a8b50aa3",
@@ -159,5 +160,7 @@
     }
   },
   "active": "f58e9d148667d675",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "Uporaba alata NotebookLM-a za pomoć pri rješavanju CTF-ova.pdf"
+  ]
 }
