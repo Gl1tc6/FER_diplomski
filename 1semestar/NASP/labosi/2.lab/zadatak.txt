@@ -1,0 +1,14 @@
+Implementirajte unos u Crno-Crveno stablo (Red-Black tree). Večina koda vam je implementirana, ali morate dovršiti funkcije koje će se pozivati iz metode insert_rebalance, klase RBTree:
+
+Funkciju red_uncle_case koja riješava slučaj kada čvor ima crvenog ujaka.
+Funkciju straight_case koja riješava ulančani slučaj kada je ujak crne boje.
+Funkciju broken_case koja riješava razlomljeni slučaj kada je ujak crne boje.
+Metode iz klase RBTree koji će vam trebati su:
+
+rotate - Prima čvor oko kojeg rotiramo (roditelj), čvor koji rotiramo oko roditelja i vrstu rotacije (RotationType)
+Primjer poziva lijeve rotacije čvora node2 oko čvora node1:
+tree.rotate(node1, node2, RotationType.Left)
+swap_colors - Prima dva čvora i zamijeni im boje.
+insert_rebalance - Za rekurzivni poziva uravnotežavanja.
+Dodatno za NIL/NULL čvorove postoji poseban objekt SENTINEL kojem je nadjačan bool operator, ne može mu se postaviti boja osim crne i baca 
+iznimku ako mu se pokuša postaviti dijete. Kod provjere da neki čvor postoji nemojte koristiti node is None, nego možete samo direktno u if stavljati node

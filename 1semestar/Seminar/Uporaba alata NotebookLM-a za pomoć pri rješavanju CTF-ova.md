@@ -31,7 +31,7 @@ Značajke (https://support.google.com/notebooklm/answer/14276468?hl=en&ref_topic
 - izvori mogu biti:
 	- Google Docs
 	- Google Slides
-	- PDF, Text i Markodown datoteke
+	- PDF, Text i Markdown datoteke
 	- linkovi (samo će tekst sa stranica biti parsiran, slike i videi neće, stranice koje nemaju web scrapping ili "*paywall*" neće biti parsirane)
 	- Zalijepljen tekst
 	- YouTube linkovi (transkript javnih videa koji ne krše ToS YT-a će biti parsiran i to tek za videe starije od 72 sata)
@@ -200,7 +200,7 @@ z = x + y;
 
 **Explanation:** Strongly typed languages enforce strict data type rules. In this case, adding an integer (x) to a string (y) would violate these rules, resulting in a runtime error.
 
-### Question 6
+### Question 6 - KRIVO
 
 **You wrote the code:**
 
@@ -248,7 +248,7 @@ z = x + y;
 
 **Explanation:** Kerckhoffs's principle states that the security of a cryptosystem should rely solely on the secrecy of the key, not the secrecy of the algorithm. Stefan's belief that his algorithm is secure because no one knows how it works directly contradicts this principle.
 
-### Question 9
+### Question 9 - KRIVO
 
 **Which of the following are valid key pairs for the "Plain RSA" cryptosystem?**
 
@@ -265,6 +265,9 @@ where N is the modulus and φ(N) is Euler's totient function of N. For the given
 
 - **(5,65),(1,65)**: Here, N = 65, φ(N) = 48. You can check that both (5 * 1) MOD 48 = 1 and (1 * 5) MOD 48 = 1 hold true.
 - **(3,65),(29,65)**: Here, N = 65, φ(N) = 48. You can check that (3 * 29) MOD 48 = 1 holds true.
+
+d) (35,65),(11,65)
+h) (19,65),(43,65)
 
 ### Question 10
 
