@@ -1,0 +1,95 @@
+Pocetni dio datoteke s makroprogramom, prije znaka %
+moze se koristiti za globalne komentare makroprograma.
+Pribroji neposredne konstante registru r0.
+% // Pocetak koda 
+// LOAD_IMMEDIATE r0<- 3
+0: 000001 00 // vrijednosti mogu biti binarne (s razmacima)
+1: 3 // ili dekadske
+// LOAD_IMMEDIATE r1<- 2
+2: 000001 01
+3: 2
+// ADD r0 <- r0 + r1
+4: 000010 00
+5: 00 01 0000 // bin. vrijednosti mogu sadrzavati razmake
+
+// MOVE r1 <- r0
+6: 000100 01
+7: 00 0000
+
+// LOAD from MEM
+8: 000101 10
+9: 10
+
+// STORE to MEM
+10: 000110 00
+11: 01 0000
+
+// LOAD_IMMEDIATE r0 <- 4
+12: 000001 00
+13: 4
+
+// JMP addr
+14: 000111 00
+15: 18
+
+// LOAD_IMMEDIATE r0 <- 0
+16: 000001 00
+17: 0
+// LOAD_IMMEDIATE r1 <- 14
+18: 000001 01
+19: 14
+// SUB r2, r1, r0
+20: 001001 10
+21: 01 00 0000
+
+// LOAD_IMMEDIATE r0 <- 0
+22: 000001 00
+23: 0
+// LOAD_IMMEDIATE r1 <- 10
+24: 000001 01
+25: 10
+//  JZ r0, r1
+26: 001000 00
+27: 00 01 0000
+
+
+// LOAD_IMMEDIATE r0 <- 5
+28: 000001 00
+29: 5
+// SHL r0 -> r1
+30: 001010 01
+31: 00 000000
+
+
+// LDSP konst 
+32: 001011 00
+32: 100
+
+// PUSH r1
+34: 001100 00
+35: 01 000000
+
+// POP r2
+36: 001101 10
+37: 0
+
+//CALL
+38: 001110 00
+39: 180
+
+// HALT
+40: 000011 00 // U r0 bi se sada trebalo nalaziti 5
+41: 0
+
+// potprogram
+// LOAD_IMMEDIATE r0 <- 21
+180: 000001 00
+181: 21
+
+// RET
+182: 001111 00
+183: 00 000000
+
+
+
+// Kraj
