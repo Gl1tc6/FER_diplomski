@@ -11,13 +11,13 @@ from Q2a import Q2a_txout_scriptPubKey
 ######################################################################
 # Postavite parametre transakcije
 # TODO: amount_to_send = {cjelokupni iznos BCY-a u UTXO-u kojeg saljemo} - {fee}
-amount_to_send = None
+amount_to_send = 0.000155 - 0.00001
 # TODO: Identifikator transakcije
 txid_to_spend = (
-        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        '9561a7cb37248f2f9265758f619e0835b52b55977d1755d672faa97b54160a2f')
 # TODO: indeks UTXO-a unutar transakcije na koju se referiramo
 # (indeksi pocinju od nula)
-utxo_index = None
+utxo_index = 0
 ######################################################################
 
 txin_scriptPubKey = Q2a_txout_scriptPubKey
@@ -26,6 +26,8 @@ txin_scriptPubKey = Q2a_txout_scriptPubKey
 # pomocu skripte `scriptPubKey` u zadatku 2a
 txin_scriptSig = [
     # vas kod ide ovdje...
+    36,
+    810
 ]
 ######################################################################
 txout_scriptPubKey = P2PKH_scriptPubKey(faucet_address)

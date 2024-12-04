@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "C/C++ Runner: Debug Session",
+          "type": "cppdbg",
+          "request": "launch",
+          "args": [],
+          "stopAtEntry": false,
+          "externalConsole": false,
+          "cwd": "/home/ante/Documents/GitHub/FER_diplomski/1semestar/ARHRAC2/labosi/lab2/a",
+          "program": "/home/ante/Documents/GitHub/FER_diplomski/1semestar/ARHRAC2/labosi/lab2/a/main",  // Correct path to the executable
+          "MIMode": "gdb",
+          "miDebuggerPath": "gdb",
+          "setupCommands": [
+              {
+                  "description": "Enable pretty-printing for gdb",
+                  "text": "-enable-pretty-printing",
+                  "ignoreFailures": true
+              }
+          ],
+          "preLaunchTask": "build"  // Ensure the build task runs before launching
+      }
+  ]
+}

@@ -11,6 +11,11 @@ def P2PKH_scriptPubKey(address):
     # TODO: Implementirajte `PayToPublicKeyHash` transakciju
     return [
         # vas kod ide ovdje...
+        OP_DUP,
+        OP_HASH160,
+        address,
+        OP_EQUALVERIFY,
+        OP_CHECKSIG
     ]
     ######################################################################
 
@@ -23,6 +28,8 @@ def P2PKH_scriptSig(txin, txout, txin_scriptPubKey, private_key, public_key):
     # zakljucani pomocu `PayToPublicKeyHash` transakcije
     return [
         # vas kod ide ovdje...
+        signature,
+        public_key
     ]
     ######################################################################
 
@@ -53,13 +60,13 @@ if __name__ == '__main__':
     ######################################################################
     # Postavite parametre transakcije
     # TODO: amount_to_send = {cjelokupni iznos BCY-a u UTXO-u kojeg saljemo} - {fee}
-    amount_to_send = None
+    amount_to_send = 0.000165 - 0.00001
     # TODO: Identifikator transakcije
     txid_to_spend = (
-        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        '1a19256a13c6eea10f83b4144a9d4c59dda11516d7f14b31f37145ead64ed280')
     # TODO: indeks UTXO-a unutar transakcije na koju se referiramo
     # (indeksi pocinju od nula)
-    utxo_index = None
+    utxo_index = 0
     ######################################################################
 
     txout_scriptPubKey = P2PKH_scriptPubKey(faucet_address)

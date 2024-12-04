@@ -1,0 +1,39 @@
+Naslovni slajd
+Dobar dan svima, moje ime je Ante Čavar i danas ću vam predstaviti uporabu alata NotebookLM. Radi se o naprednom AI alatu koji pomaže pri analizi i organizaciji velikih količina dokumenata. Mentor na ovom projektu mi je bio prof. dr. sc. Stjepan Groš.
+Vrijeme: 1 minuta
+
+Pregled
+Ovo su točke koje ćemo obraditi: prvo ćemo definirati što je NotebookLM, zatim ćemo proći kroz tehničke specifikacije i podržane formate. Nakon toga ćemo se osvrnuti na ograničenja alata i metodologiju testiranja, te prikazati rezultate, uključujući osnovne i napredne testove. Završit ćemo s analizom prednosti i nedostataka te donijeti zaključak.
+Vrijeme: 2 minute
+
+Što je NotebookLM?
+NotebookLM je AI asistent za analizu dokumenata, posebno koristan u akademskom i istraživačkom okruženju. Njegova ključna značajka je sposobnost da nakon učitavanja dokumenata postane stručnjak za te izvore, pomažući korisnicima u čitanju, pisanju bilješki, te organiziranju ideja. Razvijen je iz Googleovog Project Tailwind, a globalno je dostupan od lipnja 2024.
+Vrijeme: 3 minute
+
+Tehničke specifikacije i podržani formati
+NotebookLM podržava razne formate dokumenata kao što su Google Docs, Google Slides, PDF, tekstualni i Markdown formati. Također podržava linkove, zalijepljeni tekst, YouTube transkripte i audio datoteke. Važno je napomenuti da može raditi s do 50 izvora, što ukupno može iznositi do 500.000 riječi ili 200MB podataka. Međutim, alat može parsirati samo tekstualne dijelove iz izvora.
+Vrijeme: 2 minute
+
+Ograničenja
+Alat ima nekoliko ključnih ograničenja. Na primjer, može obraditi samo tekstualne podatke, dok su slike i videozapisi isključeni iz analize. Također, ograničen je na rad s maksimalno 50 izvora po projektu, a rad sa stranicama koje imaju paywall ili blokiraju scraping također nije moguć.
+Vrijeme: 2 minute
+
+Metodologija testiranja
+NotebookLM smo testirali kroz osnovne i napredne testove. Osnovni testovi su uključivali provjeru razumijevanja na hrvatskom i engleskom jeziku, kao i analizu dokumenata različitih formata. Također smo ispitali koliko dobro alat može odgovarati na upite samo na temelju pruženih izvora, bez dodatnog konteksta.
+Vrijeme: 3 minute
+
+Rezultati testiranja: Osnovni testovi
+Tijekom osnovnog testiranja, alat se pokazao sposobnim generirati odgovore na jednostavne upite, kao što su pretrage fraza unutar dokumenata. Također smo testirali njegovu sposobnost generiranja jednostavnih skripti u programskim jezicima poput Pythona i Basha. Zanimljivo je da je alat mogao dati odgovore na upite na hrvatskom jeziku, iako je odgovarao na engleskom.
+Vrijeme: 3 minute
+
+Napredni testovi
+Proveli smo i napredne testove, uključujući testiranje "Needle-in-a-Haystack", gdje smo tražili specifične fraze unutar većih tekstova. Rezultati su pokazali da alat uspješno pronalazi skrivene fraze u kraćim tekstovima, dok je kod dužih tekstova to predstavljalo izazov. Također smo ispitivali sposobnost alata da rješava zadatke zdravog razuma pomoću "common sense" pitanja, što je uspješno odrađeno.
+Vrijeme: 3 minute
+
+Prednosti i nedostaci
+NotebookLM nudi mnoge prednosti, poput integracije s Google alatima, mogućnosti personalizacije izvora i brzine analize velikih dokumenata. Međutim, ograničenja uključuju nemogućnost rada s ne-tekstualnim podacima, ograničenja na broj izvora i količinu podataka, te povremene teškoće u analizi dužih tekstova.
+Vrijeme: 2 minute
+
+Zaključak
+Na kraju, NotebookLM je vrijedan alat za svakoga tko se bavi analizom dokumenata. Iako još uvijek ima neka ograničenja, njegova fleksibilnost i sposobnost brzog generiranja relevantnih odgovora čine ga korisnim u mnogim situacijama, posebno u akademskom okruženju.
+Vrijeme: 2 minute

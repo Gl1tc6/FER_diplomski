@@ -23,6 +23,9 @@ def multisig_scriptSig(txin, txout, txin_scriptPubKey):
     # zakljucani multi-sig transakcijom iz zadatka 3a.
     return [
         # vas kod ide ovdje...
+        OP_0,
+        cust1_sig,
+        bank_sig
     ]
     ######################################################################
 
@@ -43,13 +46,13 @@ if __name__ == '__main__':
     ######################################################################
     # Postavite parametre transakcije
     # TODO: amount_to_send = {cjelokupni iznos BCY-a u UTXO-u kojeg otkljucavamo} - {fee}
-    amount_to_send = None
+    amount_to_send = 0.000155 - 0.00001
     # TODO: Identifikator transakcije
     txid_to_spend = (
-        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        '71f073cfd140ed187363c01e9b19ea0d9c3a1860be11fd0b429cc49b3f433f3a')
     # TODO: indeks UTXO-a unutar transakcije na koju se referiramo
     # (indeksi pocinju od nula)
-    utxo_index = None
+    utxo_index = 0
     ######################################################################
 
     txin_scriptPubKey = Q3a_txout_scriptPubKey

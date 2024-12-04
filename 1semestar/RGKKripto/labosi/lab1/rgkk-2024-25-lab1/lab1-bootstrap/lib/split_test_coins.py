@@ -38,15 +38,15 @@ if __name__ == '__main__':
     address = P2PKHBitcoinAddress.from_pubkey(public_key)
 
     # TODO: amount_to_send = {cjelokupni iznos BCY-a u UTXO-u kojeg dijelimo} - {fee}
-    amount_to_send = None
+    amount_to_send = 0.001 - 0.00001
     # TODO: Identifikator transakcije
     txid_to_spend = (
-        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        '5f278fa0b4159b9e7129050890b93813bc41605a5ebd5230c9bbbc196d245a15')
     # TODO: indeks UTXO-a unutar transakcije na koju se referiramo
     # (indeksi pocinju od nula!)
-    utxo_index = None
+    utxo_index = 0
     # TODO: broj UTXO-a na koji zelimo podijeliti pocetni
-    n = None
+    n = 6
     # U normalnim okolnostima (pod pretpostavkom da rijesite vjezbu bez gresaka)
     # dovoljno bi bilo staviti `n = 3`. No, zbog mogucih gresaka (npr. u slucaju
     # da nepovratno zakljucate novcice) preporucamo da stavite barem `n = 6`

@@ -1,0 +1,54 @@
+// ====================== PRIBAVI =======================
+fetch0: a_sel=7, b_sel=7, alu_sel=OR, mar_sel=LOAD; // MAR <- PC
+fetch1: ir1_sel=LOAD, read, if wait then goto fetch1 endif; // IR_high <- MEM(MAR)
+fetch2: a_sel=7, c_in, alu_sel=ADDA, r7_write; // PC <- PC+1
+fetch3: a_sel=7, b_sel=7, alu_sel=OR, mar_sel=LOAD; // MAR <- PC
+fetch4: ir0_sel=LOAD, read, if wait then goto fetch4 endif; // IR_low <- MEM(MAR)
+fetch5: a_sel=7, c_in, alu_sel=ADDA, r7_write, goto opcode[IR_OPCODE]; // PC <- PC+1
+// ============= DIO OPERACIJSKIH KODOVA =============
+// 0) NOP
+opcode[0]: goto fetch0;
+// 1) LOAD_IMMEDIATE (ri <- ir_const8)
+opcode[1]: result_sel=IR_CONST8, ri_sel, goto fetch0;
+// 2) ADD (ri <- rj + rk)
+opcode[2]: ri_sel, rj_sel, rk_sel, alu_sel=ADD, if m_7 then goto opcode2.1 else goto opcode2.2 endif;
+// 3) CNTRZ ri, rj (ri <- zeros(rj))
+opcode[3]: rj_sel, alu_sel=ADDA, r4_write, goto opcode3.1;
+// 4) HALT
+opcode[4]: goto opcode[4];
+// ================= DIO EKSTENZIJE ================
+// postavi zastavicu N
+opcode2.1: a_sel=4, b_sel=4, alu_sel=XOR, r4_write; // pomocni registar r4 <- 0
+a_sel=4, c_in, alu_sel=ADDA, r6_write, goto fetch0; // r4=0 + c_in=1 -> r6 (SR)
+// obrisi zastavicu N
+opcode2.2: a_sel=4, b_sel=4; alu_sel=XOR, r4_write; // pomocni registar r4 <- 0
+a_sel=4, alu_sel=ADDA, r6_write, goto fetch0;
+
+// 1. iter
+opcode3.1: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.2 endif;
+a_sel=5, b_sel=5, alu_sel=XOR, r5_write;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.2;
+//2.iter
+opcode3.2: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.3 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.3;
+// 3 iter
+opcode3.3: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.4 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.4;
+// 4 iter
+opcode3.4: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.5 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.5;
+// 5 iter
+opcode3.5: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.6 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.6;
+// 6 iter
+opcode3.6: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.7 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.7;
+// 7 iter
+opcode3.7: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.8 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.8;
+// 8 iter
+opcode3.8: a_sel=4, b_sel=4, alu_sel=ADD, r4_write, if c_out then goto opcode3.9 endif;
+a_sel=5, c_in, alu_sel=ADDA, r5_write, goto opcode3.9;
+opcode3.9: ri_sel, a_sel=5, alu_sel=ADDA goto fetch0;
+
+
