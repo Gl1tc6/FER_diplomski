@@ -1,0 +1,58 @@
+\chapter{Usporedba i nadomještanje funkcionalnosti}
+%\addcontentsline{toc}{chapter}{Usporedba i nadomještanje funkcionalnosti}
+Oba alata imaju slične funkcionalnosti i mogu postići iste rezultate s minimalno različitim pristupom. 
+ZAP je očito namijenjen za male tvrtke i pojedince, dok je Burp Suite komercijalan alat namijenjen za velike tvrtke i korporacije. 
+Iako i velike tvrtke mogu koristiti ZAP, njihovi sigurnosni specijalisti moraju proći više obuke.
+
+Razlike u korištenju su primijećene prilikom korištenja oba alata. 
+Kada se pojavi problem s Burpom ili je potrebna informacija o njihovim alatima, uvijek se može osloniti na dobro napisanu dokumentaciju. 
+\textit{PortSwigger} (tvrtka koja je izgradila Burp Suite) osigurava profesionalne priručnike i video upute za korištenje svojih alata.
+
+Kada se pojavi problem sa ZAP-om, uvelike se oslanja na rješenja koja su već dokumentirali članovi zajednice. 
+Iako ZAP ima svoje priručnike i dokumentaciju, oni nisu na razini jasnoće, pokrivenosti i razumljivosti kao Burpova dokumentacija. 
+Velika prednost ZAP-a je njegov HUD, koji je bio izuzetno koristan prilikom testiranja. 
+U prednost ZAP-u također idu i dodaci, tj. ekstenzije, kojih ima puno više nego za Burp. 
+Te ekstenzije mogu se pisati u \textit{Javi, Pythonu, Rubyu, JavaScriptu}, itd. 
+Osim toga, ZAP je moguće uključiti u skripte te na taj način automatizirati testiranje.
+
+Primjer takve skripte:
+
+\captionsetup[figure]{labelformat=empty, labelsep=none}
+
+\begin{figure}[H]
+    \begin{verbatim}
+    import time
+    from zapv2 import ZAPv2
+
+    def zap_scan(target_url, api_key='vas_api_kljuc', log='zap_rezultati.txt'):
+        zap = ZAPv2(apikey=api_key)
+        zap.urlopen(target_url)
+        time.sleep(2)
+        zap.spider.scan(target_url)
+        while int(zap.spider.status('')) < 100:
+            time.sleep(2)
+        zap.ascan.scan(target_url)
+        while int(zap.ascan.status('')) < 100:
+            time.sleep(5)
+        alerts = zap.core.alerts() # rjecnik alarma
+        with open(log, 'w') as f:
+            for alert in alerts:
+                f.write(f"Alert: {alert['alert']}\nRisk: {alert['risk']}\n \
+                URL: {alert['url']}\n Description: {alert['description']}\n \
+                Solution: {alert['solution']}\nReference: {alert['reference']}\n)
+
+    if __name__ == "__main__":
+        target_url = input("Unesite URL zrtve: ")
+        zap_scan(target_url)
+    \end{verbatim}
+    \captionsetup{labelformat=empty} % To remove the default "Figure" label
+    \caption{\textbf{Ispis 3.18.} Jednostavna skripta za automatizaciju skeniranja u Pythonu\cite{zap_script}}
+    \label{inp:script}
+\end{figure}
+
+Jedino što je potrebno napraviti je instalirati ZAP i Python, postaviti api ključ za korištenje, pokrenuti ZAP u \textit{daemon} načinu rada
+te onda sa Pythonovim menadžerom za pakete instalirati paket za korištenje ZAP daemona.
+
+\noindent
+\texttt{./zap.sh -daemon -config api.key=your\_api\_key}\newline
+\texttt{pip install python-owasp-zap-v2.4}

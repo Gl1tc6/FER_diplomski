@@ -1,0 +1,40 @@
+\chapter{Uvod}
+\par Sigurnost web aplikacija je bitan dio razvoja moderne programske potpore. 
+Kako se napadi na web aplikacije povećavaju iz dana u dan, potrebno je osim razumijevanja 
+prijetnji i ranjivosti, imati i alate kojima ranjivosti a s njima i prijetnje možemo svesti na prihvatljivi minimum.
+
+% \par Dva najraširenija takva alata trenutno dostupna javnosti su OWASP ZAP i Burp 
+% Suite. OWASP ZAP (još znan i kao Zed Attack Proxy) je program otvorenog koda namijenjen
+% za skeniranje web aplikacija tj.\ stranica. Produkt je organizacije \textit{Open Web Application 
+% Security Project} (OWASP) te održavan kako od njih tako i od nemale skupine programera 
+% i sigurnosnih stručnjaka iz cijelog svijeta. Alat pruža široki skup mogućnosti 
+% za detekciju i testiranje ranjivosti u web aplikacijama. 
+
+% \par Uz ZAP postoji Burp Suite, stariji i komercijalni alat namijenjen za sigurnosno testiranje 
+% web aplikacija. Burp suite je razvila kompanija PortSwigger koja se također brine za njegovo 
+% održavanje. Burp suite omogućuje pristup velikom rasponu alata, od skenera za traženje ranjivosti 
+% pa sve do naprednih alata za \textit{fuzzing} i analizu web aplikacija. Najpoznatiji 
+% alat među njima je \textit{proxy} koji omogućava korisnicima da presretnu HTTP/S zahtjeve 
+% te izmijene HTTP/S zahtjeve i odgovore.
+
+% \par OWASP ZAP i Burp Suite igraju važnu ulogu u području sigurnosti web aplikacija. 
+% Prethodno navedeni i slični alati pomažu razvojnim inženjerima i sigurnosnim specijalistima u identifikaciji ranjivosti,
+% razumijevanju površine napada (engl. \textit{attack surface}), vektora napada (engl. \textit{attack vector}) te u
+% implementaciji efektivnih sigurnosnih rješenja.
+
+% \par Cilj ovog rada je istražiti alat OWASP ZAP kao potencijalnu zamjenu za Burp Suite Professional testirajući
+% mogućnosti oba alata u podjednakim uvjetima.
+U ovom radu će se usporediti dva najraširenija alata za skeniranje i testiranje sigurnosti web aplikacija: OWASP ZAP i Burp Suite. 
+Cilj je identificirati razlike u funkcionalnostima između ova dva alata, istražiti kako se mogu nadomjestiti funkcionalnosti koje ZAP 
+nema, te opisati kako se pišu dodaci i proširuju mogućnosti ZAP-a. Na kraju, testirat će se nekoliko laboratorijskih vježbi koje se 
+inače rješavaju pomoću alata Burp suite, koristeći ZAP.
+
+Burp Suite je moćan, ali komercijalan alat koji zahtijeva skupu licencu za pristup svim funkcionalnostima. 
+Za potrebe istraživanja i učenja, ovaj trošak može biti značajan. S druge strane, OWASP ZAP je alat otvorenog koda koji je besplatan 
+za korištenje, ali potencijalno slabijih mogućnosti. Usporedbom ova dva alata, može se procijeniti koliko ZAP može biti održiva 
+zamjena za Burp Suite u raznim scenarijima.
+
+Najprije će se opisati osnovne funkcionalnosti oba alata. Zatim će se provesti nekoliko testova na različitim sigurnosnim scenarijima 
+koristeći oba alata. Nakon toga, analizirat će se rezultati testova i usporediti performanse i mogućnosti ZAP-a i Burp Suite-a. 
+Konačno, istražit će se mogućnosti proširenja funkcionalnosti ZAP-a kroz dodatke i skripte te predložiti rješenja za funkcionalnosti 
+koje Burp Suite ima, a ZAP nema i pritom objasniti koji alat odabrati i zašto.

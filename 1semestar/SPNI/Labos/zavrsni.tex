@@ -1,0 +1,125 @@
+\documentclass[utf8, seminar]{fer}
+%\documentclass[utf8, zavrsni, upload]{fer}
+\usepackage{booktabs}
+\usepackage{indentfirst}
+\usepackage{subcaption}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage{cite} % Za bibliografiju
+\usepackage{url} % Za web adrese
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{tabularx}
+
+\usepackage{mathptmx} % Use Times New Roman font
+\usepackage{setspace} % For setting line spacing
+\onehalfspacing % Set line spacing to 1.5
+
+\usepackage{titlesec} % To control the title spacing
+\titlespacing*{\chapter}{0pt}{-50pt}{20pt}
+
+\renewcommand{\figurename}{Slika}
+\renewcommand{\bibname}{Literatura}
+\renewcommand{\tablename}{Tablica}
+\renewcommand{\contentsname}{Sadržaj}
+\renewcommand\thepage{}
+
+\title{Using ZAP tool as alternative to Burp Suite Professional}
+\naslov{Upotreba alata ZAP kao zamjena za alat Burp Suite Professional}
+\brojrada{1662}
+\author{Ante Čavar}
+\datum{lipanj, 2024.}
+\mentor{prof.dr.sc. Stjepan Groš}
+
+\begin{document}
+\maketitle
+\zadatak{hr_0036540817_73.pdf}
+\begin{zahvale}
+Zahvaljujem se prof.\ dr.\ sc. Stjepanu Grošu na pruženoj pomoći prilikom izrade rada.
+\end{zahvale}
+\newpage
+\tableofcontents
+\newpage
+\mainmatter
+% \setcounter{page}{1}
+% \renewcommand\thepage{\arabic{page}}
+\include{uvod}
+\include{opis_alata}
+\include{testiranje}
+\include{usporedba}
+\include{zakljucak}
+\bibliography{literatura}
+
+
+\begin{sazetak}
+  Cilj ovog rada bio je usporediti Burp Suite Professional i OWASP ZAP. Prije svega, uspoređene su njihove značajke po dokumentaciji, 
+  a zatim su testirani u sigurnom okruženju. Oba alata su se pokazala izuzetno korisnima i sveobuhvatnima, te je bilo koji problem 
+  moguće riješiti neovisno o izboru između ta dva alata. Uz to što su oba alata izuzetno korisna, također vrijedi nadodati kako oba 
+  posjeduju mogućnost proširenja kako bi zadovoljili različite potrebe. Pokazano je zašto je ipak ZAP malo bolji izbor, posebno za 
+  male tvrtke i pojedince, te kako ga je moguće automatizirati jednostavnim skriptama.
+
+  Na kraju je zaključeno kako su oba alata jednako bitna, te odluka koji će biti korišten u kojem trenutku ovisi o budžetu, znanju, 
+  iskustvu i situaciji. Ne postoji jedan alat koji može zamijeniti sve ostale, ali činjenica da postoji više od jednog je zdrava za 
+  razvoj, održavanje i unapređivanje svih alata na tržištu.
+\end{sazetak}
+\begin{kljucnerijeci}
+  web sigurnost, OWASP, Burp Suite, penetracijsko testiranje, automatizacija, PortSwigger, ZAP
+\end{kljucnerijeci}
+\begin{abstract}
+  The aim of this study was to compare Burp Suite Professional and OWASP ZAP. Initially, their features were compared based on 
+  documentation, followed by testing in a secure environment. Both tools proved to be extremely useful and comprehensive, and any 
+  issue can be resolved regardless of the choice between these two tools. In addition to being extremely useful, it is worth noting 
+  that both tools have the capability for extensions to meet various needs. It has been demonstrated why ZAP is a slightly better 
+  choice, especially for small companies and individuals, and how it can be automated with simple scripts.
+
+  In the end, it was concluded that both tools are equally important, and the decision on which tool to use in a given situation 
+  depends on the budget, knowledge, experience, and context. There is no single tool that can replace all others, but the existence 
+  of more than one tool is beneficial for the development, maintenance, and improvement of all tools on the market.
+\end{abstract}
+\begin{keywords}
+  web security, OWASP, Burp Suite, penetration testing, automation, PortSwigger, ZAP
+\end{keywords}
+
+\newpage
+\chapter*{Skraćenice}
+\addcontentsline{toc}{chapter}{Skraćenice}
+\renewcommand{\arraystretch}{2} % Increase the row spacing by 1.5 times
+\begin{tabularx}{\textwidth}{>{\bfseries}p{0.15\textwidth} >{\itshape}p{0.45\textwidth} p{0.4\textwidth}}
+  SUT & System Under Test & sustav koji se testira \\
+  OWASP & Open Web Application Security Project & \\
+  HTTP & Hypertext Transfer Protocol & Protokol za prijenos Hypertext datoteka\\
+  HTTPS & HTTP Secure & sigurni HTTP \\
+  ZAP & Zed Attack Proxy & Zed napadački posrednik\\
+  HUD & Heads Up Display & Zaslon sa dodatnim informacijama\\
+  CWE & Common Weakness Enumeration & (enumerirane) najčešće ranjivosti \\
+  SQL & Structured Query Language & Strukturirani jezik zahtjeva\\
+  2FA & Two Factor Authentication & Dvofaktorska autentifikacija \\
+  API & Application Programming Interface & sučelje za programiranje aplikacija\\
+  MITM & Man In The Middle & tihi posrednik, čovjek u sredini tj. između dva uređaja ili sustava \\
+\end{tabularx}
+
+\end{document}
+
+%
+% % Primjer slike
+% \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{example-image-a}
+%   \caption{Primjer slike.}
+%   \label{fig:example-image}
+% \end{figure}
+
+% % Primjer tablice
+% \begin{table}[h]
+%   \centering
+%   \begin{tabular}{|c|c|c|}
+%       \hline
+%       Zaglavlje 1 & Zaglavlje 2 & Zaglavlje 3 \\
+%       \hline
+%       Podatak 1 & Podatak 2 & Podatak 3 \\
+%       Podatak 4 & Podatak 5 & Podatak 6 \\
+%       \hline
+%   \end{tabular}
+%   \caption{Primjer tablice.}
+%   \label{tab:example-table}
+% \end{table}

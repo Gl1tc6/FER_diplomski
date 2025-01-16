@@ -1,0 +1,14 @@
+{
+    "private": true,
+    "name": "rgkk-lab2",
+    "version": "2.0.0",
+    "dependencies": {
+        "ganache": "7.4.0",
+        "truffle": "5.11.0"
+    },
+    "scripts": {
+        "start": "ganache -l 1000000000000 -g 10 --chain.allowUnlimitedContractSize",
+        "test": "truffle test",
+        "version": "truffle version"
+    }
+}

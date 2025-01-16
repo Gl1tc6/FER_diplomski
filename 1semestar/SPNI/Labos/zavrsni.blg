@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: zavrsni.aux
+The style file: fer_IEEEtran_HR.bst
+A level-1 auxiliary file: uvod.aux
+A level-1 auxiliary file: opis_alata.aux
+A level-1 auxiliary file: testiranje.aux
+A level-1 auxiliary file: usporedba.aux
+A level-1 auxiliary file: zakljucak.aux
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 150 items from 100.
+Database file #1: literatura.bib
+You've used 18 entries,
+            4225 wiz_defined-function locations,
+            933 strings with 10382 characters,
+and the built_in function-call counts, 8946 in all, are:
+= -- 718
+> -- 134
+< -- 26
++ -- 70
+- -- 27
+* -- 333
+:= -- 1557
+add.period$ -- 37
+call.type$ -- 18
+change.case$ -- 19
+chr.to.int$ -- 69
+cite$ -- 18
+duplicate$ -- 653
+empty$ -- 827
+format.name$ -- 30
+if$ -- 2087
+int.to.chr$ -- 0
+int.to.str$ -- 18
+missing$ -- 148
+newline$ -- 107
+num.names$ -- 20
+pop$ -- 401
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 724
+stack$ -- 0
+substring$ -- 191
+swap$ -- 429
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 18
+warning$ -- 0
+while$ -- 31
+width$ -- 20
+write$ -- 212

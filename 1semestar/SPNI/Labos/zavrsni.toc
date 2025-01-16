@@ -1,0 +1,44 @@
+\babel@toc {croatian}{}\relax 
+\babel@toc {croatian}{}\relax 
+\babel@toc {croatian}{}\relax 
+\contentsline {chapter}{\numberline {1.}Uvod}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2.}Funkcionalnosti}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1.}OWASP ZAP}{2}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1.}Presretački \textit {proxy}}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2.}Aktivno i pasivno skeniranje}{3}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3.}Skeniranje portova}{4}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4.}Aplikacijsko programsko sučelje}{4}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5.}\textit {Fuzzer}}{5}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6.}Trgovina ekstenzija (engl. \textit {Marketplace})}{5}{subsection.2.1.6}%
+\contentsline {section}{\numberline {2.2.}Burp Suite}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1.}\textit {Proxy}}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2.}\textit {Intruder}}{6}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3.}\textit {Repeater}}{7}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4.}\textit {Collaborator}}{7}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5.}\textit {Comparer}}{7}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6.}\textit {Extensions}}{7}{subsection.2.2.6}%
+\contentsline {section}{\numberline {2.3.}Usporedba alata \textit {a priori}}{8}{section.2.3}%
+\contentsline {chapter}{\numberline {3.}Testiranje}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1.}Vidljiva pogreška bazirana na SQL injekciji}{9}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1.}Vježba 1: Burp Suite}{10}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2.}Vježba 1: ZAP}{13}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2.}Dvofaktorska autentifikacija sa pogrešno konfiguriranom logikom}{14}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1.}Testiranje: Burp Suite}{14}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2.}Testiranje: ZAP}{16}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3.}Napad silom na lozinku koristeći lošu implementaciju promjene lozinke}{17}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1.}Testiranje: ZAP}{18}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2.}Testiranje: Burp Suite}{21}{subsection.3.3.2}%
+\contentsline {chapter}{\numberline {4.}Usporedba i nadomještanje funkcionalnosti}{22}{chapter.4}%
+\contentsline {chapter}{\numberline {5.}Zaključak}{24}{chapter.5}%
+\contentsline {chapter}{\numberline {6.}Literatura}{25}{chapter.6}%
+\babel@toc {croatian}{}\relax 
+\contentsline {chapter}{Sa\v {z}etak}{26}{chapter.6}%
+\babel@toc {croatian}{}\relax 
+\babel@toc {croatian}{}\relax 
+\babel@toc {croatian}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Abstract}{27}{chapter.6}%
+\babel@toc {croatian}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {croatian}{}\relax 
+\contentsline {chapter}{Skraćenice}{29}{chapter*.20}%
