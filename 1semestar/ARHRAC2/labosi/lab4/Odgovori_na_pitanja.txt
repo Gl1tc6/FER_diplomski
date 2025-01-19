@@ -1,0 +1,42 @@
+1. Čemu služi do { ... } while(0); u definiciji makroa?
+
+U CL_CHECK-u se provjeravaju naredbe koje kasnije zovemo. Ako je izraz (_expr) vratio
+CL_SUCCESS onda sve normalno završava, a ako se dogodila greška ispisije se greška.
+do...while(0) ovdje služi kao fallback opcija, petlja se izvrši barem jednom, ali uvjet while(0)
+sprječava ponavljanje. Ovo omogućava da se blok koda unutar do { ... } while(0) uvijek 
+izvrši jednom, bez da zapravo dobijemo "beskonačnu petlju"
+------------------------------------------------------------
+2. Čemu služi makro CL_CHECK?
+
+Provjerava se izvršavanje funkcija.
+------------------------------------------------------------
+3. U kojem trenutku se pokreće prevođenje jezgrene procedure u OpenCL-u?
+
+U trenutku kad se poziva clCreateProgramWithSource koji za argument prima
+program_source polje znakova.
+------------------------------------------------------------
+4. U kojem trenutku se pokreće izvođenje jezgrene procedure u OpenCL-u?
+
+Izvođenje jezgrene procedure započinje kada se pozove funkcija clEnqueueNDRangeKernel. 
+Ova funkcija stavlja jezgrenu proceduru u red zadataka (engl. command queue) tj. od tamo se pokreće
+nakon što je napravljena u clCreateKernel funkcija.
+------------------------------------------------------------
+5. Kako OpenCL prevoditelj "zna" treba li jezgru (jezgrenu proceduru, engl. kernel function) prevesti za Intelov ili AMD-ov GPU?
+
+------------------------------------------------------------
+6. Čemu služi poziv funkcije get_global_id? Izvodi li se ta funkcija na CPU-u ili na GPU-u? O čemu ovisi maksimalna povratna vrijednost?
+
+------------------------------------------------------------
+7. Kojim funkcijama ostvarujemo prijenos podataka iz radne memorije u memoriju GPU-a i obratno?
+
+------------------------------------------------------------
+8. Koje funkcije zauzimaju i otpuštaju memoriju GPU-a?
+
+------------------------------------------------------------
+9. Koji parametar određuje koliko puta će se izvršiti jezgrena procedura?
+
+------------------------------------------------------------
+10. Kako se provodi prebacivanje parametara iz programa u C-u u jezgrenu proceduru?
+
+------------------------------------------------------------
+11. Na koji način zadajemo pokretanje jezgrene procedure?

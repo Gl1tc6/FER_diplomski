@@ -522,3 +522,25 @@ No kako to može ići u nedogled to nećemo raditi.
 Za napraviti:
 - prezentacija koja objedinjuje cjelokupno istraživanje
 - pokazati primjere na prezentaciji (osmisliti protok testiranja uz prezentiranje)
+
+# Refaktorizacija:  Upotreba alata NotebookLM-a kao pomoć pri pisanju writeup-ova i kolaboraciji na CTF-ovima
+### 13.1.2025 - 19.1.2025
+Sljedeće sam linkove uzeo kao referencu pri pisanju za write up:
+https://pequalsnp-team.github.io/cheatsheet/writing-good-writeup - pristupljeno 15.1. 
+https://github.com/RyanNgCT/CTF-Writeup-Template - pristupljeno 15.1.
+https://github.com/d0n601/HTB_Writeup-Template - pristupljeno 15.1.
+Ovaj link za kolaboraciju na CTF-ovima:
+https://github.com/tmylla/Awesome-LLM4Cybersecurity - pristupljeno 17.1.
+
+[Prvi](https://pequalsnp-team.github.io/cheatsheet/writing-good-writeup) link daje uvid kako CTF treba biti napisan u nekim okvirnim smjernicama. Ono što svaki dobar CTF mora imati su:
+-  Ime CTF-a i link do natjecanja te datum održavanja
+- Ime pojedinog izazova
+- Opis izazova (najčešće korišten onaj sa samog natjecanja)
+- Kategorija izazova (mreža, kriptografija,....)
+- Bodovi koje izazov nosi
+
+Također ne smije biti dosadan i previše opširan. Bitno je da se objasni tok misli te kako se rješavalo. Ako objašnjenje zahtjeva mnogo riječi onda je dobro dodati i **TL;DR** (Too Long; Didn't Read).
+Dobro je dodati i slike i kodove kako bi tekst bio još zanimljiviji čitatelju.
+Na [ovom](https://github.com/RyanNgCT/CTF-Writeup-Template) linku sam zapravo pronašao odličan kostur koji bi odgovarao gore navedenim zahtjevima. Uz taj kostur i dodatno iz [ovog](https://github.com/d0n601/HTB_Writeup-Template) valja izraditi template koji ćemo moći ubaciti u NotebookLM kako bi pomogao pri pisanju.
+Uz to treba raspisati jedan izazov kako bi bilo jasno alatu ( LM-u ) što se tu događa.
+Što se kolaboracije tiče preporuča se [**Notion**](https://www.notion.com/) zbog dobrog i intuitivnog sučelja i zbog toga što podržava **.md** (markdown) datoteke koje bi Notebook generirao.
