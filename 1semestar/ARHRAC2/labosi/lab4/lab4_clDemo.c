@@ -94,7 +94,7 @@ int main(int argc, char **argv)
    for (size_t i = 0; i < platforms_n; i++)
    {
       char buffer[10240];
-      printf("  -- %d --\n", i);
+      printf("  -- %ld --\n", i);
       CL_CHECK(clGetPlatformInfo(platforms[i], CL_PLATFORM_PROFILE, 10240, buffer, NULL));
       printf("  PROFILE = %s\n", buffer);
       CL_CHECK(clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, 10240, buffer, NULL));
@@ -126,7 +126,7 @@ int main(int argc, char **argv)
       char buffer[10240];
       cl_uint buf_uint;
       cl_ulong buf_ulong;
-      printf("  -- %d --\n", i);
+      printf("  -- %ld --\n", i);
       CL_CHECK(clGetDeviceInfo(devices[i], CL_DEVICE_NAME, sizeof(buffer), buffer, NULL));
       printf("  DEVICE_NAME = %s\n", buffer);
       CL_CHECK(clGetDeviceInfo(devices[i], CL_DEVICE_VENDOR, sizeof(buffer), buffer, NULL));

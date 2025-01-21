@@ -13,7 +13,7 @@ Provjerava se izvršavanje funkcija.
 3. U kojem trenutku se pokreće prevođenje jezgrene procedure u OpenCL-u?
 
 U trenutku kad se poziva clCreateProgramWithSource koji za argument prima
-program_source polje znakova.
+program_source polje znakova. Točnije pri pozivu clBuildProgram funkcije.
 ------------------------------------------------------------
 4. U kojem trenutku se pokreće izvođenje jezgrene procedure u OpenCL-u?
 
@@ -23,20 +23,38 @@ nakon što je napravljena u clCreateKernel funkcija.
 ------------------------------------------------------------
 5. Kako OpenCL prevoditelj "zna" treba li jezgru (jezgrenu proceduru, engl. kernel function) prevesti za Intelov ili AMD-ov GPU?
 
+OpenCL prevoditelj "zna" za koji uređaj treba prevesti jezgru na temelju OpenCL 
+konteksta koji je stvoren pomoću clCreateContext. Ovaj kontekst specificira uređaj
+koji će izvršavati jezgru.
+Informacije o uređaju dolaze iz funkcije clGetDeviceIDs, koja dohvaća dostupne 
+uređaje za određenu OpenCL platformu.
 ------------------------------------------------------------
-6. Čemu služi poziv funkcije get_global_id? Izvodi li se ta funkcija na CPU-u ili na GPU-u? O čemu ovisi maksimalna povratna vrijednost?
+6. Čemu služi poziv funkcije get_global_id? Izvodi li se ta funkcija na CPU-u ili na GPU-u? 
+O čemu ovisi maksimalna povratna vrijednost?
 
+get_global_id(dim) vraća globalni ID dretvi (thread) u odabranoj dimenziji. 
+Koristi se za adresiranje elemenata podataka i izvršava se u GPU-u unutar jezgrene procedure.
+Maksimalna povratna vrijednost ovisi o "global_work_size" koji pozivamo u clEnqueueNDRangeKernel
+kao i hardverskom ograničenju.
 ------------------------------------------------------------
 7. Kojim funkcijama ostvarujemo prijenos podataka iz radne memorije u memoriju GPU-a i obratno?
 
+clEnqueueWriteBuffer (CPU -> GPU) i clEnqueueReadBuffer (GPU -> CPU)
 ------------------------------------------------------------
 8. Koje funkcije zauzimaju i otpuštaju memoriju GPU-a?
 
+clEnqueueReadBuffer i clReleaseMemObject, iz imena vidimo što koja radi.
 ------------------------------------------------------------
 9. Koji parametar određuje koliko puta će se izvršiti jezgrena procedura?
 
+global_work_size, parametar definira koliko dretvi će se pokrenuti u globalnom radnom prostoru.
 ------------------------------------------------------------
 10. Kako se provodi prebacivanje parametara iz programa u C-u u jezgrenu proceduru?
 
+Prebacivanje parametara u jezgrenu proceduru provodi se funkcijom clSetKernelArg, kojom se 
+postavljaju argumenti jezgrene procedure. Svaki argument se postavlja pojedinačno.
 ------------------------------------------------------------
 11. Na koji način zadajemo pokretanje jezgrene procedure?
+
+Jezgrena procedura se pokreće pozivom funkcije clEnqueueNDRangeKernel, 
+koja stavlja jezgrenu proceduru u red zadataka.
