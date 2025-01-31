@@ -1,4 +1,4 @@
-
+# Prvi ciklus
 ## Datum: 6.10.2024
 
 Procedura istraživanja:
@@ -524,7 +524,7 @@ Za napraviti:
 - pokazati primjere na prezentaciji (osmisliti protok testiranja uz prezentiranje)
 
 # Refaktorizacija:  Upotreba alata NotebookLM-a kao pomoć pri pisanju writeup-ova i kolaboraciji na CTF-ovima
-### 13.1.2025 - 19.1.2025
+## 13.1.2025 - 19.1.2025
 Sljedeće sam linkove uzeo kao referencu pri pisanju za write up:
 https://pequalsnp-team.github.io/cheatsheet/writing-good-writeup - pristupljeno 15.1. 
 https://github.com/RyanNgCT/CTF-Writeup-Template - pristupljeno 15.1.
@@ -543,4 +543,132 @@ Također ne smije biti dosadan i previše opširan. Bitno je da se objasni tok m
 Dobro je dodati i slike i kodove kako bi tekst bio još zanimljiviji čitatelju.
 Na [ovom](https://github.com/RyanNgCT/CTF-Writeup-Template) linku sam zapravo pronašao odličan kostur koji bi odgovarao gore navedenim zahtjevima. Uz taj kostur i dodatno iz [ovog](https://github.com/d0n601/HTB_Writeup-Template) valja izraditi template koji ćemo moći ubaciti u NotebookLM kako bi pomogao pri pisanju.
 Uz to treba raspisati jedan izazov kako bi bilo jasno alatu ( LM-u ) što se tu događa.
-Što se kolaboracije tiče preporuča se [**Notion**](https://www.notion.com/) zbog dobrog i intuitivnog sučelja i zbog toga što podržava **.md** (markdown) datoteke koje bi Notebook generirao.
+Što se kolaboracije tiče preporuča se [**Notion**](https://www.notion.com/) ili Obsidian zbog dobrog i intuitivnog sučelja i zbog toga što podržavaju **.md** (markdown) datoteke koje bi Notebook generirao.
+
+## 20.1.2025 - 24.1.2025
+Izrada template-a za pojedini CTF izazov te kostura cijelog write-upa (ako bude moguće vremenski - testiranje).
+
+Izgled direktorija bi trebao izgledati ovako:
+```markdown
+main.md
+|
+|
+---- Crypto/Stego
+|   |
+|   ---- chall1
+|      |
+|      ---- chall1.md
+|      |
+|      ---- chall1_images
+|          |
+|          ---- img1a
+|          |
+|          ---- img1b
+|
+---- Misc
+|   |
+|   ---- chall2
+|      |
+|      ---- chall2.md
+|      |
+|      ---- chall2_images
+|          |
+|          ---- img2a
+|          |
+|          ---- img2b
+|
+
+...
+```
+
+Gdje bi iz **main** dokumenta bilo moguće otvoriti ostale izazove (markdown local links).
+Sam izgled **main** dokumenta bi izgledao ovako:
+``` markdown
+# <CTF_NAME> CTF
+
+Writeups for <CTF_NAME> CTF: [website_name](<http://www.ctflink.com>)
+
+## Categories
+
+- Crypto/Stego
+   - [ ] [<challenge_1>](<link_to_writeup>)
+   - [ ] [<challenge_2>](<link_to_writeup>)
+   
+- Forensics
+   - [ ] [<challenge_1>](<link_to_writeup>)
+   - [ ] [<challenge_2>](<link_to_writeup>)
+   
+- Reverse Engineering/Malware
+   - [ ] [<challenge_1>](<link_to_writeup>)
+   - [ ] [<challenge_2>](<link_to_writeup>)
+
+- Pwn/Binary Exploitation
+   - [ ] [<challenge_1>](<link_to_writeup>)
+   - [ ] [<challenge_2>](<link_to_writeup>)
+
+- Networking
+   - [ ] [<challenge_1>](<link_to_writeup>)
+   - [ ] [<challenge_2>](<link_to_writeup>)
+ 
+...
+```
+
+Kao što vidimo kostur nam na omogućava brz pristup svim izazovima na CTF-u.
+
+Primjer pojedinog izazova bi izgledao ovako:
+``` markdown
+## Challenge Name: name
+Category: category
+Points: points
+Solver: solver
+
+Challenge Description: 
+descript
+
+Artifact Files (if there are any):
+* [Artifact1](link_to_artefact_if_saved_locally)
+* [Artifact2](<link_to_artefact_if_saved_locally>)
+
+### Approach
+
+**Initial plan / thoughts**
+
+![img](<image_link_related_to_title>)
+<text_related_to_title>
+
+**Attempts**
+
+![img](<image_link_related_to_title>)
+<text_related_to_title>
+
+**TL;DR** <short_version_of_above_text>
+
+### Flag
+
+**FLAG:** flag
+
+
+### Additional comments
+comments ...
+  
+
+---
+[Back to home](<link>)
+
+```
+
+Ovdje se vidi struktura dokumenata i write-up-a.
+Prilikom rada se ide  redoslijedom kao što je ovdje navedeno
+(Prilikom ubacivanja svakog novog rada nam treba nešto dulje no svim ostalim sudionicima u timu je lakše pratiti što se događa.)
+
+Kosturi bi bili predani NotebookLM-u zajedno sa tekstovima od pojedinih izazova koje su pisali članovi tima. (Jedan ovaj dio se može automatizirati programom no tek nakon što su izrađeni svi izazovi)
+Sam NotebookLM (nadalje **NLM**) će nam zapravo služiti najviše za popunjavanje tih kostura - bolje alternative baš i nema. Dobra stvar je da sa popunjenim writeup-ovima može služiti kao repozitorij znanja.
+
+Google je odlučio napraviti promjenu te od sada postoji [NotebookLM-Plus](https://support.google.com/notebooklm/answer/15678219?visit_id=638733407366442708-4147160697&p=plus&rd=1).
+Stvari se zapravo ne mijenjaju toliko za nas. 
+Novi uvjeti za besplatne korisnike:
+
+> With NotebookLM, you can have up to 100 notebooks, with each notebook containing up to 50 sources. Each of those sources can be up to 500,000 words long. All users start with up to 50 chat queries and 3 audio generations per day.
+
+Nastavljamo po starom očekujući da prosječni korisnik neće staviti 50 zahtjeva u jednom danu. 
+Limit na izvore također ne bi trebao biti problem kako ne bi trebali zadržavati svačije writeup-ove već samo čuvati one koji su normirani od strane NLM-a.

@@ -1,149 +1,135 @@
+#define CL_USE_DEPRECATED_OPENCL_1_1_APIS
+#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+
+#include <CL/cl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <CL/cl.h>
 
-void matrixMultiplyGPU(int n, int **A, int **B, int **C) {
-    // Pretvaranje matrica iz 2D u 1D za OpenCL
-    int *A_flat = (int *)malloc(n * n * sizeof(int));
-    int *B_flat = (int *)malloc(n * n * sizeof(int));
-    int *C_flat = (int *)malloc(n * n * sizeof(int));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            A_flat[i * n + j] = A[i][j];
-            B_flat[i * n + j] = B[i][j];
-            C_flat[i * n + j] = 0;
-        }
+// Kernel za množenje matrica
+const char* matrixMultiplyKernel = "\n" \
+"__kernel void matrix_multiply(__global float* A,                                \n" \
+"                            __global float* B,                                 \n" \
+"                            __global float* C,                                 \n" \
+"                            const int N) {                                     \n" \
+"    int row = get_global_id(0);                                               \n" \
+"    int col = get_global_id(1);                                               \n" \
+"                                                                              \n" \
+"    float sum = 0.0f;                                                         \n" \
+"    for (int k = 0; k < N; k++) {                                            \n" \
+"        sum += A[row * N + k] * B[k * N + col];                              \n" \
+"    }                                                                         \n" \
+"    C[row * N + col] = sum;                                                  \n" \
+"}                                                                             \n";
+
+// Pomoćna funkcija za provjeru OpenCL grešaka
+void check_error(cl_int err, const char* msg) {
+    if (err != CL_SUCCESS) {
+        fprintf(stderr, "OpenCL Error %d: %s\n", err, msg);
+        exit(1);
     }
+}
 
-    // OpenCL inicijalizacija
+// Funkcija za množenje matrica na GPU
+void gpu_matrix_multiply(float* A, float* B, float* C, int N) {
+    cl_int err;
+    
+    // Dohvat platforme i uređaja
     cl_platform_id platform;
     cl_device_id device;
-    cl_context context;
-    cl_command_queue queue;
-    cl_program program;
-    cl_kernel kernel;
-
-    cl_int err;
     err = clGetPlatformIDs(1, &platform, NULL);
-    err |= clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
-    context = clCreateContext(NULL, 1, &device, NULL, NULL, &err);
-    queue = clCreateCommandQueue(context, device, 0, &err);
-
-    // Učitavanje OpenCL jezgrene funkcije
-    const char *kernelSource =
-        "__kernel void matrixMultiplyKernel(__global int *A, __global int *B, __global int *C, const int N) {"
-        "    int row = get_global_id(0);"
-        "    int col = get_global_id(1);"
-        "    int sum = 0;"
-        "    for (int i = 0; i < N; i++) {"
-        "        sum += A[row * N + i] * B[i * N + col];"
-        "    }"
-        "    C[row * N + col] = sum;"
-        "}";
-    program = clCreateProgramWithSource(context, 1, &kernelSource, NULL, &err);
-    err |= clBuildProgram(program, 1, &device, NULL, NULL, NULL);
-    kernel = clCreateKernel(program, "matrixMultiplyKernel", &err);
-
-    // Priprema OpenCL memorijskih objekata
-    cl_mem bufferA = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(int), NULL, &err);
-    cl_mem bufferB = clCreateBuffer(context, CL_MEM_READ_ONLY, n * n * sizeof(int), NULL, &err);
-    cl_mem bufferC = clCreateBuffer(context, CL_MEM_WRITE_ONLY, n * n * sizeof(int), NULL, &err);
-
-    // Kopiranje podataka u GPU memoriju
-    err |= clEnqueueWriteBuffer(queue, bufferA, CL_TRUE, 0, n * n * sizeof(int), A_flat, 0, NULL, NULL);
-    err |= clEnqueueWriteBuffer(queue, bufferB, CL_TRUE, 0, n * n * sizeof(int), B_flat, 0, NULL, NULL);
-
-    // Postavljanje argumenata jezgrene funkcije
-    err |= clSetKernelArg(kernel, 0, sizeof(cl_mem), &bufferA);
-    err |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &bufferB);
-    err |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufferC);
-    err |= clSetKernelArg(kernel, 3, sizeof(int), &n);
-
-    // Postavljanje globalnih i lokalnih dimenzija
-    size_t globalSize[2] = {n, n};
-    err |= clEnqueueNDRangeKernel(queue, kernel, 2, NULL, globalSize, NULL, 0, NULL, NULL);
-
-    // Dohvaćanje rezultata
-    err |= clEnqueueReadBuffer(queue, bufferC, CL_TRUE, 0, n * n * sizeof(int), C_flat, 0, NULL, NULL);
-
-    // Pretvaranje natrag u 2D matricu
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            C[i][j] = C_flat[i * n + j];
-        }
+    check_error(err, "Getting platform");
+    err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
+    check_error(err, "Getting device");
+    
+    // Stvaranje konteksta i reda naredbi
+    cl_context context = clCreateContext(NULL, 1, &device, NULL, NULL, &err);
+    check_error(err, "Creating context");
+    cl_command_queue queue = clCreateCommandQueue(context, device, 0, &err);
+    check_error(err, "Creating command queue");
+    
+    // Stvaranje programa i prevođenje kernela
+    cl_program program = clCreateProgramWithSource(context, 1, 
+        (const char**)&matrixMultiplyKernel, NULL, &err);
+    check_error(err, "Creating program");
+    err = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
+    if (err != CL_SUCCESS) {
+        size_t len;
+        char buffer[2048];
+        clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 
+            sizeof(buffer), buffer, &len);
+        fprintf(stderr, "Build error: %s\n", buffer);
+        exit(1);
     }
-
-    // Oslobađanje resursa
-    clReleaseMemObject(bufferA);
-    clReleaseMemObject(bufferB);
-    clReleaseMemObject(bufferC);
+    
+    // Stvaranje kernela
+    cl_kernel kernel = clCreateKernel(program, "matrix_multiply", &err);
+    check_error(err, "Creating kernel");
+    
+    // Alokacija memorijskih objekata
+    size_t matrix_size = N * N * sizeof(float);
+    cl_mem a_mem = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        matrix_size, A, &err);
+    cl_mem b_mem = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        matrix_size, B, &err);
+    cl_mem c_mem = clCreateBuffer(context, CL_MEM_WRITE_ONLY,
+        matrix_size, NULL, &err);
+    
+    // Postavljanje argumenata kernela
+    err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &a_mem);
+    err |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &b_mem);
+    err |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &c_mem);
+    err |= clSetKernelArg(kernel, 3, sizeof(int), &N);
+    check_error(err, "Setting kernel arguments");
+    
+    // Pokretanje kernela
+    size_t global_work_size[2] = { N, N };
+    err = clEnqueueNDRangeKernel(queue, kernel, 2, NULL, global_work_size,
+        NULL, 0, NULL, NULL);
+    check_error(err, "Enqueueing kernel");
+    
+    // Čitanje rezultata
+    err = clEnqueueReadBuffer(queue, c_mem, CL_TRUE, 0, matrix_size,
+        C, 0, NULL, NULL);
+    check_error(err, "Reading results");
+    
+    // Čišćenje
+    clReleaseMemObject(a_mem);
+    clReleaseMemObject(b_mem);
+    clReleaseMemObject(c_mem);
     clReleaseKernel(kernel);
     clReleaseProgram(program);
     clReleaseCommandQueue(queue);
     clReleaseContext(context);
-    free(A_flat);
-    free(B_flat);
-    free(C_flat);
 }
 
+// Primjer korištenja
 int main() {
-    int n = 3;
-    int **A = (int **)malloc(n * sizeof(int *));
-    int **B = (int **)malloc(n * sizeof(int *));
-    int **C = (int **)malloc(n * sizeof(int *));
-    for (int i = 0; i < n; i++) {
-        A[i] = (int *)malloc(n * sizeof(int));
-        B[i] = (int *)malloc(n * sizeof(int));
-        C[i] = (int *)malloc(n * sizeof(int));
+    const int N = 4; // Dimenzija matrica
+    float *A = (float*)malloc(N * N * sizeof(float));
+    float *B = (float*)malloc(N * N * sizeof(float));
+    float *C = (float*)malloc(N * N * sizeof(float));
+    
+    // Inicijalizacija matrica za testiranje
+    for(int i = 0; i < N * N; i++) {
+        A[i] = (float)(i + 1);
+        B[i] = (float)(i + 1);
     }
-
-    // Inicijalizacija matrica A i B
-    int counter = 1;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            A[i][j] = counter;
-            B[i][j] = counter + 1;
-            counter++;
-        }
-    }
-
-    // Poziv funkcije za množenje matrica na GPU-u
-    matrixMultiplyGPU(n, A, B, C);
-
+    
+    // Poziv GPU implementacije
+    gpu_matrix_multiply(A, B, C, N);
+    
     // Ispis rezultata
-    printf("Matrix A:\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", A[i][j]);
+    printf("Rezultat množenja matrica:\n");
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < N; j++) {
+            printf("%8.1f ", C[i * N + j]);
         }
         printf("\n");
     }
-
-    printf("Matrix B:\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", B[i][j]);
-        }
-        printf("\n");
-    }
-
-    printf("Matrix C (Result):\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", C[i][j]);
-        }
-        printf("\n");
-    }
-
-    // Oslobađanje memorije
-    for (int i = 0; i < n; i++) {
-        free(A[i]);
-        free(B[i]);
-        free(C[i]);
-    }
+    
     free(A);
     free(B);
     free(C);
-
+    
     return 0;
 }

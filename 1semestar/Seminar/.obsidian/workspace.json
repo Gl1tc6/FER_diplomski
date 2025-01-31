@@ -20,20 +20,6 @@
               "icon": "lucide-file",
               "title": "Uporaba alata NotebookLM-a za pomoć pri rješavanju CTF-ova"
             }
-          },
-          {
-            "id": "b96a0f5d96307107",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "DEMO SEMINAR/EchoChamber.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "EchoChamber"
-            }
           }
         ]
       }
@@ -192,10 +178,13 @@
   },
   "active": "f10f59a9636b1e22",
   "lastOpenFiles": [
-    "DEMO SEMINAR/BufferOverflow101_SOLVED.md",
-    "Untitled.md",
     "DEMO SEMINAR/EchoChamber.md",
+    "challenge.md",
+    "main.md",
+    "Uporaba alata NotebookLM-a za pomoć pri rješavanju CTF-ova.md",
     "Izvješće-13.12.2024-SymSpace.md",
+    "Uporaba alata NotebookLM-a za pomoć pri rješavanju CTF-ova.pdf",
+    "DEMO SEMINAR/BufferOverflow101_SOLVED.md",
     "DragosCTF/wiresharkClock.png",
     "DragosCTF/Walking_Into_a_Store_and_Buying_Plutonium.png",
     "DragosCTF/tlcp_firmware.png",
@@ -214,8 +203,6 @@
     "DragosCTF/dragos-ctf_writeup.log",
     "DragosCTF/dragos-ctf_writeup.fls",
     "DragosCTF/dragos-ctf_writeup.fdb_latexmk",
-    "DragosCTF/dragos-ctf_writeup.aux",
-    "DragosCTF",
-    "Uporaba alata NotebookLM-a za pomoć pri rješavanju CTF-ova.md"
+    "DragosCTF/dragos-ctf_writeup.aux"
   ]
 }
