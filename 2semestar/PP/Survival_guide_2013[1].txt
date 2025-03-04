@@ -1,0 +1,43 @@
+﻿Paralelno programiranje
+Ak. godina 2024.
+v1, 28.02.2024.
+
+
+Planirano gradivo (poglavlja iz skripte):
+
+1. Uvod
+- osnovni pojmovi
+
+2. MPI
+- ne sintaksa, primjeri programa uz Send i Recv
+
+3/4. PRAM/APRAM
+- zadaci u pseudokodu
+- ocjena slozenosti
+
+5. Oblikovanje par. programa
+- programski model, faze oblikovanja
+- komunikacijski predlošci uz MPI
+
+6. Kvantitativna analiza
+- model performansi
+- a priori analiza programa (paradigma raspodijeljene memorije)
+- učinkovitost, izoučinkovitost
+
+7. OpenCL/CUDA
+- ne sintaksa, osnovni primjeri
+
+8. Modularni par. programi
+- načini dekompozicije
+
+9. Paralelni evolucijski algoritmi
+- modeli paralelizacije, svojstva
+- analiza 
+- literatura: skripta M. Golub (http://www.zemris.fer.hr/~golub/ga/ga_skripta2.pdf), stranice 9-20
+
+Ne ulazi u ispitno gradivo:
+- grozd (cluster), splet (grid)
+
+
+Gradivo koje ulazi u MI:
+- poglavlja 1, 2, 3, 4; 5.1-5.5
