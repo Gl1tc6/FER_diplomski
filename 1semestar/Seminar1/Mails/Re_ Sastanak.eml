@@ -1,0 +1,340 @@
+Received: from VI0PR08MB10969.eurprd08.prod.outlook.com
+ (2603:10a6:800:250::19) by GVXPR08MB10497.eurprd08.prod.outlook.com with
+ HTTPS; Fri, 7 Mar 2025 07:19:32 +0000
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fer.unizg.hr;
+Received: from AS1PR08MB7474.eurprd08.prod.outlook.com (2603:10a6:20b:4de::13)
+ by VI0PR08MB10969.eurprd08.prod.outlook.com (2603:10a6:800:250::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Fri, 7 Mar
+ 2025 07:19:28 +0000
+Received: from AS1PR08MB7474.eurprd08.prod.outlook.com
+ ([fe80::cb6a:c45e:b17a:c5fd]) by AS1PR08MB7474.eurprd08.prod.outlook.com
+ ([fe80::cb6a:c45e:b17a:c5fd%3]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
+ 07:19:28 +0000
+Content-Type: multipart/alternative;
+	boundary="------------o3sbcsYpF9V24uCOMh14cCgM"
+Message-ID: <c575d177-7d30-4a6e-9f0e-bebfc25b23e4@fer.unizg.hr>
+Date: Fri, 7 Mar 2025 08:19:26 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: Sastanak
+To: =?UTF-8?Q?Ante_=C4=8Cavar?= <Ante.Cavar@fer.hr>
+References: <ce6d87d4-077e-401d-b6f3-d7eb1f31acbf@fer.unizg.hr>
+ <GVXPR08MB10497AFB795CE1258EB7E05A8E8D52@GVXPR08MB10497.eurprd08.prod.outlook.com>
+ <03ad559b-d8bb-4f3b-ae39-b2c7dbb87991@fer.unizg.hr>
+ <GVXPR08MB104974B0D14BD3C5528418410E8D52@GVXPR08MB10497.eurprd08.prod.outlook.com>
+ <d768bf16-08c4-4976-996f-2fb2d3620e59@fer.unizg.hr>
+ <GVXPR08MB1049715C467C8C5B44D14F828E8D52@GVXPR08MB10497.eurprd08.prod.outlook.com>
+From: =?UTF-8?Q?Stjepan_Gro=C5=A1?= <stjepan.gros@fer.unizg.hr>
+Content-Language: en-US
+Organization: UNIZG - FER
+In-Reply-To: <GVXPR08MB1049715C467C8C5B44D14F828E8D52@GVXPR08MB10497.eurprd08.prod.outlook.com>
+X-MS-Exchange-Organization-ExpirationStartTime: 07 Mar 2025 07:19:28.7384
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id: 491025b4-48e9-4190-2ca1-08dd5d486609
+X-MS-Exchange-Organization-AuthSource: AS1PR08MB7474.eurprd08.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 14
+X-ClientProxiedBy: MI0P293CA0009.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:44::6) To AS1PR08MB7474.eurprd08.prod.outlook.com
+ (2603:10a6:20b:4de::13)
+X-MS-Exchange-Organization-MessageDirectionality: Originating
+Return-Path: Stjepan.Gros@fer.hr
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS1PR08MB7474:EE_|VI0PR08MB10969:EE_|GVXPR08MB10497:EE_
+X-MS-Office365-Filtering-Correlation-Id: 491025b4-48e9-4190-2ca1-08dd5d486609
+X-MS-Exchange-Organization-SCL: 1
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|13003099007|7053199007|8096899003|41050700001;
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:hr;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR08MB7474.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(13003099007)(7053199007)(8096899003)(41050700001);DIR:INT;
+X-MS-Exchange-CrossTenant-Network-Message-Id: 491025b4-48e9-4190-2ca1-08dd5d486609
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR08MB7474.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 07:19:28.8251
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: ca71eddc-cc7b-4e5b-95bd-55b658e696be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ywiQ7CvxVfEoiyLjrlFz3Ty+qqXng4Fnv27qN6XDa8uPN3p3w7eC1KVoL0+6Hz+Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10969
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:03.2389343
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.8511.017
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:I;ENG:(910001)(944506478)(944626604)(920097)(425001)(930097)(140003);
+X-Microsoft-Antispam-Message-Info:
+	Nje8sOTR98H8H3Easo2hBquPhlr3gajEFSHErH1Ai7iVKWGhrago6LNVOtSI0ccdB7qsxHvWbPxCaWjIRWXvtDU6RNLp6x5JPPoz8y5PPK8uRl7VCF/aoAEx4ZAWbceslPYLLaDQT92pjdyfD37ZQZCU1rZQsX1hBErqIA5sBcnFFWExYykWL+C+iq6w+jodv5uRMUwaIFZ+nAdri4tnZifsQ90pe88KSYbA6IheU1K/uWikyuox52CHt5RZyPx1THI1ZYlVqx2iD/2C4nsrC1vHf9OfvBDK8BBHSHzhvPK717OYRrXax9/6uBAgYG5U5+X0Y4VGz79KomQl1wUKFHfKTZDd9QelFTBRwTdkjagDB2nRdsqm5aQo1iJ+7FgEnlYVnugfkBR8x/4NdZgoIHOfaWjUMOYpuOVUkVqCYJ1isgwUdMZncP3soYoHM27qXLynkdk5BlrIVCbbcG/XV6oqmY9UggiAZrmqkOnyPivU1jmGrrFId4XI1NemDHqfXsjhFRmizhXObkT6Ft1q5Juo4NgvXFRVuJf5+bmjW46Djg5KC9F5kuSc8/DiJ1hPQ97+OnEUC8XKuwUhB0MEBwKqNoF1G+3nm8zricYdSBuvWWnTw7qfUtT7OnupxmY7ZS1SsPRGaFw8Jfsq3be+NhZtp0DfmxVGlCAsJ3yZrmSfRpeCXrPkKxS+U0S4gjTr6WzSSzt9XTl4IXMGybuSyNMPGn6fLaF7V9HWwN9nQb6tHB+RtwdOUhNH60e44Pi8kxTOn9bSxFOeiSu4vhOYkGvsKkpm4Pwjc+GgRwSkwqtWQJ3EieuPKKr+W9IHERtueZO8fJGGMvdzcxxXXsGybg==
+MIME-Version: 1.0
+
+--------------o3sbcsYpF9V24uCOMh14cCgM
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Sve ok, bolje da je bilo tako nego da nitko nije vidio obavijest, a vi 
+niste nista rekli...
+
+SG
+
+On 07. 03. 2025. 08:18, Ante Čavar wrote:
+> Kako sam ponovno ušao u aplikaciju mi je došao mail, isprike.
+>
+> LP,
+> Ante Čavar
+> ------------------------------------------------------------------------
+> *From:* Stjepan Groš <Stjepan.Gros@fer.hr>
+> *Sent:* Friday, March 7, 2025 8:17:23 AM
+> *To:* Ante Čavar <Ante.Cavar@fer.hr>
+> *Subject:* Re: Sastanak
+> Stavio sam obavijest na Web, niste vidjeli?
+>
+> SG
+>
+> On 07. 03. 2025. 08:16, Ante Čavar wrote:
+>> Naravno, nema problema.
+>>
+>> Malo nepovezano sa sastankom ali pretpostavljam da onda danas nemamo 
+>> SOSA?
+>>
+>> LP,
+>> Ante Čavar
+>> ------------------------------------------------------------------------
+>> *From:* Stjepan Groš <Stjepan.Gros@fer.hr> <mailto:Stjepan.Gros@fer.hr>
+>> *Sent:* Friday, March 7, 2025 8:14:59 AM
+>> *To:* Ante Čavar <Ante.Cavar@fer.hr> <mailto:Ante.Cavar@fer.hr>
+>> *Subject:* Re: Sastanak
+>> Sad sam tek shvatio da sam pogrijesio!
+>>
+>> Mozete li prebaciti sastanak na 12 sati?
+>>
+>> SG
+>>
+>> On 07. 03. 2025. 07:25, Ante Čavar wrote:
+>>> Profesore,
+>>>
+>>> Sastanak je napravljen. Već ste dodani no evo join link ovdje svejedno:
+>>>
+>>> You're invited to Dogovor za Seminar1/2
+>>>
+>>> Fri Mar 07, 2025
+>>>
+>>> 13:00—13:30 (GMT+01:00)
+>>>
+>>> https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmU1NmNlY2MtOTQ0Zi00NGIxLTkwOTYtY2NmNjY4N2ExOTNj%40thread.v2/0?context=%7b%22Tid%22%3a%22ca71eddc-cc7b-4e5b-95bd-55b658e696be%22%2c%22Oid%22%3a%22193667ad-50dd-407f-a174-9c511e5ae8ad%22%7d 
+>>> <https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmU1NmNlY2MtOTQ0Zi00NGIxLTkwOTYtY2NmNjY4N2ExOTNj%40thread.v2/0?context=%7b%22Tid%22%3a%22ca71eddc-cc7b-4e5b-95bd-55b658e696be%22%2c%22Oid%22%3a%22193667ad-50dd-407f-a174-9c511e5ae8ad%22%7d>
+>>>
+>>> Tap on the link or paste it in a browser to join.
+>>>
+>>> LP,
+>>> Ante Čavar
+>>> ------------------------------------------------------------------------
+>>> *From:* Stjepan Groš <Stjepan.Gros@fer.hr> <mailto:Stjepan.Gros@fer.hr>
+>>> *Sent:* Friday, March 7, 2025 7:14:58 AM
+>>> *To:* Ante Čavar <Ante.Cavar@fer.hr> <mailto:Ante.Cavar@fer.hr>
+>>> *Subject:* Sastanak
+>>>
+>>> Kolega Čavar,
+>>>
+>>> s obzirom da me jučer navečer uhvatila temperatura, danas radim od 
+>>> doma. Sastanak koji smo planirali možemo održati online. Možete, 
+>>> molim vas, napraviti MS Teams sastanak (recim u 13 sati) pa ćemo se 
+>>> tako naći i porazgovarati?
+>>>
+>>> SG
+>>>
+>>
+>
+> -- 
+> associate professor Stjepan Groš, Ph.D.
+> Laboratory for Information Security and Privacy 
+> <https://lisp.fer.unizg.hr/>
+> Faculty of Electrical Engineering and Computing <https://www.fer.unizg.hr>
+> University of Zagreb <http://www.unizg.hr>
+> Tel: +385 (0)1 6129 943
+> Mob: +385 (0)91 6454 982
+> Fax: +385 (0)1 6129 653
+> E-mail: stjepan.gros@fer.hr <mailto:stjepan.gros@fer.hr>
+> Web: https://www.fer.unizg.hr/stjepan.gros 
+> <https://www.fer.unizg.hr/stjepan.gros>
+
+
+-- 
+associate professor Stjepan Groš, Ph.D.
+Laboratory for Information Security and Privacy <https://lisp.fer.unizg.hr/>
+Faculty of Electrical Engineering and Computing <https://www.fer.unizg.hr>
+University of Zagreb <http://www.unizg.hr>
+Tel: +385 (0)1 6129 943
+Mob: +385 (0)91 6454 982
+Fax: +385 (0)1 6129 653
+E-mail: stjepan.gros@fer.hr
+Web: https://www.fer.unizg.hr/stjepan.gros
+--------------o3sbcsYpF9V24uCOMh14cCgM
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Sve ok, bolje da je bilo tako nego da
+      nitko nije vidio obavijest, a vi niste nista rekli...</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">SG<br>
+      <br>
+    </div>
+    <div class="moz-cite-prefix">On 07. 03. 2025. 08:18, Ante Čavar
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:GVXPR08MB1049715C467C8C5B44D14F828E8D52@GVXPR08MB10497.eurprd08.prod.outlook.com">
+      
+      <div dir="auto">Kako sam ponovno ušao u aplikaciju mi je došao
+        mail, isprike.</div>
+      <div id="ms-outlook-mobile-signature" dir="auto">
+        <div><br>
+        </div>
+        <div dir="auto">LP,</div>
+        <div dir="auto">Ante Čavar&nbsp;</div>
+      </div>
+      <hr style="display:inline-block;width:98%" tabindex="-1">
+      <div id="divRplyFwdMsg" dir="ltr"><font face="Calibri, sans-serif" style="font-size:11pt" color="#000000"><b>From:</b> Stjepan
+          Groš <a class="moz-txt-link-rfc2396E" href="mailto:Stjepan.Gros@fer.hr">&lt;Stjepan.Gros@fer.hr&gt;</a><br>
+          <b>Sent:</b> Friday, March 7, 2025 8:17:23 AM<br>
+          <b>To:</b> Ante Čavar <a class="moz-txt-link-rfc2396E" href="mailto:Ante.Cavar@fer.hr">&lt;Ante.Cavar@fer.hr&gt;</a><br>
+          <b>Subject:</b> Re: Sastanak</font>
+        <div>&nbsp;</div>
+      </div>
+      <div>
+        <div class="x_moz-cite-prefix">Stavio sam obavijest na Web,
+          niste vidjeli?</div>
+        <div class="x_moz-cite-prefix"><br>
+        </div>
+        <div class="x_moz-cite-prefix">SG<br>
+          <br>
+        </div>
+        <div class="x_moz-cite-prefix">On 07. 03. 2025. 08:16, Ante
+          Čavar wrote:<br>
+        </div>
+        <blockquote type="cite">
+          <div dir="auto">Naravno, nema problema.&nbsp;</div>
+          <div dir="auto"><br>
+          </div>
+          <div dir="auto">Malo nepovezano sa sastankom ali
+            pretpostavljam da onda danas nemamo SOSA?</div>
+          <div id="x_ms-outlook-mobile-signature" dir="auto">
+            <div><br>
+            </div>
+            <div dir="auto">LP,</div>
+            <div dir="auto">Ante Čavar&nbsp;</div>
+          </div>
+          <hr tabindex="-1" style="display:inline-block; width:98%">
+          <div id="x_divRplyFwdMsg" dir="ltr"><font face="Calibri, sans-serif" color="#000000" style="font-size:11pt"><b>From:</b> Stjepan Groš
+              <a class="x_moz-txt-link-rfc2396E" href="mailto:Stjepan.Gros@fer.hr" moz-do-not-send="true">&lt;Stjepan.Gros@fer.hr&gt;</a><br>
+              <b>Sent:</b> Friday, March 7, 2025 8:14:59 AM<br>
+              <b>To:</b> Ante Čavar <a class="x_moz-txt-link-rfc2396E" href="mailto:Ante.Cavar@fer.hr" moz-do-not-send="true">
+                &lt;Ante.Cavar@fer.hr&gt;</a><br>
+              <b>Subject:</b> Re: Sastanak</font>
+            <div>&nbsp;</div>
+          </div>
+          <div>
+            <div class="x_x_moz-cite-prefix">Sad sam tek shvatio da sam
+              pogrijesio!</div>
+            <div class="x_x_moz-cite-prefix"><br>
+            </div>
+            <div class="x_x_moz-cite-prefix">Mozete li prebaciti
+              sastanak na 12 sati?</div>
+            <div class="x_x_moz-cite-prefix"><br>
+            </div>
+            <div class="x_x_moz-cite-prefix">SG<br>
+              <br>
+            </div>
+            <div class="x_x_moz-cite-prefix">On 07. 03. 2025. 07:25,
+              Ante Čavar wrote:<br>
+            </div>
+            <blockquote type="cite">
+              <div dir="auto">Profesore,</div>
+              <div dir="auto"><br>
+              </div>
+              <div dir="auto">Sastanak je napravljen. Već ste dodani no
+                evo join link ovdje svejedno:</div>
+              <div id="x_x_ms-outlook-mobile-signature" dir="auto">
+                <div><br>
+                </div>
+                <div dir="auto">You're invited to Dogovor za Seminar1/2</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">Fri Mar 07, 2025</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">13:00—13:30 (GMT+01:00)</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto"><a class="x_x_moz-txt-link-freetext x_moz-txt-link-freetext moz-txt-link-freetext" href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmU1NmNlY2MtOTQ0Zi00NGIxLTkwOTYtY2NmNjY4N2ExOTNj%40thread.v2/0?context=%7b%22Tid%22%3a%22ca71eddc-cc7b-4e5b-95bd-55b658e696be%22%2c%22Oid%22%3a%22193667ad-50dd-407f-a174-9c511e5ae8ad%22%7d" moz-do-not-send="true">https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmU1NmNlY2MtOTQ0Zi00NGIxLTkwOTYtY2NmNjY4N2ExOTNj%40thread.v2/0?context=%7b%22Tid%22%3a%22ca71eddc-cc7b-4e5b-95bd-55b658e696be%22%2c%22Oid%22%3a%22193667ad-50dd-407f-a174-9c511e5ae8ad%22%7d</a></div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">Tap on the link or paste it in a browser
+                  to join.</div>
+                <div dir="auto"><br>
+                </div>
+                <div dir="auto">LP,</div>
+                <div dir="auto">Ante Čavar&nbsp;</div>
+              </div>
+              <hr tabindex="-1" style="display:inline-block; width:98%">
+              <div id="x_x_divRplyFwdMsg" dir="ltr"><font face="Calibri, sans-serif" color="#000000" style="font-size:11pt"><b>From:</b> Stjepan Groš
+                  <a class="x_x_moz-txt-link-rfc2396E" href="mailto:Stjepan.Gros@fer.hr" moz-do-not-send="true">&lt;Stjepan.Gros@fer.hr&gt;</a><br>
+                  <b>Sent:</b> Friday, March 7, 2025 7:14:58 AM<br>
+                  <b>To:</b> Ante Čavar <a class="x_x_moz-txt-link-rfc2396E" href="mailto:Ante.Cavar@fer.hr" moz-do-not-send="true">
+                    &lt;Ante.Cavar@fer.hr&gt;</a><br>
+                  <b>Subject:</b> Sastanak</font>
+                <div>&nbsp;</div>
+              </div>
+              <div>
+                <p><font size="4">Kolega Čavar,</font></p>
+                <p><font size="4">s obzirom da me jučer navečer uhvatila
+                    temperatura, danas radim od doma. Sastanak koji smo
+                    planirali možemo održati online. Možete, molim vas,
+                    napraviti MS Teams sastanak (recim u 13 sati) pa
+                    ćemo se tako naći i porazgovarati?<br>
+                  </font></p>
+                <p><font size="4">SG</font></p>
+              </div>
+            </blockquote>
+            <br>
+          </div>
+        </blockquote>
+        <p><br>
+        </p>
+        <div class="x_moz-signature">-- <br>
+          associate professor Stjepan Groš, Ph.D.<br>
+          <a href="https://lisp.fer.unizg.hr/" moz-do-not-send="true">Laboratory
+            for Information Security and Privacy</a><br>
+          <a href="https://www.fer.unizg.hr" moz-do-not-send="true">Faculty
+            of Electrical Engineering and Computing</a><br>
+          <a href="http://www.unizg.hr" moz-do-not-send="true">University
+            of Zagreb</a><br>
+          Tel: +385 (0)1 6129 943<br>
+          Mob: +385 (0)91 6454 982<br>
+          Fax: +385 (0)1 6129 653<br>
+          E-mail: <a href="mailto:stjepan.gros@fer.hr" class="x_moz-txt-link-freetext moz-txt-link-freetext" moz-do-not-send="true">stjepan.gros@fer.hr</a><br>
+          Web: <a href="https://www.fer.unizg.hr/stjepan.gros" class="x_moz-txt-link-freetext moz-txt-link-freetext" moz-do-not-send="true">
+            https://www.fer.unizg.hr/stjepan.gros</a></div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <div class="moz-signature">-- <br>
+      associate professor Stjepan Groš, Ph.D.<br>
+      <a href="https://lisp.fer.unizg.hr/">Laboratory for Information
+        Security and Privacy</a><br>
+      <a href="https://www.fer.unizg.hr">Faculty of Electrical
+        Engineering and Computing</a><br>
+      <a href="http://www.unizg.hr">University of Zagreb</a><br>
+      Tel: +385 (0)1 6129 943<br>
+      Mob: +385 (0)91 6454 982<br>
+      Fax: +385 (0)1 6129 653<br>
+      E-mail: <a href="mailto:stjepan.gros@fer.hr" class="moz-txt-link-freetext">stjepan.gros@fer.hr</a><br>
+      Web: <a href="https://www.fer.unizg.hr/stjepan.gros" class="moz-txt-link-freetext">https://www.fer.unizg.hr/stjepan.gros</a></div>
+  </body>
+</html>
+
+--------------o3sbcsYpF9V24uCOMh14cCgM--
