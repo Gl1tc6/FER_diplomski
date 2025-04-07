@@ -1,0 +1,32 @@
+1. koja linija u L2Regularizer.backward_params (wd = self.weight_decay, w = self.weights)
+	2 * wd * w
+
+2. koja linija u L2Regularizer.forward (wd = self.weight_decay, w = self.weights)
+	wd * np.linalg.norm(w) ** 2
+
+3. koja linija u ReLU.forward
+	self.inputs[self.inputs < 0] = 0
+
+4. koja linija u SoftmaxCrossEntropyWithLogits.forward
+	np.sum(-logprobs * y_)
+
+5. koja linija u FC.backward_params
+	np.dot(grads.T, self.inputs)
+
+6. ključan korak u MaxPooling
+	pamćenje indeksa najvećeg elementa u receptivnom polju
+	*određivanje najvećeg elementa u receptivnom polju
+
+7. koliko parametara ima konvolucijski sloj s 4 ulazne mape, 4 izlazne mape, filterom dimenzija 3x3
+	148 --> 4*(4*3*3+1)
+
+8. što je ulaz za softmax
+	*torch.matmul(h1, w2) + b2
+	torch.relu(torch.matmul(h1, w2) + b2)
+
+9. koja od ovih metoda nam omogućava prijelaz s konvolucijskog u potpuno povezane slojeve
+	torch.nn.Flatten
+	(nije bilo torch.view među odgovorima)
+
+10. dimenzije jezgri u konvolucijskim slojevima u drugom labosu
+	5x5

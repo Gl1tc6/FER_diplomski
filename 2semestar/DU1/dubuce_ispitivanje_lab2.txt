@@ -1,0 +1,21 @@
+blic:
+- koji sloj ima metodu backward_params? (MinPool, SoftmaxCrossEntropyWithLogits, L2Regularizer*, MaxPool)
+- hrpu pitanja tipa "koju od ovih linija koda biste mogli vidjeti u forward/backward passu od (insert neki sloj)"? npr. self.inputs[self.inputs < 0] = 0 za forward pass od ReLU
+- koliko parametara ima konvolucijski sloj s 4 ulazna kanala, 4 izlazna kanala, s filterom dimenzija 3x3? odg: 4*(4*3*3+1) = 148
+- koje su moguće dimenzije ulaza u model koji prima crno-bijele slike? [4, 32, 32, 1]*, [4, 3, 32, 32], [3, 32, 32], [1, 32, 32]
+- koja od sljedećih metoda ne postoji u razredu Layers? gradient*, backward_inputs, forward, backward_params
+- s kojom metodom biste mogli inicijalizirati tenzor koji predstavlja RGB ulaz u model? torch.tensor([4, 3, 32, 32]), torch.zeros([4, 3, 32, 32]), torch.rand([4, 32, 32, 3]) (nisam siguran jesu li tocno ovakvi bili argumenti, mislim da je odg torch.rand)
+- koja od ovih linija koda računa aktivacije skrivenog sloja? vise ponudenih, odg. je ,ja msm, torch.ReLU(torch.matmul(...) + b)
+- koja od ovih metoda nam omogućava prijelaz s konvolucijskog u potpuno povezane slojeve? torch.view(...)
+...
+
+ispitivanje:
+- prolazi se kroz kod, dosta chill
+- koja je razlika izmedu numpy i pytorch
+- koje metode nemaju backward_params i zasto
+- koji su sve argumenti za neki konvolucijski sloj (o cemu sve ovisi)
+- pokazat filtere prvog sloja ovisno o jacini regularizacije, treba znat interpretirat filtere (rec da svaki detektira neki primitivni uzorak, npr horizontalnu liniju, jer prvi sloj ima malo receptivno polje)
+- napisat formulu za racunanje parametara konvolucijskog sloja
+- rec dimenzije tenzora nakon pojedinih slojeva
+- jako bitno: znat da se konvolucija provodi nad volumenima, a ne nad 2d (ono sta je saric objasnjavao na zadnjem satu: kako se od jednog volumena dobije drugi)
+...

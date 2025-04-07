@@ -1,0 +1,14 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPath": "/home/ante/esp/v5.0/esp-idf",
+    "idf.toolsPath": "/home/ante/.espressif",
+    "idf.pythonInstallPath": "/home/ante/miniconda3/bin/python",
+    "idf.flashType": "UART",
+    "idf.port": "/dev/ttyUSB0",
+    "idf.customExtraVars": {
+        "IDF_TARGET": "esp32"
+    },
+    "idf.openOcdConfigs": [
+        "board/esp32-bridge.cfg"
+    ]
+}

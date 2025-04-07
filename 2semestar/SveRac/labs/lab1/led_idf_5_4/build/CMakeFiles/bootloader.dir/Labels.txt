@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/CMakeFiles/bootloader
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/CMakeFiles/bootloader.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/CMakeFiles/bootloader-complete.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab1/led_idf_5_4/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

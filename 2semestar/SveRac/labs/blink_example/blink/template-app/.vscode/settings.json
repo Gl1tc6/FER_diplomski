@@ -1,0 +1,11 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.port": "/dev/ttyUSB0",
+  "idf.flashType": "UART",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32"
+  },
+  "idf.openOcdConfigs": [
+    "board/esp32-bridge.cfg"
+  ]
+}

@@ -1,0 +1,16 @@
+[wokwi]
+version = "1.0.0"
+firmware = ".pio/build/esp32dev/firmware.bin"
+elf = ".pio/build/esp32dev/firmware.elf"
+
+[project]
+name = "ESP32 LED Blink Test"
+description = "A project to test LED blinking functionality on ESP32 using Wokwi simulator."
+
+[dependencies]
+framework = "espidf"
+platform = "espressif32"
+board = "esp32dev"
+
+[simulation]
+diagram = "diagram.json"
