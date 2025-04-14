@@ -1,0 +1,16 @@
+/* Make tables use the full width of the editor and preview */
+.markdown-preview-view table,
+.markdown-source-view table {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* Optional: make cells wrap nicely and align text */
+.markdown-preview-view th,
+.markdown-preview-view td,
+.markdown-source-view th,
+.markdown-source-view td {
+  word-wrap: break-word;
+  padding: 8px;
+  text-align: left;
+}

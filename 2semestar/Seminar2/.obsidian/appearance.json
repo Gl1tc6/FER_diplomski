@@ -1,4 +1,7 @@
 {
   "theme": "moonstone",
-  "textFontFamily": "Fira Mono"
+  "textFontFamily": "Fira Mono",
+  "enabledCssSnippets": [
+    "full-width-table"
+  ]
 }
