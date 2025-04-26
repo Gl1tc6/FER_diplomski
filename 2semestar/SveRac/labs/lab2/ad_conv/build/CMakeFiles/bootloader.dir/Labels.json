@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/CMakeFiles/bootloader"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/CMakeFiles/bootloader.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/CMakeFiles/bootloader-complete.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+		},
+		{
+			"file" : "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/lab2/ad_conv/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bootloader"
+		],
+		"name" : "bootloader"
+	}
+}
