@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": { "builder": "esp-idf" }
+    },
+    {
+      "type": "wokwi-slide-potentiometer",
+      "id": "pot1",
+      "top": 34,
+      "left": -207.2,
+      "rotate": -90,
+      "attrs": { "travelLength": "30" }
+    },
+    {
+      "type": "wokwi-led-bar-graph",
+      "id": "bargraph1",
+      "top": 62.4,
+      "left": 148.8,
+      "attrs": { "color": "lime" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "pot1:VCC", "esp:5V", "red", [ "v9.6", "h119.81" ] ],
+    [ "esp:34", "pot1:SIG", "green", [ "h-14.21", "v124.8", "h-85.6" ] ],
+    [ "esp:GND.2", "bargraph1:C10", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C9", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C8", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C7", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C6", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C5", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C4", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C3", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C2", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "esp:GND.2", "bargraph1:C1", "black", [ "v0", "h91.24", "v57.6" ] ],
+    [ "bargraph1:A1", "esp:23", "green", [ "h-9.6", "v-19.2" ] ],
+    [ "bargraph1:A2", "esp:22", "green", [ "h-19.2", "v-19.2" ] ],
+    [ "bargraph1:A4", "esp:19", "green", [ "h-38.4", "v9.6" ] ],
+    [ "bargraph1:A5", "esp:18", "green", [ "h-28.8", "v-0.01" ] ],
+    [ "bargraph1:A6", "esp:5", "green", [ "h-28.8", "v9.59" ] ],
+    [ "bargraph1:A7", "esp:17", "green", [ "h-28.8", "v9.59" ] ],
+    [ "bargraph1:A3", "esp:21", "green", [ "h-28.8", "v-9.6", "h-9.6" ] ],
+    [ "bargraph1:A8", "esp:16", "green", [ "h0" ] ],
+    [ "bargraph1:A9", "esp:4", "green", [ "h0" ] ],
+    [ "bargraph1:A10", "esp:0", "green", [ "h0" ] ],
+    [ "pot1:GND", "esp:GND.1", "black", [ "v-5.2", "h76.8", "v153.6" ] ]
+  ],
+  "dependencies": {}
+}
