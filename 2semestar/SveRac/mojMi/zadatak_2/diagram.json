@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "author": "Hrvoje Mlinaric",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "chip-power-monitor-fer",
+      "id": "chip1",
+      "top": -75.78,
+      "left": -204.59,
+      "attrs": {"builder": "esp-idf"}
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "sevseg1",
+      "top": 34.62,
+      "left": -210.64,
+      "attrs": { "digits": "2" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "sevseg1:C", "esp:32", "gold", [ "v19.03", "h80.64", "v-102.81" ] ],
+    [ "sevseg1:D", "esp:33", "gold", [ "v11.51", "h63.87", "v-84.25" ] ],
+    [ "sevseg1:E", "esp:25", "gold", [ "v30.06", "h82", "v-6.52" ] ],
+    [ "sevseg1:F", "esp:27", "gold", [ "v-11.73", "h33.71", "v34.61", "h72.72", "v-0.86" ] ],
+    [ "sevseg1:DIG1", "esp:14", "blue", [ "v-53.35", "h102.06", "v1.5" ] ],
+    [ "sevseg1:DIG2", "esp:12", "blue", [ "v-44.82", "h124.8", "v121.62", "h0", "v28.8" ] ],
+    [ "esp:21", "sevseg1:B", "gold", [ "h20.24", "v-105.6", "h-293.8" ] ],
+    [ "sevseg1:A", "esp:19", "gold", [ "v-76.8", "h316.8", "v134.4" ] ],
+    [ "sevseg1:G", "esp:13", "green", [ "h0", "v66.36" ] ],
+    [ "esp:26", "chip1:OUT", "green", [ "h-23.81", "v-182.4" ] ]
+  ],
+  "dependencies": {}
+}

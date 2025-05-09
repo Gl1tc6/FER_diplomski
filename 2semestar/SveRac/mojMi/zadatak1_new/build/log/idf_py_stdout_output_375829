@@ -1,0 +1,44 @@
+-- IDF_TARGET not set, using default target: esp32
+-- Found Git: /usr/bin/git (found version "2.34.1") 
+-- The C compiler identification is GNU 11.2.0
+-- The CXX compiler identification is GNU 11.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/ante/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /home/ante/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/ante/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Building ESP-IDF components for target esp32
+-- Project sdkconfig file /home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/mojMi/zadatak1_new/sdkconfig
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of time_t
+-- Check size of time_t - done
+-- Found Python3: /home/ante/.espressif/python_env/idf5.0_py3.10_env/bin/python (found version "3.10.12") found components: Interpreter 
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS - Success
+-- App "zadatak1_new" version: baea7c0
+-- Adding linker script /home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/mojMi/zadatak1_new/build/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_system/ld/esp32/sections.ld.in
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_rom/esp32/ld/esp32.rom.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_rom/esp32/ld/esp32.rom.api.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_rom/esp32/ld/esp32.rom.libgcc.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_rom/esp32/ld/esp32.rom.newlib-data.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_rom/esp32/ld/esp32.rom.syscalls.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/esp_rom/esp32/ld/esp32.rom.newlib-funcs.ld
+-- Adding linker script /home/ante/esp/v5.0/esp-idf/components/soc/esp32/ld/esp32.peripherals.ld
+-- Components: app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_common esp_eth esp_event esp_gdbstub esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_local_ctrl esp_netif esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_system esp_timer esp_wifi espcoredump esptool_py fatfs freertos hal heap http_parser idf_test ieee802154 json log lwip main mbedtls mqtt newlib nvs_flash openthread partition_table perfmon protobuf-c protocomm pthread sdmmc soc spi_flash spiffs tcp_transport ulp unity usb vfs wear_levelling wifi_provisioning wpa_supplicant xtensa
+-- Component paths: /home/ante/esp/v5.0/esp-idf/components/app_trace /home/ante/esp/v5.0/esp-idf/components/app_update /home/ante/esp/v5.0/esp-idf/components/bootloader /home/ante/esp/v5.0/esp-idf/components/bootloader_support /home/ante/esp/v5.0/esp-idf/components/bt /home/ante/esp/v5.0/esp-idf/components/cmock /home/ante/esp/v5.0/esp-idf/components/console /home/ante/esp/v5.0/esp-idf/components/cxx /home/ante/esp/v5.0/esp-idf/components/driver /home/ante/esp/v5.0/esp-idf/components/efuse /home/ante/esp/v5.0/esp-idf/components/esp-tls /home/ante/esp/v5.0/esp-idf/components/esp_adc /home/ante/esp/v5.0/esp-idf/components/esp_app_format /home/ante/esp/v5.0/esp-idf/components/esp_common /home/ante/esp/v5.0/esp-idf/components/esp_eth /home/ante/esp/v5.0/esp-idf/components/esp_event /home/ante/esp/v5.0/esp-idf/components/esp_gdbstub /home/ante/esp/v5.0/esp-idf/components/esp_hid /home/ante/esp/v5.0/esp-idf/components/esp_http_client /home/ante/esp/v5.0/esp-idf/components/esp_http_server /home/ante/esp/v5.0/esp-idf/components/esp_https_ota /home/ante/esp/v5.0/esp-idf/components/esp_https_server /home/ante/esp/v5.0/esp-idf/components/esp_hw_support /home/ante/esp/v5.0/esp-idf/components/esp_lcd /home/ante/esp/v5.0/esp-idf/components/esp_local_ctrl /home/ante/esp/v5.0/esp-idf/components/esp_netif /home/ante/esp/v5.0/esp-idf/components/esp_partition /home/ante/esp/v5.0/esp-idf/components/esp_phy /home/ante/esp/v5.0/esp-idf/components/esp_pm /home/ante/esp/v5.0/esp-idf/components/esp_psram /home/ante/esp/v5.0/esp-idf/components/esp_ringbuf /home/ante/esp/v5.0/esp-idf/components/esp_rom /home/ante/esp/v5.0/esp-idf/components/esp_system /home/ante/esp/v5.0/esp-idf/components/esp_timer /home/ante/esp/v5.0/esp-idf/components/esp_wifi /home/ante/esp/v5.0/esp-idf/components/espcoredump /home/ante/esp/v5.0/esp-idf/components/esptool_py /home/ante/esp/v5.0/esp-idf/components/fatfs /home/ante/esp/v5.0/esp-idf/components/freertos /home/ante/esp/v5.0/esp-idf/components/hal /home/ante/esp/v5.0/esp-idf/components/heap /home/ante/esp/v5.0/esp-idf/components/http_parser /home/ante/esp/v5.0/esp-idf/components/idf_test /home/ante/esp/v5.0/esp-idf/components/ieee802154 /home/ante/esp/v5.0/esp-idf/components/json /home/ante/esp/v5.0/esp-idf/components/log /home/ante/esp/v5.0/esp-idf/components/lwip /home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/mojMi/zadatak1_new/main /home/ante/esp/v5.0/esp-idf/components/mbedtls /home/ante/esp/v5.0/esp-idf/components/mqtt /home/ante/esp/v5.0/esp-idf/components/newlib /home/ante/esp/v5.0/esp-idf/components/nvs_flash /home/ante/esp/v5.0/esp-idf/components/openthread /home/ante/esp/v5.0/esp-idf/components/partition_table /home/ante/esp/v5.0/esp-idf/components/perfmon /home/ante/esp/v5.0/esp-idf/components/protobuf-c /home/ante/esp/v5.0/esp-idf/components/protocomm /home/ante/esp/v5.0/esp-idf/components/pthread /home/ante/esp/v5.0/esp-idf/components/sdmmc /home/ante/esp/v5.0/esp-idf/components/soc /home/ante/esp/v5.0/esp-idf/components/spi_flash /home/ante/esp/v5.0/esp-idf/components/spiffs /home/ante/esp/v5.0/esp-idf/components/tcp_transport /home/ante/esp/v5.0/esp-idf/components/ulp /home/ante/esp/v5.0/esp-idf/components/unity /home/ante/esp/v5.0/esp-idf/components/usb /home/ante/esp/v5.0/esp-idf/components/vfs /home/ante/esp/v5.0/esp-idf/components/wear_levelling /home/ante/esp/v5.0/esp-idf/components/wifi_provisioning /home/ante/esp/v5.0/esp-idf/components/wpa_supplicant /home/ante/esp/v5.0/esp-idf/components/xtensa
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/mojMi/zadatak1_new/build

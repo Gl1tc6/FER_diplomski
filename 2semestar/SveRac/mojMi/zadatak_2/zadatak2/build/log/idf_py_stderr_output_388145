@@ -1,0 +1,27 @@
+info: INFO: Symbol IDF_TARGET_LINUX defined in multiple locations (see below). Please check if this is a correct behavior or a random name match:
+    /home/ante/esp/v5.0/esp-idf/Kconfig:39
+    /home/ante/esp/v5.0/esp-idf/Kconfig:93
+Traceback (most recent call last):
+  File "/home/ante/esp/v5.0/esp-idf/tools/kconfig_new/confgen.py", line 607, in <module>
+    main()
+  File "/home/ante/esp/v5.0/esp-idf/tools/kconfig_new/confgen.py", line 328, in main
+    output_function(deprecated_options, config, temp_file)
+  File "/home/ante/esp/v5.0/esp-idf/tools/kconfig_new/confgen.py", line 370, in write_header
+    deprecated_options.append_header(config, filename)
+  File "/home/ante/esp/v5.0/esp-idf/tools/kconfig_new/confgen.py", line 176, in append_header
+    if new_opt in config.syms and _opt_defined(config.syms[new_opt]):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ante/esp/v5.0/esp-idf/tools/kconfig_new/confgen.py", line 163, in _opt_defined
+    if opt.orig_type in (kconfiglib.BOOL, kconfiglib.TRISTATE) and opt.str_value != 'n':
+                         ^^^^^^^^^^^^^^^
+AttributeError: module 'kconfiglib' has no attribute 'BOOL'
+CMake Error at /home/ante/esp/v5.0/esp-idf/tools/cmake/kconfig.cmake:176 (message):
+  Failed to run confgen.py
+  (/home/ante/.espressif/python_env/idf5.0_py3.12_env/bin/python;/home/ante/esp/v5.0/esp-idf/tools/kconfig_new/confgen.py;--list-separator=semicolon;--kconfig;/home/ante/esp/v5.0/esp-idf/Kconfig;--sdkconfig-rename;/home/ante/esp/v5.0/esp-idf/sdkconfig.rename;--config;/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/mojMi/zadatak_2/zadatak2/sdkconfig;--env-file;/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/mojMi/zadatak_2/zadatak2/build/config.env).
+  Error 1
+Call Stack (most recent call first):
+  /home/ante/esp/v5.0/esp-idf/tools/cmake/build.cmake:590 (__kconfig_generate_config)
+  /home/ante/esp/v5.0/esp-idf/tools/cmake/project.cmake:440 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+
