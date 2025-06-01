@@ -1,0 +1,97 @@
+\chapter{IDS i NIDS sustavi}
+
+\textbf{Definicija i osnove}
+
+IDS (Intrusion Detection System) predstavlja temeljnu sigurnosnu tehnologiju za skeniranje sustava i detekciju upada. NIDS (Network Intrusion Detection System) je specijalizirana varijanta IDS-a fokusirana na skeniranje mrežnog prometa i detekciju mrežnih upada. Ovi sustavi predstavljaju prethodnice modernih Detection and Response tehnologija.
+
+\textbf{Ključne razlike između IDS/NIDS i DR sustava}
+
+\textbf{Osnovna funkcionalnost}
+\begin{itemize}
+\item \textbf{IDS/NIDS sustavi} - Pasivno nadgledanje i uzbunjivanje o detektiranim prijetnjama
+\item \textbf{Detection and Response sustavi} - Aktivno nadgledanje s mogućnostima automatskog odgovora
+\end{itemize}
+
+\textbf{Mogućnosti odgovora}
+IDS sustavi su ograničeni na detekciju i uzbunjivanje, dok DR sustavi mogu imati konfigurirane automatske radnje:
+\begin{itemize}
+\item Automatska izolacija kompromitiranih uređaja
+\item Blokiranje sumljive mrežne komunikacije
+\item Pokretanje forenzičkih procesa
+\item Eskalacija incidenata prema odgovornim timovima
+\end{itemize}
+
+\textbf{Vodeći IDS/NIDS alati}
+
+\textbf{Snort}
+Snort je jedan od najpoznatijih open-source IDS/IPS alata:
+
+\textbf{Karakteristike:}
+\begin{itemize}
+\item IDS s mogućnostima IPS-a (Intrusion Prevention System)
+\item Pravila zasnovana na prepoznavanju uzoraka (signature-based detection)
+\item Lagana arhitektura pogodna za manje mreže
+\item Može biti ograničen kod velikih mrežnih opterećenja
+\item Jednostavan za konfiguraciju i deployment
+\item Dostupnost gotovih pravila za poznate vulnerabilities
+\end{itemize}
+
+\textbf{Suricata}
+Suricata predstavlja napredni IDS/IPS alat s boljim performansama:
+
+\textbf{Karakteristike:}
+\begin{itemize}
+\item Paralelna obrada paketa što rezultira boljom izvedbom od Snorta
+\item Podrška za multi-threading i GPU akceleraciju
+\item Kompatibilnost sa Snort pravilima
+\item Naprednije mogućnosti za veliku propusnost mreža
+\item Built-in support za moderne mrežne protokole
+\end{itemize}
+
+\textbf{Zeek (bivši Bro)}
+Zeek se razlikuje od tradicionalnih IDS alata fokusiranjem na mrežnu analizu:
+
+\textbf{Karakteristike:}
+\begin{itemize}
+\item Fokus na detaljnoj analizi mrežnog prometa umjesto detekcije prijetnji putem pravila
+\item Pogodan za dubinsku inspekciju mreže i zapisivanje podataka
+\item Izvrsne mogućnosti za forenzičku analizu
+\item Skriptni jezik za prilagođene analize
+\item Strukturirani logovi za lakšu integraciju s drugim sustavima
+\end{itemize}
+
+\textbf{Tržišno pozicioniranje}
+
+DR sustavi se tretiraju kao skuplji i bolji proizvod u odnosu na tradicionalne IDS sustave. Od DR sustava, najtraženiji su XDR-ovi zbog njihovih sveobuhvatnih mogućnosti. Ova evolucija reflektira potrebu organizacija za proaktivnijim pristupom sigurnosti koji ne samo detektira, već i automatski odgovara na prijetnje.
+
+\textbf{Implementacijski model}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{4cm}|p{4cm}|}
+\hline
+\textbf{Sustav} & \textbf{Primarni fokus} & \textbf{Odgovor na prijetnje} \\
+\hline
+IDS/NIDS & Detekcija i uzbunjivanje & Manualine intervencije potrebne \\
+\hline
+EDR & Krajnje točke & Automatski i poluautomatski \\
+\hline
+NDR & Mrežni promet & Automatski i poluautomatski \\
+\hline
+XDR & Holistički pristup & Orkestrirani automatski odgovor \\
+\hline
+\end{tabular}
+\caption{Usporedba fokusa i mogućnosti odgovora različitih sustava}
+\end{table}
+
+\textbf{Hibridni pristup}
+
+Mnoge organizacije implementiraju hibridne pristupe koji kombiniraju:
+\begin{itemize}
+\item Postojeće IDS/NIDS sustave za osnovnu detekciju
+\item Moderna DR rješenja za naprednu analizu i odgovor
+\item Centralizirane SIEM platforme za korelaciju događaja
+\item SOAR sustave za orkestaciju odgovora na incidente
+\end{itemize}
+
+Ovakav pristup omogućava postupnu modernizaciju sigurnosne infrastrukture uz zadržavanje postojećih investicija.

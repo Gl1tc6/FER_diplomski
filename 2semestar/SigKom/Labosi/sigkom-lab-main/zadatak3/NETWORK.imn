@@ -142,7 +142,6 @@
                     "link"       : "l3"
                 }
             },
-            "croutes4"            : ["10.0.0.0/24 198.51.100.2","0.0.0.0/0 198.51.100.1"],
             "canvas"              : "c0",
             "iconcoords"          : "240 288",
             "labelcoords"         : "282 282",
@@ -151,7 +150,7 @@
                 "NODE_CONFIG" : {
                     "nova" : {
                         "custom_command" : "/bin/sh",
-                        "custom_config"  : "postfix start\n"
+                        "custom_config"  : "ip route add 10.0.0.0/24 via 198.51.100.2 dev eth0\nip route add 0.0.0.0/0 via 198.51.100.1\npostfix start\n"
                     }
                 }
             },
@@ -176,7 +175,6 @@
                     "link"       : "l4"
                 }
             },
-            "croutes4"            : ["10.0.0.0/24 198.51.100.2","0.0.0.0/0 198.51.100.1"],
             "canvas"              : "c0",
             "iconcoords"          : "528 288",
             "labelcoords"         : "489 287",
@@ -185,7 +183,7 @@
                 "NODE_CONFIG" : {
                     "nova" : {
                         "custom_command" : "/bin/sh",
-                        "custom_config"  : "lighttpd -f /etc/lighttpd/lighttpd.conf\n"
+                        "custom_config"  : "ip route add 10.0.0.0/24 via 198.51.100.2 dev eth0\nip route add 0.0.0.0/0 via 198.51.100.1 dev eth0\nlighttpd -f /etc/lighttpd/lighttpd.conf\n"
                     }
                 }
             },
@@ -210,7 +208,6 @@
                     "link"       : "l5"
                 }
             },
-            "croutes4"            : ["0.0.0.0/0 10.0.0.1"],
             "canvas"              : "c0",
             "iconcoords"          : "840 336",
             "labelcoords"         : "840 372",
@@ -219,7 +216,7 @@
                 "NODE_CONFIG" : {
                     "new" : {
                         "custom_command" : "/bin/sh",
-                        "custom_config"  : "postfix start\n"
+                        "custom_config"  : "ip route add 0.0.0.0/0 via 10.0.0.1 dev eth0\npostfix start\n"
                     }
                 }
             },

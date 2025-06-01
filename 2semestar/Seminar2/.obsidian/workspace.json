@@ -74,8 +74,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -185,8 +184,10 @@
   },
   "active": "f9a89df1f5b0d862",
   "lastOpenFiles": [
-    "Labos SOSA.md",
     "PP cheat sheet.md",
+    "md/Tjedan 12.5. - 16.5..md",
+    "pdfs/Tjedan 12.5. - 16.5..pdf",
+    "Labos SOSA.md",
     "Tjedan 14.4. - 18.4..pdf",
     "Pasted image 20250419191741.png",
     "Tjedan 7.4. - 11.4..md",

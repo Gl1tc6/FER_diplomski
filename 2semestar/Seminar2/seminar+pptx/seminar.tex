@@ -10,14 +10,34 @@
 \usepackage{listings}
 \usepackage{caption}
 \usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
 \setlocalecaption{croatian}{abstract}{Sažetak}
 
 \usepackage{mathptmx} % Use Times New Roman font
 \usepackage{setspace} % For setting line spacing
-\onehalfspacing % Set line spacing to 1.5
+\singlespacing % Set line spacing to 1
+
+% Smanjeni razmak između bullet-a
+\setlist[itemize]{itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt}
+\setlist[enumerate]{itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt}
 
 \usepackage{titlesec} % To control the title spacing
-\titlespacing*{\chapter}{0pt}{-50pt}{20pt}
+\titlespacing*{\chapter}{0pt}{-30pt}{10pt}
 
 \renewcommand{\figurename}{Slika}
 \renewcommand{\bibname}{Literatura}
@@ -35,33 +55,39 @@
 \begin{document}
 \maketitle
 % \zadatak{hr_0036540817_73.pdf}
-% \begin{zahvale}
-% Zahvaljujem se prof.\ dr.\ sc. Stjepanu Grošu na pruženoj pomoći prilikom izrade rada.
-% \end{zahvale}
+\begin{zahvale}
+Zahvaljujem se prijateljima i obitelji koji su mi bili podrška prilikom pisanja ovog rada.
+\end{zahvale}
 \newpage
 \tableofcontents
 \newpage
 \mainmatter
-% \setcounter{page}{1}
-% \renewcommand\thepage{\arabic{page}}
+\setcounter{page}{1}
+\renewcommand\thepage{\arabic{page}}
 % \include{uvod}
 % \include{opis_alata}
 % \include{testiranje}
 % \include{usporedba}
 % \include{zakljucak}
 %\bibliography{literatura}
+\include{uvod}
+\include{edr_tehnologija}
+\include{ndr_tehnologija}
+\include{xdr_tehnologija}
+\include{ids_nids}
+\include{usporedba_snort_suricata_zeek}
+\include{usporedba_tržišnih_alata}
+\include{analiza_po_veličini_poduzeća}
+\include{zaključak}
 
+\newpage
 
 \begin{sazetak}
-
 \end{sazetak}
-\begin{kljucnerijeci}
-\end{kljucnerijeci}
 \newpage
 \begin{abstract}
 \end{abstract}
-\begin{keywords}
-\end{keywords}
+
 
 \newpage
 

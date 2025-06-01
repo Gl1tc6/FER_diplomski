@@ -1,0 +1,278 @@
+\chapter{Analiza prema veličini poduzeća}
+
+\textbf{Segmentacija tržišta}
+
+Različite veličine organizacija imaju specifične sigurnosne potrebe, budžetska ograničenja i tehničke kapacitete. Analiza preferencija prema veličini poduzeća pokazuje jasne trendove u odabiru sigurnosnih rješenja.
+
+\textbf{Mala poduzeća (1-100 zaposlenika)}
+
+\textbf{Ključni faktori odlučivanja}
+\begin{itemize}
+\item \textbf{Ograničen budžet} - Potreba za cost-effective rješenja
+\item \textbf{Minimalna IT podrška} - Potreba za jednostavne, "plug-and-play" alate
+\item \textbf{Osnovno sigurnosno znanje} - Ograničena ekspertiza za kompleksne sustave
+\item \textbf{Compliance zahtjevi} - Osnovni regulatory requirements
+\end{itemize}
+
+\textbf{Preporučena rješenja}
+
+\textbf{1. Microsoft Defender XDR}
+\begin{itemize}
+\item \textbf{Razlog}: Već uključen u Microsoft 365 subscription
+\item \textbf{Prednosti}: Jednostavna implementacija, poznato sučelje
+\item \textbf{Ograničenja}: Ograničene advanced značajke
+\end{itemize}
+
+\textbf{2. Darktrace}
+\begin{itemize}
+\item \textbf{Razlog}: Odličnu potpunu zaštitu uz relativno pristojnu cijenu
+\item \textbf{Prednosti}: Samoučeći sustav, minimalno održavanje
+\item \textbf{Ograničenja}: Početni troškovi mogu biti visoki
+\end{itemize}
+
+\textbf{3. Wazuh (za tehnički potkovane timove)}
+\begin{itemize}
+\item \textbf{Razlog}: Besplatno rješenje s dobrim capabilities
+\item \textbf{Prednosti}: Nulti licencijski troškovi
+\item \textbf{Ograničenja}: Zahtijeva značajnu tehničku ekspertizu
+\end{itemize}
+
+\textbf{Srednja poduzeća (100-1000 zaposlenika)}
+
+\textbf{Ključni faktori odlučivanja}
+\begin{itemize}
+\item \textbf{Balans cijena/performanse} - Potreba za "zlatnu sredinu"
+\item \textbf{Rastući IT timovi} - Veći tehnički kapaciteti
+\item \textbf{Compliance složenost} - Veći regulatory zahtjevi
+\item \textbf{Hibridna infrastruktura} - Kombinacija cloud/on-premise sustava
+\end{itemize}
+
+\textbf{Preporučena rješenja}
+
+\textbf{1. Cisco Sourcefire SNORT}
+\begin{itemize}
+\item \textbf{Razlog}: Zlatna sredina između cijene i usluge
+\item \textbf{Prednosti}: 24/7 tehnička podrška, dobra skalabilnost
+\item \textbf{Ograničenja}: Može zahtijevati dodatnu integraciju
+\end{itemize}
+
+\textbf{2. SentinelOne}
+\begin{itemize}
+\item \textbf{Razlog}: Dobar balans između cijene i naprednih značajki
+\item \textbf{Prednosti}: Autonomni AI agent, rollback capabilities
+\item \textbf{Ograničenja}: Srednji troškovi implementacije
+\end{itemize}
+
+\textbf{3. Vectra AI + Darktrace}
+\begin{itemize}
+\item \textbf{Razlog}: Kombinacija AI detection s network focus
+\item \textbf{Prednosti}: Napredne AI capabilities, good ROI
+\item \textbf{Ograničenja}: Potreba za SIEM integracijom
+\end{itemize}
+
+\textbf{Velika poduzeća (1000+ zaposlenika)}
+
+\textbf{Ključni faktori odlučivanja}
+\begin{itemize}
+\item \textbf{Napredne sigurnosne potrebe} - Kompleksni threat landscape
+\item \textbf{Regulatory compliance} - Strogi industrijski zahtjevi
+\item \textbf{Velike IT organizacije} - Dedicated sigurnosni timovi
+\item \textbf{Complex infrastructure} - Multi-cloud, hybrid okruženja
+\item \textbf{24/7 SOC operations} - Kontinuirani sigurnosni nadzor
+\end{itemize}
+
+\textbf{Preporučena rješenja}
+
+\textbf{1. CrowdStrike Falcon}
+\begin{itemize}
+\item \textbf{Razlog}: Najčešći izbor zbog naprednih mogućnosti
+\item \textbf{Prednosti}: Premium detekcija, threat hunting, cloud-native
+\item \textbf{Ograničenja}: Visoka cijena, complex learning curve
+\end{itemize}
+
+\textbf{2. Vectra AI}
+\begin{itemize}
+\item \textbf{Razlog}: Transparentan cjenik i efikasno pronalaženje grešaka
+\item \textbf{Prednosti}: Minimalna redundancija, advanced AI
+\item \textbf{Ograničenja}: Potrebna SIEM integracija
+\end{itemize}
+
+\textbf{3. Palo Alto Cortex XDR}
+\begin{itemize}
+\item \textbf{Razlog}: Najkompletniji set značajki za complex environments
+\item \textbf{Prednosti}: Robusna integracija podataka, comprehensive coverage
+\item \textbf{Ograničenja}: Kompleksna implementacija, visoki troškovi
+\end{itemize}
+
+\textbf{Usporedni prikaz preferencija}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{3.5cm}|p{3.5cm}|p{3.5cm}|}
+\hline
+\textbf{Kriterij} & \textbf{Mala poduzeća} & \textbf{Srednja poduzeća} & \textbf{Velika poduzeća} \\
+\hline
+\textbf{Primarni fokus} & Jednostavnost i cijena & Balans cijena/performanse & Napredne mogućnosti \\
+\hline
+\textbf{Budžet} & \$5,000-\$50,000 godišnje & \$50,000-\$500,000 godišnje & \$500,000+ godišnje \\
+\hline
+\textbf{IT ekspertiza} & Osnovna & Umjerena & Napredna \\
+\hline
+\textbf{Preferirana rješenja} & Microsoft Defender, Darktrace, Wazuh & Snort, SentinelOne, Vectra AI & CrowdStrike, Cortex XDR, Vectra AI \\
+\hline
+\textbf{Deployment model} & Cloud-first & Hybrid & Multi-cloud hybrid \\
+\hline
+\end{tabular}
+\caption{Usporedba karakteristika prema veličini poduzeća}
+\end{table}
+
+\textbf{Specifični slučajevi korištenja}
+
+\textbf{Finansijske institucije}
+\textbf{Posebni zahtjevi:}
+\begin{itemize}
+\item Strogi compliance (PCI DSS, SOX, Basel III)
+\item 24/7 monitoring zahtjevi
+\item Low latency potrebe
+\item Advanced threat protection
+\end{itemize}
+
+\textbf{Preporučena rješenja:}
+\begin{itemize}
+\item \textbf{Velike banke}: CrowdStrike + Cortex XDR
+\item \textbf{Regionalne banke}: SentinelOne + Vectra AI
+\item \textbf{Credit unions}: Microsoft Defender + Darktrace
+\end{itemize}
+
+\textbf{Zdravstvene organizacije}
+\textbf{Posebni zahtjevi:}
+\begin{itemize}
+\item HIPAA compliance
+\item Legacy system support
+\item Patient data protection
+\item Minimal disruption requirements
+\end{itemize}
+
+\textbf{Preporučena rješenja:}
+\begin{itemize}
+\item \textbf{Veliki health systems}: CrowdStrike + specialized healthcare SIEM
+\item \textbf{Manje klinike}: Microsoft Defender + cloud backup solutions
+\item \textbf{Telemedicine}: Darktrace za network anomaly detection
+\end{itemize}
+
+\textbf{Proizvodne tvrtke}
+\textbf{Posebni zahtjevi:}
+\begin{itemize}
+\item OT/IT convergence security
+\item Industrial control system protection
+\item Supply chain security
+\item Minimal production disruption
+\end{itemize}
+
+\textbf{Preporučena rješenja:}
+\begin{itemize}
+\item \textbf{Large manufacturers}: Specialized OT security + Cortex XDR
+\item \textbf{Mid-size}: Darktrace (excellent for OT) + endpoint protection
+\item \textbf{Small manufacturing}: Simplified solutions s OT awareness
+\end{itemize}
+
+\textbf{Migracija između rješenja}
+
+\textbf{Postupni pristup za rast organizacije}
+
+\textbf{Faza 1: Startup → Mala tvrtka}
+\begin{itemize}
+\item Start: Osnovni antivirus + Windows Defender
+\item Evolucija: Microsoft Defender XDR
+\item Next step: Dodavanje network monitoring (Darktrace entry-level)
+\end{itemize}
+
+\textbf{Faza 2: Mala → Srednja tvrtka}
+\begin{itemize}
+\item Assessment postojećih rješenja
+\item Pilot testiranje advanced platforms (SentinelOne, Vectra AI)
+\item Postupna migracija s overlap periodom
+\item Staff training i process adaptation
+\end{itemize}
+
+\textbf{Faza 3: Srednja → Velika tvrtka}
+\begin{itemize}
+\item Comprehensive security architecture review
+\item Enterprise-grade platform selection (CrowdStrike, Cortex XDR)
+\item SOC establishment ili outsourcing
+\item Advanced threat hunting capabilities
+\end{itemize}
+
+\textbf{ROI analize po segmentima}
+
+\textbf{Mala poduzeća}
+\textbf{Tipični ROI metrics:}
+\begin{itemize}
+\item Incident response time reduction: 60-80\%
+\item Security admin time savings: 40-60\%
+\item Compliance cost reduction: 30-50\%
+\item Payback period: 6-12 mjeseci
+\end{itemize}
+
+\textbf{Srednja poduzeća}
+\textbf{Tipični ROI metrics:}
+\begin{itemize}
+\item False positive reduction: 50-70\%
+\item Mean time to detection improvement: 70-85\%
+\item Security team productivity gain: 50-80\%
+\item Payback period: 12-18 mjeseci
+\end{itemize}
+
+\textbf{Velika poduzeća}
+\textbf{Tipični ROI metrics:}
+\begin{itemize}
+\item Advanced threat detection improvement: 80-95\%
+\item Incident containment time reduction: 85-95\%
+\item Security operations cost optimization: 60-80\%
+\item Payback period: 18-24 mjeseca
+\end{itemize}
+
+\textbf{Preporuke za implementaciju}
+
+\textbf{Ključni faktori uspješne implementacije}
+
+\textbf{1. Proper sizing}
+\begin{itemize}
+\item Realistic assessment organizacijskih potreba
+\item Budžetiranje za rast (20-30\% buffer)
+\item Planiranje za staff augmentation
+\end{itemize}
+
+\textbf{2. Phased approach}
+\begin{itemize}
+\item Pilot s kritičnim sustavima
+\item Postupno proširivanje coverage
+\item Continuous optimization
+\end{itemize}
+
+\textbf{3. Change management}
+\begin{itemize}
+\item Executive sponsorship
+\item User training programs
+\item Process documentation updates
+\end{itemize}
+
+\textbf{Česti problemi i rješenja}
+
+\textbf{Mala poduzeća:}
+\begin{itemize}
+\item \textbf{Problem}: Nedostatak expertise
+\item \textbf{Rješenje}: Managed security services ili cloud-native rješenja
+\end{itemize}
+
+\textbf{Srednja poduzeća:}
+\begin{itemize}
+\item \textbf{Problem}: Integration complexity
+\item \textbf{Rješenje}: Professional services za implementation
+\end{itemize}
+
+\textbf{Velika poduzeća:}
+\begin{itemize}
+\item \textbf{Problem}: Scale i performance issues
+\item \textbf{Rješenje}: Enterprise architecture planning i performance testing
+\end{itemize}

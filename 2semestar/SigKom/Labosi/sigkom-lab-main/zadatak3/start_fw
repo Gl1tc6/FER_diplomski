@@ -12,6 +12,13 @@ if test $? -ne 0; then
     exit 2
 fi
 
+for f in FW.sh FW_int.sh; do
+    nft --check -f $f
+    if test $? -ne 0; then
+        exit 1
+    fi
+done
+
 hcp FW.sh FW:
 himage FW ./FW.sh
 

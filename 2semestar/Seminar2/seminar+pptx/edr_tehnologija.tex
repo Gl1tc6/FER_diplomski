@@ -1,0 +1,80 @@
+\chapter{EDR (Endpoint Detection and Response)}
+
+\textbf{Definicija i osnove}
+
+EDR (Endpoint Detection and Response) je sigurnosna tehnologija koja kontinuirano nadzire krajnje točke - laptope, desktop računala, mobilne uređaje i ostalu računalnu opremu koja se može povezati na unutrašnji sustav organizacije. EDR rješenja predstavljaju evoluciju tradicionalnih antivirus programa, pružajući daleko naprednije mogućnosti za detekciju, analizu i odgovor na sigurnosne prijetnje.
+
+\textbf{Ključne karakteristike EDR rješenja}
+
+\textbf{Kontinuirani nadzor}
+EDR sustavi rade 24/7, neprestano analizirajući aktivnosti na krajnjim točkama:
+\begin{itemize}
+\item Nadzor procesa i aplikacija
+\item Praćenje mrežnih veza
+\item Analiza datotečnih operacija
+\item Monitoring registra sustava (Windows)
+\item Praćenje korisničkih aktivnosti
+\end{itemize}
+
+\textbf{Usmjerenost na krajnje točke}
+EDR rješenja tretiraju svaki uređaj kao potencijalni vektor napada, što im omogućava:
+\begin{itemize}
+\item Detaljnu analizu ponašanja na svakom uređaju
+\item Izolaciju kompromitiranih uređaja
+\item Forenzičku analizu sigurnosnih incidenata
+\item Rollback funkcionalnosti za oporavak od napada
+\end{itemize}
+
+\textbf{Walled Garden pristup}
+EDR rješenja rade po principu "walled garden" - fokusiraju se isključivo na krajnje točke unutar organizacije, što im omogućava duboku integraciju i detaljnu analizu, ali ograničava vidljivost na mrežne aktivnosti između uređaja.
+
+\textbf{Prednosti EDR rješenja}
+
+\begin{itemize}
+\item \textbf{Visoka granularnost detekcije} - Mogućnost analize na razini procesa i datoteka
+\item \textbf{Rad od doma} - Posebno korisno za zaštitu udaljenih radnika
+\item \textbf{Forenzička analiza} - Detaljni logovi omogućavaju rekonstrukciju napada
+\item \textbf{Brz odgovor} - Mogućnost trenutne izolacije kompromitiranih uređaja
+\item \textbf{Vidljivost administratora} - Centralizada administracija svih krajnjih točaka
+\end{itemize}
+
+\textbf{Ograničenja EDR rješenja}
+
+\begin{itemize}
+\item \textbf{Ograničena mrežna vidljivost} - Ne pružaju uvid u mrežni promet između uređaja
+\item \textbf{Ovisnost o agentima} - Zahtijevaju instalaciju softvera na svakom uređaju
+\item \textbf{Ograničenost na uređaje} - Ne mogu detektirati napade koji zaobilaze krajnje točke
+\item \textbf{Potrošnja resursa} - Kontinuirani nadzor može utjecati na performanse uređaja
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{Proizvod} & \textbf{Ključne karakteristike} \\
+\hline
+CrowdStrike Falcon & Nativna cloud arhitektura, AI/ML analiza, lagani agent \\
+\hline
+Microsoft Defender for Endpoint & Integracija s Microsoft ekosustavom, ugrađen u Windows \\
+\hline
+SentinelOne & Autonomni AI agent, offline mogućnosti, rollback funkcionalnost \\
+\hline
+Carbon Black (VMware) & Fokus na forenziku, napredna analiza ponašanja \\
+\hline
+Cybereason & Vizualizacija napada, proaktivno "lov na prijetnje" \\
+\hline
+\end{tabular}
+\caption{Vodeći EDR proizvodi i njihove karakteristike}
+\end{table}
+
+\textbf{Implementacijske preporuke}
+
+Pri implementaciji EDR rješenja, organizacije trebaju razmotriti:
+
+\begin{enumerate}
+\item \textbf{Pokrivenost uređaja} - Svi kritični uređaji moraju biti uključeni
+\item \textbf{Mrežna povezanost} - Osigurati pouzdanu vezu s centralnim sustavom
+\item \textbf{Obuka osoblja} - Sigurnosni tim mora razumjeti alate i procedure
+\item \textbf{Integracija} - Povezivanje s postojećim SIEM i SOAR sustavima
+\item \textbf{Testiranje} - Redovito testiranje detection i response procedura
+\end{enumerate}

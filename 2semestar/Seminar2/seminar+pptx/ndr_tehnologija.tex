@@ -1,0 +1,97 @@
+\chapter{NDR (Network Detection and Response)}
+
+\textbf{Definicija i osnove}
+
+NDR (Network Detection and Response) je sigurnosna tehnologija slična EDR sustavu, ali se fokusira na analizu mrežnog prometa umjesto na krajnje točke. NDR rješenja kontinuirano nadziru i analiziraju mrežne komunikacije kako bi identificirali sumnjive aktivnosti, anomalije i sigurnosne prijetnje koje se mogu proširiti kroz mrežu.
+
+\textbf{Ključne karakteristike NDR rješenja}
+
+\textbf{Mrežno usmjerenje}
+NDR sustavi analiziraju mrežni promet na različitim razinama:
+\begin{itemize}
+\item Praćenje prometa na vatrozidima, ruterima i switchevima
+\item Analiza east-west prometa (između internal sustava)
+\item Nadzor north-south prometa (prema vanjskim mrežama)
+\item Deep packet inspection (DPI) za detaljnu analizu sadržaja
+\end{itemize}
+
+\textbf{Analitičke tehnologije}
+NDR rješenja koriste napredne analitičke metode:
+\begin{itemize}
+\item \textbf{Strojno učenje} - Za detekciju anomalija u mrežnom prometu
+\item \textbf{Analiza ponašanja} - Prepoznavanje neobičnih komunikacijskih obrazaca
+\item \textbf{Signature/Fingerprint analiza} - Prepoznavanje poznatih prijetnji
+\item \textbf{Statistička analiza} - Otkrivanje odstupanja od normalnih vrijednosti
+\end{itemize}
+
+\textbf{Mrežno pokrivanje}
+NDR sustavi pružaju "veći prostor" analize u odnosu na EDR:
+\begin{itemize}
+\item Vidljivost u cjelokupnu mrežnu infrastrukturu
+\item Mogućnost otkrivanja lateral movement napada
+\item Analiza komunikacije između sustava bez agenata
+\item Detekcija skrivenih tunela i kovertnih kanala
+\end{itemize}
+
+\textbf{Prednosti NDR rješenja}
+
+\begin{itemize}
+\item \textbf{Bolja efikasnost} - Ranije primjećivanje napada kroz mrežnu analizu
+\item \textbf{Neovisnost o agentima} - Ne zahtijeva instalaciju softvera na krajnje točke
+\item \textbf{Sveobuhvatna vidljivost} - Analiza cjelokupnog mrežnog prometa
+\item \textbf{Detekcija lateral movement-a} - Otkrivanje širenja napada kroz mrežu
+\item \textbf{Forenzička analiza} - Mogućnost rekonstrukcije mrežnih aktivnosti
+\end{itemize}
+
+\textbf{Ograničenja NDR rješenja}
+
+\begin{itemize}
+\item \textbf{Ograničena granularnost} - Manje detaljna analiza na razini uređaja
+\item \textbf{Enkriptirani promet} - Poteškoće s analizom šifriranog prometa
+\item \textbf{Potreba za mrežnim pristupom} - Zahtijeva konfiguraciju mrežne infrastrukture
+\item \textbf{Složenost implementacije} - Potrebno duboko razumijevanje mrežnih protokola
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{Proizvod} & \textbf{Ključne karakteristike} \\
+\hline
+Darktrace & AI-pogonjeno samoučenje, Enterprise Immune System \\
+\hline
+Vectra AI & AI detekcija, fokus na ransomware i lateral movement \\
+\hline
+Cisco Stealthwatch & Integracija s Cisco mrežnom opremom, NetFlow analiza \\
+\hline
+\end{tabular}
+\caption{Vodeći NDR proizvodi i njihove karakteristike}
+\end{table}
+
+\textbf{Tehnologije korištene u NDR sustavima}
+
+\textbf{Mrežno prikupljanje podataka}
+\begin{itemize}
+\item \textbf{Network TAPs} - Fizički pristup mrežnom prometu
+\item \textbf{SPAN portovi} - Kopiranje prometa s mrežnih uređaja
+\item \textbf{Flow podatci} - NetFlow, sFlow, IPFIX protokoli
+\item \textbf{Packet capture} - Snimanje kompletnih mrežnih paketa
+\end{itemize}
+
+\textbf{Analitički motori}
+\begin{itemize}
+\item \textbf{Behavior analytics} - Prepoznavanje normalnih i anomalnih obrazaca
+\item \textbf{Threat intelligence} - Usporedba s bazama poznatih prijetnji
+\item \textbf{Machine learning modeli} - Kontinuirano učenje i poboljšanje detekcije
+\item \textbf{Statistical analysis} - Statistička obrada mrežnih metrika
+\end{itemize}
+
+\textbf{Implementacijske preporuke}
+
+\begin{enumerate}
+\item \textbf{Mrežna arhitektura} - Planiranje pristupnih točaka za analizu prometa
+\item \textbf{Bandwidth planning} - Osiguravanje dovoljne propusnosti za analizu
+\item \textbf{Storage requirements} - Planiranje kapaciteta za čuvanje mrežnih podataka
+\item \textbf{Integration} - Povezivanje s postojećim SIEM i SOC procesima
+\item \textbf{Tuning} - Konfiguriranje za smanjenje false positive alarma
+\end{enumerate}

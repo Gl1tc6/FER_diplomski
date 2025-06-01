@@ -13,13 +13,13 @@ extern "C" void app_main()
 
     printf("Čitam vrijeme...\n");
     rtc.read_time();
-    printf("Provjera nakon 5 sekundi...\n");
-    vTaskDelay(pdMS_TO_TICKS(5000));
+    printf("Provjera nakon %d sekundi...\n", rtc.get_timeout());
+    vTaskDelay(pdMS_TO_TICKS(1000*rtc.get_timeout()));
     rtc.read_time();
 
     vTaskDelay(pdMS_TO_TICKS(1000));
     int h=0, min=0, s=0;
-    printf("Postavi %d h : %d min : %d s\n", h, min, s);
+    printf("Postavi %02d h : %02d min : %02d s\n", h, min, s);
     rtc.set_time(h, min, s);
     rtc.read_time();
 

@@ -1,0 +1,167 @@
+\chapter{Komparativna analiza: Snort vs Suricata vs Zeek}
+
+\textbf{Metodologija evaluacije}
+
+Na osnovu istraživanja provedenog 2022. godine u radu "Evaluating the Efficacy of Network Forensic Tools: A Comparative Analysis of Snort, Suricata, and Zeek in Addressing Cyber Vulnerabilities", analizirana su tri vodeća mrežna sigurnosna alata. Testiranje je provedeno na simuliranom mrežnom okruženju s fokusom na tri ključna kriterija.
+
+\textbf{Kriteriji procjene}
+
+\textbf{Točnost detekcije}
+Mjerena kroz:
+\begin{itemize}
+\item Broj ispravnih pozitivnih detekcija (true positives)
+\item Broj lažno pozitivnih slučajeva (false positives)
+\item Sposobnost prepoznavanja poznatih vulnerability signatures
+\item Detekcija anomalnih mrežnih obrazaca
+\end{itemize}
+
+\textbf{Performanse}
+Analizirane kroz:
+\begin{itemize}
+\item Brzina obrade mrežnog prometa
+\item Latencija u analizi paketa
+\item Sposobnost rada s velikim opterećenjima
+\item Stabilnost sustava pod stresom
+\end{itemize}
+
+\textbf{Resursna potrošnja}
+Mjerena kao:
+\begin{itemize}
+\item CPU utilizacija
+\item Memorijska potrošnja
+\item Disk I/O zahtjevi
+\item Mrežna bandwidth potreba
+\end{itemize}
+
+\textbf{Rezultati evaluacije}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Alat} & \textbf{Točnost detekcije} & \textbf{Performanse} & \textbf{Resursna potrošnja} & \textbf{Prosjek} \\
+\hline
+Suricata & 1 & 1 & 3 & \textbf{1.67} \\
+\hline
+Zeek & 3 & 2 & 1 & \textbf{2.00} \\
+\hline
+Snort & 2 & 3 & 2 & \textbf{2.33} \\
+\hline
+\end{tabular}
+\caption{Rangiranje alata (1 = najbolji, 3 = najlošiji)}
+\end{table}
+
+\textbf{Detaljni rezultati po kategorijama}
+
+\textbf{Točnost detekcije - Suricata (1. mjesto)}
+\begin{itemize}
+\item \textbf{Najbolji rezultati} u prepoznavanju prijetnji
+\item Napredni detection engine s multi-threading podrškom
+\item Efikasna korelacija između različitih mrežnih slojeva
+\item Manje false-positive alarma u odnosu na konkurenciju
+\end{itemize}
+
+\textbf{Performanse - Suricata (1. mjesto)}
+\begin{itemize}
+\item \textbf{Najbrža obrada} zbog paralelne arhitekture
+\item Multi-threading omogućava bolje iskorištenje modernih CPU-ova
+\item GPU akceleracija za kompleksne pattern matching operacije
+\item Optimizirana za high-throughput mrežna okruženja
+\end{itemize}
+
+\textbf{Resursna potrošnja - Zeek (1. mjesto)}
+\begin{itemize}
+\item \textbf{Najmanji utjecaj} na performanse sustava
+\item Efikasno upravljanje memorijom
+\item Optimizirana arhitektura za kontinuiran rad
+\item Minimalna CPU potrošnja u idle stanju
+\end{itemize}
+
+\textbf{Specifičnosti pojedinih alata}
+
+\textbf{Snort - Karakteristike}
+\textbf{Prednosti:}
+\begin{itemize}
+\item Umjerena potrošnja resursa
+\item Široka podrška zajednice i dokumentacija
+\item Jednostavnost konfiguracije za osnovne scenarije
+\item Kompatibilnost s mnogim SIEM sustavima
+\end{itemize}
+
+\textbf{Nedostaci:}
+\begin{itemize}
+\item Najveće kašnjenje u analizi prometa
+\item Više lažno pozitivnih detekcija
+\item Ograničene performanse kod velikih mreža
+\item Single-threaded arhitektura
+\end{itemize}
+
+\textbf{Suricata - Karakteristike}
+\textbf{Prednosti:}
+\begin{itemize}
+\item Najbolja kombinacija točnosti i performansi
+\item Paralelna obrada omogućava skalabilnost
+\item Kompatibilnost sa Snort pravilima
+\item Napredni inspection capabilities
+\end{itemize}
+
+\textbf{Nedostaci:}
+\begin{itemize}
+\item Najveće zahtjevi za resursima
+\item Složenija konfiguracija za optimalne performanse
+\item Potrebna veća memorija za napredne značajke
+\end{itemize}
+
+\textbf{Zeek - Karakteristike}
+\textbf{Prednosti:}
+\begin{itemize}
+\item Najbolje za forenzičku analizu
+\item Detaljni strukturirani logovi
+\item Izvrsne mogućnosti za threat hunting
+\item Mogućnost custom scripting
+\end{itemize}
+
+\textbf{Nedostaci:}
+\begin{itemize}
+\item Nije dizajniran za real-time detekciju napada
+\item Zahtijeva više stručnog znanja za konfiguraciju
+\item Kompleksniji za integraciju s existing infrastructure
+\end{itemize}
+
+\textbf{Preporuke za implementaciju}
+
+\textbf{Suricata - Optimalno za}
+\begin{itemize}
+\item Sustave koji trebaju brzu i točnu detekciju prijetnji
+\item Organizacije s high-throughput mrežnim zahtjevima
+\item Okruženja gdje su performanse kritične
+\item Hybrid cloud/on-premise arhitekture
+\end{itemize}
+
+\textbf{Snort - Optimalno za}
+\begin{itemize}
+\item Manje mreže s ograničenim resursima
+\item Organizacije koje traže stabilno i dobro podržano rješenje
+\item Environments s postojećom Snort infrastrukturom
+\item Budget-conscious implementacije
+\end{itemize}
+
+\textbf{Zeek - Optimalno za}
+\begin{itemize}
+\item Forenzičku analizu i post-incident investigation
+\item Threat hunting aktivnosti
+\item Research i advanced analytics
+\item Okruženja gdje je dubinska analiza prioritet
+\end{itemize}
+
+\textbf{Zaključak komparativne analize}
+
+Rezultati pokazuju da ne postoji univerzalno "najbolji" alat, već je izbor ovisan o specifičnim potrebama organizacije:
+
+\begin{itemize}
+\item \textbf{Za općenite sigurnosne potrebe}: Suricata pruža najbolji ukupni rezultat
+\item \textbf{Za ograničene resurse}: Snort predstavlja dobru kompromis opciju
+\item \textbf{Za naprednu analizu}: Zeek je nezamjenjiv za forenzičke potrebe
+\end{itemize}
+
+Mnoge organizacije implementiraju hibridne pristupe koristeći kombinaciju ovih alata za različite scenarije korištenja.

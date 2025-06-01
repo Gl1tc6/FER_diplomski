@@ -1,0 +1,138 @@
+\chapter{XDR (Extended Detection and Response)}
+
+\textbf{Definicija i evolucija}
+
+XDR (Extended Detection and Response) predstavlja sljedeću evoluciju sigurnosnih tehnologija koja kombinira elemente EDR i NDR sustava u jedinstvenu, integriranu platformu. XDR se često naziva "evoluiranom EDR" jer proširuje fokus s krajnjih točaka na cjelokupno IT okruženje organizacije, uključujući email, mreže, aplikacije, oblak servise i krajnje točke.
+
+\textbf{Holistički pristup sigurnosti}
+
+XDR rješenja nastoje riješiti fragmentaciju tradicionalnih sigurnosnih alata kroz:
+
+\textbf{Široki spektar nadzora}
+\begin{itemize}
+\item \textbf{Krajnje točke} - Laptopi, desktop računala, serveri, mobilni uređaji
+\item \textbf{Mrežni promet} - East-west i north-south komunikacije
+\item \textbf{Email sustavi} - Detekcija phishing i malicious email prijetnji
+\item \textbf{Cloud aplikacije} - SaaS i IaaS platforme
+\item \textbf{Aplikacijski sloj} - Web aplikacije i API-ji
+\item \textbf{Identity sustavi} - Upravljanje identitetima i pristupima
+\end{itemize}
+
+\textbf{Korelacija podataka}
+XDR platforme prikupljaju i koreliraju podatke iz različitih izvora:
+\begin{itemize}
+\item Centralizirani pristup analizi sigurnosnih događaja
+\item Automatska korelacija između različitih sigurnosnih slojeva
+\item Kontekstualno povezivanje povezanih događaja
+\item Smanjenje false-positive alarma kroz multi-source validaciju
+\end{itemize}
+
+\textbf{Ključne prednosti XDR rješenja}
+
+\begin{itemize}
+\item \textbf{Holističan pregled} - Potpuna vidljivost u sigurnosni status organizacije
+\item \textbf{Smanjeni false-positives} - Korelacija podataka smanjuje lažne alarme
+\item \textbf{Brža detekcija} - Kombiniranje različitih detection metoda
+\item \textbf{Koordiniran odgovor} - Automatizirana reakcija kroz različite sustave
+\item \textbf{Pojednostavljena administracija} - Jedna platforma umjesto više alata
+\item \textbf{Poboljšana threat hunting} - Mogućnost praćenja prijetnji kroz različite slojeve
+\end{itemize}
+
+\textbf{Arhitekturni pristup}
+
+\textbf{Native XDR}
+Proizvodi razvijeni iz temelja kao XDR rješenja:
+\begin{itemize}
+\item Jedinstvena arhitektura za sve komponente
+\item Optimizirana integracija između modula
+\item Konzistentno korisničko iskustvo
+\item Primjer: Microsoft Defender XDR
+\end{itemize}
+
+\textbf{Open XDR}
+Platforme koje integriraju postojeće sigurnosne alate:
+\begin{itemize}
+\item Fleksibilnost u odabiru najboljih alata za svaku komponentu
+\item Mogućnost zadržavanja postojećih investicija
+\item Kompleksnija implementacija i održavanje
+\item Primjer: Palo Alto Cortex XDR
+\end{itemize}
+
+\textbf{Matematička reprezentacija odnosa}
+
+Odnos između različitih detection and response tehnologija može se prikazati kao:
+
+\begin{equation}
+(NDR \cup EDR) \subset XDR
+\end{equation}
+
+\begin{equation}
+NIDS \subset IDS
+\end{equation}
+
+\begin{equation}
+IDS \subset XDR
+\end{equation}
+
+Gdje su:
+\begin{itemize}
+\item $\cup$ - unija (union) skupova
+\item $\subset$ - podskup (subset) relacija
+\item $NDR$ - Network Detection and Response
+\item $EDR$ - Endpoint Detection and Response  
+\item $XDR$ - Extended Detection and Response
+\item $IDS$ - Intrusion Detection System
+\item $NIDS$ - Network Intrusion Detection System
+\end{itemize}
+Ova matematička notacija pokazuje da XDR obuhvaća funkcionalnosti NDR i EDR sustava, dok tradicionalni IDS sustavi predstavljaju podskup XDR mogućnosti.
+
+\textbf{Primjeri vodećih XDR rješenja}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{3cm}|p{5cm}|}
+\hline
+\textbf{Proizvod} & \textbf{Tržišni udio} & \textbf{Ključne karakteristike} \\
+\hline
+Microsoft Defender XDR & 6.9\% & Native integracija s Microsoft ekosustavom, AI-powered analytics \\
+\hline
+Palo Alto Cortex XDR & 5.6\% & Open XDR platforma, robusna integracija podataka \\
+\hline
+CrowdStrike XDR & - & Cloud-native arhitektura, proširenje Falcon platforme \\
+\hline
+Trend Micro Vision One & - & Comprehensive threat visibility, risk prioritization \\
+\hline
+SentinelOne Singularity XDR & - & Autonomous response, Purple AI platform \\
+\hline
+\end{tabular}
+\caption{Vodeći XDR proizvodi prema tržišnom udjelu}
+\end{table}
+
+\textbf{Implementacijske preporuke}
+
+\textbf{Planiranje implementacije}
+\begin{enumerate}
+\item \textbf{Assessment postojeće infrastrukture} - Inventar postojećih sigurnosnih alata
+\item \textbf{Gap analiza} - Identifikacija nedostataka u pokrivanju
+\item \textbf{Integration planning} - Strategija integracije s postojećim sustavima
+\item \textbf{Pilot implementacija} - Postupno proširivanje kroz organizaciju
+\end{enumerate}
+
+\textbf{Ključni faktori uspjeha}
+\begin{itemize}
+\item \textbf{Executive podrška} - Potrebna podrška top managementa
+\item \textbf{Cross-team suradnja} - Koordinacija između IT i sigurnosnih timova
+\item \textbf{Skill development} - Edukacija osoblja za korištenje XDR platformi
+\item \textbf{Process optimization} - Prilagodba postojećih sigurnosnih procesa
+\end{itemize}
+
+\textbf{Budućnost XDR tehnologija}
+
+XDR tehnologije kontinuirano evoluiraju prema:
+\begin{itemize}
+\item Većoj automatizaciji odgovora na incidente
+\item Integraciji s SOAR (Security Orchestration, Automation and Response) platformama
+\item Naprednijem machine learning i AI mogućnostima
+\item Boljoj integraciji s cloud-native okruženjima
+\item Proširenju na IoT i OT (Operational Technology) sustave
+\end{itemize}

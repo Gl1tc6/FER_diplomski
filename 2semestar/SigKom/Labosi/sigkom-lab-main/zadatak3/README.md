@@ -1,9 +1,31 @@
 # 3. laboratorijska vježba
 # Sigurnost mrežnih protokola i vatrozid
 
+Dohvatite i instalirajte najnoviju verziju programa IMUNES:
+
+```
+$ sudo su
+# cd /root/imunes
+# git pull
+# make install
+# exit
+```
+
 Dohvatite najnoviju verziju zadatka:
 
 ```
+$ cd ~/sigkom-lab/zadatak3
+$ git pull
+```
+
+Ako se ispiše poruka:
+
+```
+fatal: detected dubious ownership in repository at '/home/student/sigkom-lab'
+```
+popravite vlasnika i ponovite naredbu `git pull`
+```
+$ sudo chown -R student:student ~student
 $ git pull
 ```
 
@@ -33,7 +55,7 @@ Unutarnja mreža LAN koristi privatne adrese te je na vatrozidu `FW_int` konfigu
  
 Pravila za translaciju adresa na vatrozidu `FW_int` su već upisana u datoteku `FW_int.sh` i nije ih potrebno mijenjati.
 
-Definirajte `iptables` pravila na `FW` i `FW_int` u skladu sa sljedećim zahtjevima:
+Definirajte `nftables` pravila na `FW` i `FW_int` u skladu sa sljedećim zahtjevima:
 
 - računala iz lokalne mreže (LAN) imaju neograničeni pristup poslužiteljima u DMZ i Internetu,
 - pristup iz vanjske mreže u lokalnu LAN mrežu je zabranjen,
@@ -47,9 +69,7 @@ Definirajte `iptables` pravila na `FW` i `FW_int` u skladu sa sljedećim zahtjev
 
 U direktoriju se nalaze dvije shell skripte za konfiguriranje vatrozida: `FW.sh` i `FW_int.sh`.
 
-Svoja pravila upisujete na mjesta označena s:
-`# <--- Dodajte pravila`
-
+Modificirajte postojeća pravila i dodajte nova pravila u skladu sa zahtjevima.
 Pomoćna skripta `start_fw` kopirat će vaše konfiguracijske skripte (FW.sh i FW_int.sh) na odgovarajuće čvorove i tamo će ih pokrenuti:
 ```
 sudo ./start_fw
@@ -153,5 +173,5 @@ poslužitelji bili bolje zaštićeni. Objasnite.
 - `nmap` - skeniranje računala i servisa.
 - `netstat` - pregled mrežnih servisa koji su trenutno pokrenuti na računalu.
 - `service` - pokretanje i zaustavljanje servisa na operacijskom sustavu Linux.
-- `iptables` - konfiguracija vatrozida na operacijskom sustavu Linux.
+- `nft` - konfiguracija vatrozida na operacijskom sustavu Linux.
 - `wireshark` - analiza mrežnog prometa.

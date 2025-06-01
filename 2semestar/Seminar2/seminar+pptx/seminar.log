@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.4.24)  24 APR 2025 16:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.4.24)  22 MAY 2025 21:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -539,6 +539,82 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \TX@delta=\dimen256
 \TX@cols=\count312
 \TX@ftn=\toks33
+) (/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks34
+\thm@bodyfont=\toks35
+\thm@headfont=\toks36
+\thm@notefont=\toks37
+\thm@headpunct=\toks38
+\thm@preskip=\skip58
+\thm@postskip=\skip59
+\thm@headsep=\skip60
+\dth@everypar=\toks39
+) (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2021/02/02 v1.28 mathematical typesetting tools
+ (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+)
+\g_MT_multlinerow_int=\count313
+\l_MT_multwidth_dim=\dimen257
+\origjot=\skip61
+\l_MT_shortvdotswithinadjustabove_dim=\dimen258
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen259
+\l_MT_above_intertext_sep=\dimen260
+\l_MT_below_intertext_sep=\dimen261
+\l_MT_above_shortintertext_sep=\dimen262
+\l_MT_below_shortintertext_sep=\dimen263
+\xmathstrut@box=\box60
+\xmathstrut@dim=\dimen264
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip62
+\LTright=\skip63
+\LTpre=\skip64
+\LTpost=\skip65
+\LTchunksize=\count314
+\LTcapwidth=\dimen265
+\LT@head=\box61
+\LT@firsthead=\box62
+\LT@foot=\box63
+\LT@lastfoot=\box64
+\LT@gbox=\box65
+\LT@cols=\count315
+\LT@rows=\count316
+\c@LT@tables=\count317
+\c@LT@chunks=\count318
+\LT@p@ftn=\toks40
+) (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and footers
+\f@nch@headwidth=\skip66
+\f@nch@O@elh=\skip67
+\f@nch@O@erh=\skip68
+\f@nch@O@olh=\skip69
+\f@nch@O@orh=\skip70
+\f@nch@O@elf=\skip71
+\f@nch@O@erf=\skip72
+\f@nch@O@olf=\skip73
+\f@nch@O@orf=\skip74
+) (/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty
+Package: titlesec 2021/07/05 v2.14 Sectioning titles
+\ttl@box=\box66
+\beforetitleunit=\skip75
+\aftertitleunit=\skip76
+\ttl@plus=\dimen266
+\ttl@minus=\dimen267
+\ttl@toksa=\toks41
+\titlewidth=\dimen268
+\titlewidthlast=\dimen269
+\titlewidthfirst=\dimen270
+) (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2019/06/20 v3.9 Customized lists
+\enitkv@toks@=\toks42
+\labelindent=\skip77
+\enit@outerparindent=\dimen271
+\enit@toks=\toks43
+\enit@inbox=\box67
+\enit@count@id=\count319
+\enitdp@description=\count320
 ) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/mathptmx.sty
 Package: mathptmx 2020/03/25 PSNFSS-v9.3 Times w/ Math, improved (SPQR, WaS) 
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
@@ -582,60 +658,49 @@ LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 34.
 LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 35.
 LaTeX Info: Redefining \hbar on input line 50.
-) (/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty
-Package: titlesec 2021/07/05 v2.14 Sectioning titles
-\ttl@box=\box60
-\beforetitleunit=\skip58
-\aftertitleunit=\skip59
-\ttl@plus=\dimen257
-\ttl@minus=\dimen258
-\ttl@toksa=\toks34
-\titlewidth=\dimen259
-\titlewidthlast=\dimen260
-\titlewidthfirst=\dimen261
 )
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 35.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 55.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 ) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count313
-\l__pdf_internal_box=\box61
-) (./seminar.aux)
+\l__color_backend_stack_int=\count321
+\l__pdf_internal_box=\box68
+) (./seminar.aux (./uvod.aux) (./edr_tehnologija.aux) (./ndr_tehnologija.aux) (./xdr_tehnologija.aux) (./ids_nids.aux) (./usporedba_snort_suricata_zeek.aux) (./usporedba_tržišnih_alata.aux) (./analiza_po_veličini_poduzeća.aux) (./zaključak.aux))
 \openout1 = `seminar.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for LS1/stix2/m/n on input line 35.
-LaTeX Font Info:    Trying to load font information for LS1+stix2 on input line 35.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for LS1/stix2/m/n on input line 55.
+LaTeX Font Info:    Trying to load font information for LS1+stix2 on input line 55.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls1stix2.fd
 File: ls1stix2.fd 2018/04/02 v2.0.0-latex stix2 LS1 font definitions
 )
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for LS2/stix2/m/n on input line 35.
-LaTeX Font Info:    Trying to load font information for LS2+stix2 on input line 35.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for LS2/stix2/m/n on input line 55.
+LaTeX Font Info:    Trying to load font information for LS2+stix2 on input line 55.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls2stix2.fd
 File: ls2stix2.fd 2018/04/02 v2.0.0-latex stix2 LS2 font definitions
 )
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-\c@mv@tabular=\count314
-\c@mv@boldtabular=\count315
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+\c@mv@tabular=\count322
+\c@mv@boldtabular=\count323
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -673,17 +738,17 @@ LaTeX Font Info:    ... okay on input line 35.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count316
-\scratchdimen=\dimen262
-\scratchbox=\box62
-\nofMPsegments=\count317
-\nofMParguments=\count318
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count319
-\MPscratchDim=\dimen263
-\MPnumerator=\count320
-\makeMPintoPDFobject=\count321
-\everyMPtoPDFconversion=\toks36
+\scratchcounter=\count324
+\scratchdimen=\dimen272
+\scratchbox=\box69
+\nofMPsegments=\count325
+\nofMParguments=\count326
+\everyMPshowfont=\toks44
+\MPscratchCnt=\count327
+\MPscratchDim=\dimen273
+\MPnumerator=\count328
+\makeMPintoPDFobject=\count329
+\everyMPtoPDFconversion=\toks45
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -700,8 +765,12 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
+Package caption Info: longtable package is loaded.
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 35.
+Package hyperref Info: Link coloring OFF on input line 55.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -709,91 +778,97 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count322
+\c@section@level=\count330
 )
-LaTeX Info: Redefining \ref on input line 35.
-LaTeX Info: Redefining \pageref on input line 35.
-LaTeX Info: Redefining \nameref on input line 35.
+LaTeX Info: Redefining \ref on input line 55.
+LaTeX Info: Redefining \pageref on input line 55.
+LaTeX Info: Redefining \nameref on input line 55.
  (./seminar.out) (./seminar.out)
 \@outlinefile=\write3
 \openout3 = `seminar.out'.
 
-\c@lstlisting=\count323
-LaTeX Font Info:    Trying to load font information for T1+opensans-TLF on input line 36.
+\c@lstlisting=\count331
+LaTeX Font Info:    Trying to load font information for T1+opensans-TLF on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/opensans/T1opensans-TLF.fd
 File: T1opensans-TLF.fd 2019/06/24 Font definitions for T1/opensans-TLF.
 )
 LaTeX Font Info:    Font shape `T1/opensans-TLF/m/n' will be
-(Font)              scaled to size 14.0pt on input line 36.
+(Font)              scaled to size 14.0pt on input line 56.
 LaTeX Font Info:    Font shape `T1/opensans-TLF/bx/n' in size <14> not available
-(Font)              Font shape `T1/opensans-TLF/b/n' tried instead on input line 36.
+(Font)              Font shape `T1/opensans-TLF/b/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `T1/opensans-TLF/b/n' will be
-(Font)              scaled to size 14.0pt on input line 36.
+(Font)              scaled to size 14.0pt on input line 56.
 LaTeX Font Info:    Font shape `T1/opensans-TLF/bx/n' in size <20> not available
-(Font)              Font shape `T1/opensans-TLF/b/n' tried instead on input line 36.
+(Font)              Font shape `T1/opensans-TLF/b/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `T1/opensans-TLF/b/n' will be
-(Font)              scaled to size 20.0pt on input line 36.
-LaTeX Font Info:    Calculating math sizes for size <14> on input line 36.
-LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 36.
+(Font)              scaled to size 20.0pt on input line 56.
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 56.
+LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 36.
+LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 36.
+LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 36.
+LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for LS1+stix2frak on input line 36.
+LaTeX Font Info:    Trying to load font information for LS1+stix2frak on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls1stix2frak.fd
 File: ls1stix2frak.fd 2018/04/02 v2.0.0-latex stix2 fraktur LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS1+stix2bb on input line 36.
+LaTeX Font Info:    Trying to load font information for LS1+stix2bb on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls1stix2bb.fd
 File: ls1stix2bb.fd 2018/04/02 v2.0.0-latex stix2 blackboard LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS2+stix2cal on input line 36.
+LaTeX Font Info:    Trying to load font information for LS2+stix2cal on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls2stix2cal.fd
 File: ls2stix2cal.fd 2018/04/02 v2.0.0-latex stix2 calligraphic LS2 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS1+stix2sf on input line 36.
+LaTeX Font Info:    Trying to load font information for LS1+stix2sf on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls1stix2sf.fd
 File: ls1stix2sf.fd 2018/04/02 v2.0.0-latex stix2 sans-serif LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS2+stix2tt on input line 36.
+LaTeX Font Info:    Trying to load font information for LS2+stix2tt on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/stix2-type1/ls2stix2tt.fd
 File: ls2stix2tt.fd 2018/04/02 v2.0.0-latex stix2 typewriter LS2 font definitions
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 36.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 56.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 36.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.36008> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 36.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8.40009> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 36.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): destination with the same identifier (name{page.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.60 \end{zahvale}
+                   [2
+
+]
 LaTeX Font Info:    Font shape `T1/opensans-TLF/bx/n' in size <18> not available
-(Font)              Font shape `T1/opensans-TLF/b/n' tried instead on input line 42.
+(Font)              Font shape `T1/opensans-TLF/b/n' tried instead on input line 62.
 LaTeX Font Info:    Font shape `T1/opensans-TLF/b/n' will be
-(Font)              scaled to size 18.0pt on input line 42.
+(Font)              scaled to size 18.0pt on input line 62.
  (./seminar.toc
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
 )
 \tf@toc=\write4
 \openout4 = `seminar.toc'.
@@ -801,12 +876,208 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.43 \newpage
-              [2
+l.63 \newpage
+              [3
 
-] [1
+]
+\openout2 = `uvod.aux'.
 
-] [2] (./seminar.aux)
+ (./uvod.tex
+Poglavlje 1..
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 12.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [1
+
+
+
+]) [2]
+\openout2 = `edr_tehnologija.aux'.
+
+ (./edr_tehnologija.tex
+Poglavlje 2..
+
+Underfull \hbox (badness 5147) in paragraph at lines 1--1
+[]\T1/opensans-TLF/b/n/18 EDR (En-d-po-int De-tec-tion and
+ []
+
+[3
+
+
+
+
+] [4]) [5]
+\openout2 = `ndr_tehnologija.aux'.
+
+ (./ndr_tehnologija.tex
+Poglavlje 3..
+
+Underfull \hbox (badness 3780) in paragraph at lines 1--1
+[]\T1/opensans-TLF/b/n/18 NDR (Network De-tec-tion and
+ []
+
+[6
+
+
+
+
+] [7]) [8]
+\openout2 = `xdr_tehnologija.aux'.
+
+ (./xdr_tehnologija.tex
+Poglavlje 4..
+
+Underfull \hbox (badness 2671) in paragraph at lines 1--1
+[]\T1/opensans-TLF/b/n/18 XDR (Exten-ded De-tec-tion and
+ []
+
+
+Overfull \hbox (10.06918pt too wide) in paragraph at lines 21--24
+[]\T1/ptm/b/n/12 Korelacija po-da-taka \T1/ptm/m/n/12 XDR plat-forme pri-kup-ljaju i ko-re-li-raju po-datke iz raz-li-�i-tih iz-vora: 
+ []
+
+[9
+
+
+
+
+]
+Missing character: There is no � in font zptmcm7t!
+Missing character: There is no � in font zptmcm7m!
+Missing character: There is no � in font zptmcm7m!
+Missing character: There is no � in font zptmcm7m!
+[10]
+Missing character: There is no � in font zptmcm7t!
+Missing character: There is no � in font zptmcm7m!
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
+\T1/ptm/m/n/12 eko-sus-ta-vom, AI-powered
+ []
+
+
+Underfull \hbox (badness 3058) in paragraph at lines 99--100
+[]|\T1/ptm/m/n/12 Open XDR plat-forma, ro-
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 105--106
+[]|\T1/ptm/m/n/12 Autonomous res-ponse, Pur-
+ []
+
+[11]) [12]
+\openout2 = `ids_nids.aux'.
+
+ (./ids_nids.tex
+Poglavlje 5..
+[13
+
+
+
+
+]
+Underfull \hbox (badness 1097) in paragraph at lines 75--75
+[]|\T1/ptm/m/n/12 Detekcija i uz-bu-nji-va-
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[14]) [15]
+\openout2 = `usporedba_snort_suricata_zeek.aux'.
+
+ (./usporedba_snort_suricata_zeek.tex
+Poglavlje 6..
+[16
+
+
+
+
+] [17] [18]) [19]
+\openout2 = `usporedba_tržišnih_alata.aux'.
+
+ (./usporedba_tržišnih_alata.tex
+Poglavlje 7..
+[20
+
+
+
+
+] [21] [22]
+Overfull \hbox (15.06177pt too wide) in paragraph at lines 132--134
+[]\T1/ptm/b/n/12 Microsoft De-fen-der XDR (6.9% tr-�i�ni udio) Ocjena ko-ris-nika: \T1/ptm/m/n/12 4.4/5 (1452 re-cen-zije) 
+ []
+
+[23]) [24]
+\openout2 = `analiza_po_veličini_poduzeća.aux'.
+
+ (./analiza_po_veličini_poduzeća.tex
+Poglavlje 8..
+[25
+
+
+
+
+] [26]
+Underfull \hbox (badness 2478) in paragraph at lines 115--115
+[]|\T1/ptm/m/n/12 Jednostavnost i ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]|\T1/ptm/m/n/12 Balans ci-je-na/per-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
+[]|\T1/ptm/m/n/12 Napredne mo-gu�-
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 117--117
+[]|\T1/ptm/m/n/12 $5,000-$50,000 go-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 117--117
+[]|\T1/ptm/m/n/12 $50,000-$500,000
+ []
+
+
+Underfull \hbox (badness 1270) in paragraph at lines 121--121
+[]|\T1/ptm/m/n/12 Snort, Sen-ti-ne-lOne,
+ []
+
+
+Overfull \hbox (11.81111pt too wide) in paragraph at lines 111--126
+ [][] 
+ []
+
+[27] [28]
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 183.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 190.
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 198.
+ [29] [30]) [31]
+\openout2 = `zaključak.aux'.
+
+ (./zaključak.tex
+Poglavlje 9..
+Missing character: There is no � in font zptmcm7t!
+Missing character: There is no � in font zptmcm7m!
+[32
+
+
+
+
+] [33] [34]) [35] [36
+
+
+] [37] (./seminar.aux (./uvod.aux) (./edr_tehnologija.aux) (./ndr_tehnologija.aux) (./xdr_tehnologija.aux) (./ids_nids.aux) (./usporedba_snort_suricata_zeek.aux) (./usporedba_tržišnih_alata.aux) (./analiza_po_veličini_poduzeća.aux) (./zaključak.aux))
 
  *File List*
      fer.cls    2021/06/10 FER3
@@ -891,8 +1162,14 @@ listings.sty    2020/03/24 1.8d (Carsten Heinz)
 listings.cfg    2020/03/24 1.8d listings configuration
 tabularx.sty    2020/01/15 v2.11c `tabularx' package (DPC)
    array.sty    2021/10/04 v2.5f Tabular extension package (FMi)
-mathptmx.sty    2020/03/25 PSNFSS-v9.3 Times w/ Math, improved (SPQR, WaS) 
+  amsthm.sty    2020/05/29 v2.20.6
+mathtools.sty    2021/02/02 v1.28 mathematical typesetting tools
+ mhsetup.sty    2021/03/18 v1.4 programming setup (MH)
+longtable.sty    2021-09-01 v4.17 Multi-page Table package (DPC)
+fancyhdr.sty    2021/01/28 v4.0.1 Extensive control of page headers and footers
 titlesec.sty    2021/07/05 v2.14 Sectioning titles
+enumitem.sty    2019/06/20 v3.9 Customized lists
+mathptmx.sty    2020/03/25 PSNFSS-v9.3 Times w/ Math, improved (SPQR, WaS) 
    t1ptm.fd    2001/06/04 font definitions for T1/ptm.
 l3backend-pdftex.def    2022-01-12 L3 backend support: PDF output (pdfTeX)
 ls1stix2.fd    2018/04/02 v2.0.0-latex stix2 LS1 font definitions
@@ -902,6 +1179,7 @@ epstopdf-base.sty    2020-01-24 v2.11 Base part for package epstopdf
 epstopdf-sys.cfg    2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 pdflscape.sty    2019/12/05 v0.12 Display of landscape pages in PDF (HO)
   lscape.sty    2020/05/28 v3.02 Landscape Pages (DPC)
+ltcaption.sty    2020/05/30 v1.4b longtable captions (AR)
  nameref.sty    2021-04-02 v2.47 Cross-referencing by name of section
 refcount.sty    2019/12/15 v3.6 Data extraction from label references (HO)
 gettitlestring.sty    2019/12/15 v1.6 Cleanup title references (HO)
@@ -918,24 +1196,34 @@ ls2stix2cal.fd    2018/04/02 v2.0.0-latex stix2 calligraphic LS2 font definition
 ls1stix2sf.fd    2018/04/02 v2.0.0-latex stix2 sans-serif LS1 font definitions
 ls2stix2tt.fd    2018/04/02 v2.0.0-latex stix2 typewriter LS2 font definitions
   ot1ptm.fd    2001/06/04 font definitions for OT1/ptm.
+    uvod.tex
+  ts1ptm.fd    2001/06/04 font definitions for TS1/ptm.
+edr_tehnologija.tex
+ndr_tehnologija.tex
+xdr_tehnologija.tex
+ids_nids.tex
+usporedba_snort_suricata_zeek.tex
+usporedba_tržišnih_alata.tex
+analiza_po_veličini_poduzeća.tex
+zaključak.tex
  ***********
 
 Package rerunfilecheck Info: File `seminar.out' has not changed.
-(rerunfilecheck)             Checksum: 466BD38163B68B9C67AB2CCA7F175D57;166.
+(rerunfilecheck)             Checksum: 88BB216192C492449D0C528B46325173;1939.
  ) 
 Here is how much of TeX's memory you used:
- 19656 strings out of 479647
- 303453 string characters out of 5878802
- 572388 words of memory out of 5000000
- 37308 multiletter control sequences out of 15000+600000
- 522955 words of font info for 140 fonts, out of 8000000 for 9000
+ 21283 strings out of 479647
+ 335685 string characters out of 5878802
+ 613044 words of memory out of 5000000
+ 38756 multiletter control sequences out of 15000+600000
+ 529602 words of font info for 150 fonts, out of 8000000 for 9000
  350 hyphenation exceptions out of 8191
- 85i,6n,131p,1270b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/opensans/a_jg4h6q.enc}</usr/share/texlive/texmf-dist/fonts/type1/ascender/opensans/OpenSans-Bold.pfb></usr/share/texlive/texmf-dist/fonts/type1/ascender/opensans/OpenSans-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on seminar.pdf (4 pages, 56870 bytes).
+ 85i,10n,131p,1270b,503s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/ante/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrb1200.600pk>{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/opensans/a_jg4h6q.enc}</usr/share/texlive/texmf-dist/fonts/type1/ascender/opensans/OpenSans-Bold.pfb></usr/share/texlive/texmf-dist/fonts/type1/ascender/opensans/OpenSans-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on seminar.pdf (40 pages, 146665 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 43 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
- 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 323 PDF objects out of 1000 (max. 8388607)
+ 265 compressed objects within 3 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 89 words of extra memory for PDF output out of 10000 (max. 10000000)
 

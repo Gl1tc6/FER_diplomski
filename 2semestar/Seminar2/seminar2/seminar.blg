@@ -2,7 +2,6 @@ This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: seminar.aux
 The style file: fer_IEEEtran_HR.bst
-I found no \citation commands---while reading file seminar.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
@@ -11,45 +10,44 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 150 items from 100.
 Database file #1: literatura.bib
-You've used 0 entries,
+You've used 15 entries,
             4225 wiz_defined-function locations,
-            836 strings with 7728 characters,
-and the built_in function-call counts, 96 in all, are:
-= -- 0
-> -- 0
+            897 strings with 10408 characters,
+and the built_in function-call counts, 6080 in all, are:
+= -- 472
+> -- 57
 < -- 0
-+ -- 0
-- -- 0
-* -- 10
-:= -- 29
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
++ -- 29
+- -- 14
+* -- 228
+:= -- 1124
+add.period$ -- 35
+call.type$ -- 15
+change.case$ -- 30
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 3
+cite$ -- 15
+duplicate$ -- 483
+empty$ -- 589
+format.name$ -- 14
+if$ -- 1378
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 25
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 15
+missing$ -- 119
+newline$ -- 100
+num.names$ -- 14
+pop$ -- 350
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 3
+skip$ -- 467
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
+substring$ -- 45
+swap$ -- 262
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
+type$ -- 15
 warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 24
-(There was 1 error message)
+while$ -- 14
+width$ -- 17
+write$ -- 178
