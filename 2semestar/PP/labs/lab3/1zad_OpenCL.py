@@ -2,8 +2,7 @@ import numpy as np
 import pyopencl as cl
 import time
 import math
-import warnings
-warnings.filterwarnings("ignore", message="Non-empty compiler output")
+import csv
 
 def isPrime(n):
     if n <= 1:
@@ -20,30 +19,33 @@ def isPrime(n):
     return True
 
 def main():
-    N = 2**18  # 1048576 elemenata
-    print(f"Number of elements: {N}")
+    N = 2**20
+    print(f"# elements: {N}")
     
     host_array = np.arange(N, dtype=np.int32)
     
     # init
     platforms = cl.get_platforms()
-    if not platforms:
-        print("No OpenCL platforms found!")
-        return
-        
     devices = []
     for platform in platforms:
         try:
             devices.extend(platform.get_devices())
         except:
             pass
-            
     if not devices:
         print("No OpenCL devices found!")
-        return
-        
-    device = devices[0]
-    print(f"Using device: {device.name}")
+        exit(1)
+    
+    for i, dev in enumerate(devices):
+        print(f"[{i}]: {dev.name}")
+    
+    tmp = -1
+    while tmp < 0 or tmp > len(devices)-1:
+        tmp = int(input(f"Choose device[0-{len(devices)-1}]: "))
+        if tmp < 0 or tmp > len(devices)-1:
+            print("Invalid!")
+    device = devices[tmp]
+    print(f" device: {device.name}")
     
     ctx = cl.Context([device])
     queue = cl.CommandQueue(ctx)
@@ -104,23 +106,26 @@ def main():
         print(f"Build error: {e}")
         return
         
-    # Prepare OpenCL buffers
+    # OpenCL buffers - strgano malo
     mf = cl.mem_flags
     d_array = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=host_array)
     d_result = cl.Buffer(ctx, mf.READ_WRITE, size=4)
     
-    # Test configurations (smaller set)
+    # configs
     test_cases = [
-        (1, 1),    # Sequential
-        (2, 1),    # 2 threads
-        (4, 2),    # 2 groups
-        (8, 4),    # 2 groups
-        (16, 8),   # 2 groups
-        (32, 8),  # 2 groups
+        (1, 1),
+        (2, 1), 
+        (4, 2),    
+        (8, 4),    
+        (16, 8),   
+        (32, 8),
         (64, 8),
         (128, 16),
         (256, 8),
         (256, 16),
+        (1024, 256),
+        (2048, 256),
+        (4096, 256),
     ]
     cpu_arr = [x for x in range(1, N+1)]
     start_time = time.time()
@@ -136,6 +141,7 @@ def main():
     print("\nG (glob threads) | L (loc size) | Atomic? | Time (s) | Result | Valid")
     print("----------------------------------------------------------------------------")
     
+    csv_res=[]
     zero_buf = np.array([0], dtype=np.int32)
     
     for G, L in test_cases:
@@ -159,7 +165,6 @@ def main():
                 queue.finish()
                 elapsed = (time.time() - start_time)
                 
-                # Get result
                 result = np.zeros(1, dtype=np.int32)
                 cl.enqueue_copy(queue, result, d_result)
                 queue.finish()
@@ -168,11 +173,13 @@ def main():
                 atomic_str = "YES" if use_atomic else "NO"
                 
                 print(f"{G:^18} | {L:^13} | {atomic_str:^7} | {elapsed:>8.6f} | {result[0]:>6} | {valid}")
+                csv_res.append([G, L, atomic_str, elapsed, result[0], valid])
                 
             except Exception as e:
-                atomic_str = "YES" if use_atomic else "NO"
-                print(f"{G:^18} | {L:^13} | {atomic_str:^7} | {'ERROR':>8} | {'--':>6} | --")
                 print(f"  Error: {str(e)}")
-
+    with open(f'primeresults_{device.name}.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['G', 'L', 'Atomic', 'Time_s', 'Result', 'Valid'])
+        writer.writerows(csv_res)
 if __name__ == "__main__":
     main()

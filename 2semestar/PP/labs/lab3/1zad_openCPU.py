@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-"""
-Simple OpenCL CPU version for counting prime numbers
-"""
 import numpy as np
 import pyopencl as cl
 import time
@@ -9,7 +5,7 @@ import math
 
 def main():
     N = 2**21  # 4194304 elements
-    print(f"Elements: {N}")
+    print(f"# elements: {N}")
 
     platforms = cl.get_platforms()
     cpu_device = None
@@ -61,8 +57,6 @@ def main():
     """
     
     program = cl.Program(ctx, kernel_code).build()
-    
-    # Data
     host_array = np.arange(N, dtype=np.int32)
     
     # Buffers
@@ -86,17 +80,14 @@ def main():
         if threads > cpu_device.max_compute_units * 4:  # Reasonable limit
             continue
             
-        # Reset result
         zero = np.array([0], dtype=np.int32)
         cl.enqueue_copy(queue, d_result, zero)
         
-        # Run kernel
         start_time = time.time()
         program.count_primes(queue, (threads,), None, d_array, d_result, np.int32(N))
         queue.finish()
         elapsed = time.time() - start_time
         
-        # Get result
         result = np.zeros(1, dtype=np.int32)
         cl.enqueue_copy(queue, result, d_result)
         

@@ -4,8 +4,6 @@ import math
 import sys
 import argparse
 import pyopencl as cl
-import warnings
-warnings.filterwarnings("ignore", message="Non-empty compiler output")
 
 kernel_source = """
 __kernel void compute_pi_partial(__global double* results, 
@@ -59,7 +57,6 @@ def compute_pi_opencl(N: int, M: int, L: int, device=None) -> tuple:
     context = cl.Context([device])
     queue = cl.CommandQueue(context)
     
-    # Kompajliranje kernela
     program = cl.Program(context, kernel_source).build()
     kernel = program.compute_pi_partial
     
@@ -74,13 +71,11 @@ def compute_pi_opencl(N: int, M: int, L: int, device=None) -> tuple:
     print(f"  Globalna veličina: {global_size}")
     print(f"  Lokalna veličina: {local_size}")
     
-    # mem alloc
     results_buffer = cl.Buffer(context, cl.mem_flags.WRITE_ONLY, 
                               size=global_size * np.dtype(np.float64).itemsize)
     
     start_time = time.time()
     
-    # Pokretanje kernela za različite dijelove posla
     total_sum = 0.0
     processed = 0
     
@@ -121,7 +116,7 @@ def compute_pi_opencl(N: int, M: int, L: int, device=None) -> tuple:
 def main():
     parser = argparse.ArgumentParser(description='Računanje PI-a')
     parser.add_argument('N', type=int, help='Ukupan broj elemenata reda')
-    parser.add_argument('M', type=int, help='Broj elemenata po radnoj jedinici')
+    parser.add_argument('M', type=int, help='Broj dretvi')
     parser.add_argument('L', type=int, help='Veličina radne grupe')
     parser.add_argument('-d', '--device', type=int, default=0,
                        help='Indeks OpenCL uređaja (zadano: 0)')
@@ -133,7 +128,6 @@ def main():
     print(f"Računanje Pi s N={N}, M={M}, L={L}")
     print("-" * 50)
     
-    # Dohvaćanje uređaja
     devices = get_opencl_devices()
     if not devices:
         print("Nema dostupnih OpenCL uređaja")
@@ -141,6 +135,8 @@ def main():
     
     if args.device >= len(devices):
         print(f"Uređaj {args.device} ne postoji. Dostupni uređaji: 0-{len(devices)-1}")
+        for idx, device in enumerate(devices):
+            print(f"[{idx}]: {device['name']}")
         return
     
     selected_device = devices[args.device]['device']
@@ -157,7 +153,6 @@ def main():
     try:
         pi_opencl, time_opencl, device_info = compute_pi_opencl(N, M, L, selected_device)
         
-        # Analiza rezultata
         speedup = time_sequential / time_opencl if time_opencl > 0 else 0
         error_percentage = abs(pi_opencl - math.pi) / math.pi * 100
         

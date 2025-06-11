@@ -11,7 +11,6 @@ static cl_mem psi_buf = NULL;
 static cl_mem psitmp_buf = NULL;
 static int opencl_ready = 0;
 
-// OpenCL kernel
 const char* kernel_source = 
 "__kernel void jacobi_step(__global double* psinew, __global double* psi, int m, int n) {"
 "    int i = get_global_id(0) + 1;"
@@ -28,11 +27,9 @@ void init_opencl(int m, int n) {
     cl_device_id device;
     cl_program program;
     cl_int err;
-    
-    // Setup OpenCL
+
     clGetPlatformIDs(1, &platform, NULL);
-    if (clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL) != CL_SUCCESS)
-        clGetDeviceIDs(platform, CL_DEVICE_TYPE_CPU, 1, &device, NULL);
+    clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
     
     context = clCreateContext(NULL, 1, &device, NULL, NULL, &err);
     queue = clCreateCommandQueue(context, device, 0, &err);
