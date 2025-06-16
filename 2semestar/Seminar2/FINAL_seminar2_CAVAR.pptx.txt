@@ -1,0 +1,349 @@
+Ante Čavar
+Mentor: prof. Stjepan Groš
+USPOREDBA ALATA ZA NADZOR I
+INTERVENCIJU NA KRAJNJIM TOČKAMA
+(ENDPOINT DETECTION AND RESPONSE)
+Fakultet elektrotehnike i računarstva Zagreb, lipanj 2025
+1
+
+Motivacija
+Evolucija sigurnosnih tehnologija
+IDS/NIDS tehnologije
+EDR (Endpoint Detection and Response)
+NDR (Network Detection and Response)
+XDR (Extended Detection and Response)
+Analiza tržišta i ključni proizvodi
+Detaljne usporedbe alata
+Preporuke prema veličini organizacije
+Ključna otkrića
+Zaključak
+Literatura
+Pregled predavanja
+2/24
+
+Motivacija
+Eskalacija cyber prijetnji
+2022: Sve najeksploatirane ranjivosti identificirane od CISA-e imale su mrežne potpise
+Povećanje ransomware napada za 41% u 2022. godini
+Prosječni trošak data breach-a: $4.45 milijuna
+Kompleksnost modernih IT okruženja
+Hibridne cloud infrastrukture
+Rad na daljinu postaje norma
+IoT uređaji povećavaju attack surface
+Potreba za proaktivnom zaštitom
+Tradicionalni antivirus više nije dovoljan
+Potreba za real-time detekciju i automatski odgovor
+3/24
+3
+
+Ključni uvidi:
+1990s: Pasivni IDS sustavi
+2000s: Dodavanje IPS funkcionalnosti
+2010s: Fokus na krajnje točke (EDR)
+2015+: Mrežna analitika (NDR)
+2020+: Holistički pristup (XDR)
+Formula evolucije:
+XDR = EDR + NDR + Cloud Security + Email Security + Identity Protection
+Evolucija sigurnosnih tehnologija
+IDS/NIDS
+Pasivna detekcija i uzbunjivanje
+EDR
+Fokusirane endpoint response capabilities
+NDR
+Mrežno-centrirana detekcija
+XDR
+Holistička integracija svih slojeva
+4/24
+
+Što su IDS/NIDS sustavi?
+IDS (Intrusion Detection System) - sistem za detekciju upada
+NIDS (Network IDS) - fokus na mrežni promet
+Glavni pristup: Pasivno nadgledanje i alarmiranje
+Ključne karakteristike:
+Signature-based detekcija - prepoznavanje poznatih uzoraka
+Anomaly-based detekcija - odstupanja od normalnog ponašanja
+Hybrid pristup - kombinacija oba pristupa
+Ograničenja tradicionalnih IDS/NIDS:
+Visok broj false-positive alarma
+Ograničena mogućnost automatskog odgovora
+Slaba korelacija događaja
+IDS/NIDS - Općenito
+5/24
+
+Alat
+Točnost detekcije
+Performanse
+Resursna potrošnja
+Prosjek
+Suricata
+1
+1
+3
+1.67
+Zeek
+3
+2
+1
+2.00
+Snort
+2
+3
+2
+2.33
+IDS/NIDS - Ključni alati i performanse
+1 = najbolji, 3 = najlošiji
+Pobjednik: Suricata - najbolji overall performer s prosječnom ocjenom 1.67
+6/24
+
+Zaključak evaluacije:
+Suricata pobjeđuje kao najbolji overall performer zbog:
+Paralelne obrade paketa
+Multi-threading podrške
+Naprednih IDS/IPS mogućnosti
+IDS/NIDS - Ključni alati i performanse
+7/24
+
+Definicija i svrha
+24/7 kontinuiran nadzor krajnjih točaka
+Analiza procesa, aplikacija, mrežnih veza i datoteka
+"Walled garden" pristup - fokus isključivo na krajnjim točkama
+Ključne funkcionalnosti:
+Real-time monitoring svih endpoint aktivnosti
+Behavioral analysis za detekciju anomalija
+Incident response s mogućnostima izolacije
+Forensics - detaljna analiza napada
+Prednosti EDR pristupa:
+Visoka granularnost na razini procesa
+Idealno za remote work scenarije
+Brza izolacija kompromitiranih uređaja
+EDR - Općenito
+8/24
+
+Glavni izazovi:
+Ovisnost o agentima - potreba za instalaciju na svaki uređaj
+Potrošnja resursa - utjecaj na performanse
+Ograničena mrežna vidljivost između uređaja
+Alert fatigue - previše alarma
+Tipični scenariji:
+Udaljena zaštita radnika
+BYOD (Bring Your Own Device) okruženja
+Compliance zahtjevi (GDPR, HIPAA)
+Odgovor na incidente i forenzika
+EDR - Izazovi i ograničenja
+9/24
+
+EDR - Shema
+10/24
+Prikaz sheme EDR-a
+Izvor:
+https://medium.com/@kavib/endpoint-detection-and-response-edr-390b7eae4999
+Pristupljeno: 12.6.2025
+
+Fokus na mrežnu analizu
+East-West traffic - komunikacija između internih sustava
+North-South traffic - komunikacija s vanjskim svijetom
+Deep Packet Inspection (DPI) za detaljnu analizu
+Napredne analitičke metode:
+Machine Learning za detekciju anomalija
+Behavioral analytics za prepoznavanje obrazaca
+Statistical analysis za otkrivanje odstupanja
+Ključne prednosti:
+Agentless pristup - nema utjecaja na performanse krajnjih točaka
+Otkrivanje napada “poprečnog kretanja” (lateral movement)
+Potpuna mrežna vidljivost
+NDR-Pristup
+11/24
+
+Metode detekcije:
+Signature/Fingerprint analiza poznatih prijetnji
+Machine learning modeli za nepoznate prijetnje
+Analiza mrežnog ponašanja (NBA)
+Analitika korisničkog i entitetskog ponašanja (UEBA/SIEM)
+Praktični primjeri detekcije:
+Data exfiltration - neobični odlazni promet
+Command & Control komunikacija
+Poprečno kretanje - neobična interna komunikacija
+Cryptojacking - specifični mrežni uzorci
+NDR - Tehnološke mogućnosti
+12/24
+
+NDR - Shema
+13/24
+Prikaz rada Darktrace NDR-a
+
+Izvor:
+https://safetech.ro/en/solutions/security-incident-detection-and-response/darktrace-ndr/
+
+Pristupljeno: 12.6.2025
+
+XDR kao sljedeći korak
+"Evoluirana EDR" - proširuje fokus s endpoints na sve
+Holistički pristup cijelom IT okruženju
+Centralizirani SOC (Security Operations Center)
+
+Široki spektar nadzora:
+Endpoints (laptopi, serveri, mobile uređaji)
+Network infrastructure (routeri, switches, firewalls)
+Cloud workloads (AWS, Azure, GCP)
+Email systems (Office 365, Exchange)
+Identity systems (Active Directory, LDAP)
+
+Ključne prednosti:
+Smanjenje false-positive alarma kroz korelaciju
+Automatska korelacija između sigurnosnih slojeva
+Jednostavnije upravljanje kroz jednu platformu
+XDR
+14/24
+
+Data Collection Layer
+Endpoint agent
+Mrežni “senzori”
+Cloud APIs
+Agregatori logova
+Analytics Engine
+Machine Learning algoritmi
+Ponašajna analitika
+Procjena rizika
+Response and Orchestration
+Upravljanje incidentima
+Forensics capabilities
+XDR - Tehnološke komponente
+15/24
+
+Tržišni udjeli i pozicioniranje
+16/24
+Proizvod
+Tržišni udio
+Kategorija
+Specijalizacja
+Darktrace
+19.5%
+IDPS/AI
+Otkrivanje prijetni uz AI
+CrowdStrike Falcon
+15.5%
+EDR/XDR
+Claud-native platforma
+Wazuh
+13%
+XDR
+SIEM/XDR hibrid, otvrenog koda
+Vectra AI
+11.3%
+NDR/AI
+Mrežna analiza
+Microsoft Dedender XDR
+6.9%
+XDR
+Integracija u Microsoft ekosustav
+Palo Alto Cortex XDR
+5.6%
+XDR
+Mrežni sigurnosni sustav
+
+Tržišni udio: 15.5% (vodeći u EDR/XDR kategoriji) 
+Korisničke ocjene: 4.8/5 (1410 recenzija)
+Ključne prednosti:
+Cloud-native arhitektura s potpunom skalabilnošću
+AI/ML tehnologija za naprednu detekciju prijetnji
+Lightweight agent s minimalnim utjecajem na performanse
+Real-time threat intelligence iz globalnog oblaka
+Advanced threat hunting mogućnosti
+Glavni nedostaci:
+Viša cijena u odnosu na konkurenciju
+Složenost konfiguracije upozorenja i izvještaja
+Strma krivulja učenja za potpunu optimizaciju
+Ovisnost o internetskoj vezi za optimalne performanse
+Detaljna analiza - CrowdStrike Falcon
+17/24
+
+Tržišni udio: 19.5% (dominira IDPS segment) 
+Fokus: Samoučeći AI pristup cyber obrani
+Ključne prednosti:
+Enterprise Immune System - mimikra ljudskog imunosnog sustava
+Antigena funkcionalnost za instant automated response
+Samoučeći algoritmi koji se prilagođavaju organizaciji
+Minimalni false-positive šum nakon početnog učenja
+Izvrsno email i network monitoring
+Glavni nedostaci:
+Vrlo visoka cijena - jedan od najskupljih na tržištu
+Početni period učenja s visokim brojem false-positives
+Ograničena endpoint vidljivost - fokus na mrežu
+Složena integracija s drugim sigurnosnim alatima
+Detaljna analiza - Darktrace
+18/24
+
+Tržišni udio: 13.0% (najveći open-source “igrač”) 
+Model: Potpuno besplatno, community-driven
+Ključne prednosti:
+Zero licensing costs - potpuno besplatno
+Visoka customizabilnost za specifične potrebe
+SIEM + XDR funkcionalnosti u jednom paketu
+Multi-platform podrška (Windows, Linux, macOS)
+Aktivna zajednica developera i korisnika
+Glavni izazovi:
+Zahtijeva tehničku ekspertizu za implementaciju
+Ograničena komercijalna podrška
+Kompleksna integracija za heterogene sustave
+Skalabilnost izazovi s velikim količinama podataka
+DIY pristup maintenance i optimizacije
+Detaljna analiza - Wazuh
+19/24
+
+Microsoft Defender XDR
+Prednosti: Microsoft integracija, isplativo za M365 korisnike 
+Nedostaci: Ograničene third-party integracije, kompleksno licenciranje
+SentinelOne Singularity
+Prednosti: Autonomni AI agent, rollback mogućnosti, offline zaštita 
+Nedostaci: Viši implementacijski troškovi, korisničko sučelje može biti poboljšano
+Vectra AI Platform
+Prednosti: Izvrsno risk scoring, AI-driven detection, Microsoft integracija 
+Nedostaci: Zahtijeva SIEM integraciju, ograničena host-level vidljivost
+Palo Alto Cortex XDR
+Prednosti: Robusna multi-layer integracija, proaktivna detekcija 
+Nedostaci: Kompleksna implementacija, visoka cijena, težak što se resursa tiče
+Analiza - ostal
+20/24
+
+Mala poduzeća (1-100 zaposlenika)
+Budžet: $5,000-$50,000 godišnje
+Preporuke: Microsoft Defender XDR, Darktrace, Wazuh
+Srednja poduzeća (100-1000 zaposlenika)
+Budžet: $50,000-$500,000 godišnje
+Preporuke: Cisco Sourcefire SNORT, SentinelOne, Vectra AI
+Velika poduzeća (1000+ zaposlenika)
+Budžet: $500,000+ godišnje
+Preporuke: CrowdStrike Falcon, Palo Alto Cortex XDR, Vectra AI
+Preporuke prema veličini poduzeća
+21/24
+
+Tehnološki trendovi
+AI/ML dominacija u svim vodećim rješenjima
+Cloud-first pristup kao novi standard
+Konsolidacija alata - preference za integrirane platforme
+Demokratizacija sigurnosti za manje organizacije
+Nema "one-size-fits-all" rješenja
+Optimalan izbor ovisan je o veličini organizacije, budžetu i tehničkim kapacitetima
+Buduće perspektive
+Autonomna sigurnot s potpuno automatiziranim odgovorom
+Quantum-resistant security
+Dublja Zero Trust integracija
+Proširenje na IoT i edge computing
+Ključna otkrića
+22/24
+
+Sigurnosni krajolik kontinuirano evoluira
+Od tradicionalnih IDS/NIDS sustava prema sofisticiranim XDR platformama
+Uspješne organizacije će biti one koje
+Kombiniraju tehnološku inovaciju s promišljenim strategijskim planiranjem
+Kontinuirano ulažu u ljudski kapital
+Prilagođavaju odabir tehnologija specifičnim organizacijskim potrebama
+Fokusiraju se na proper implementation i ongoing optimization
+Zaključak
+23/24
+
+Unutar samog seminara!
+Literatura
+24/24
+
+Hvala!

@@ -1,0 +1,22 @@
+###### BEST for RNN(rnn) MODEL ######                                             
+Best acc: 0.7706422018348624
+Hidden size:300; # of layers: 2; Dropout: 0.1; Bidirect.: True
+
+Best loss: 0.5705852976867131
+Hidden size:300; # of layers: 2; Dropout: 0.1; Bidirect.: True
+
+
+###### BEST for RNN(gru) MODEL ######
+Best acc: 0.7958715596330275
+Hidden size:300; # of layers: 2; Dropout: 0.1; Bidirect.: True
+
+Best loss: 0.5147256835230759
+Hidden size:300; # of layers: 2; Dropout: 0.1; Bidirect.: True
+
+
+###### BEST for RNN(lstm) MODEL ######
+Best acc: 0.8176605504587156
+Hidden size:300; # of layers: 2; Dropout: 0.1; Bidirect.: True
+
+Best loss: 0.5673640072345734
+Hidden size:300; # of layers: 10; Dropout: 0.8; Bidirect.: False

@@ -1,0 +1,56 @@
+hyperparams
+lr=1e-4
+epochs=5
+Tbatch_size=10
+VTbatch_size=32
+clip=0.25
+max_size=-1
+min_freq=1
+dropout=0.25
+num_layers=3
+hidden_size=300
+ 
+// RUN1
+###### RNN(rnn) MODEL ######
+Epoch 1: valid acc= 0.7105985722130698                                            
+Epoch 2: valid acc= 0.771004942339374                                             
+Epoch 3: valid acc= 0.7786930258099946                                            
+Epoch 4: valid acc= 0.7819879187259747                                            
+Epoch 5: valid acc= 0.7946183415705657                                            
+Test acc = 0.8004587155963303
+
+// RUN2
+###### RNN(rnn) MODEL ######
+Epoch 1: valid acc= 0.6705107084019769                                            
+Epoch 2: valid acc= 0.7693574958813838                                            
+Epoch 3: valid acc= 0.7616694124107634                                            
+Epoch 4: valid acc= 0.7693574958813838                                            
+Epoch 5: valid acc= 0.7583745194947831                                            
+Test acc = 0.7591743119266054
+
+// RUN3
+###### RNN(rnn) MODEL ######
+Epoch 1: valid acc= 0.5079626578802856                                            
+Epoch 2: valid acc= 0.7699066447007139                                            
+Epoch 3: valid acc= 0.7171883580450302                                            
+Epoch 4: valid acc= 0.7556287753981329                                            
+Epoch 5: valid acc= 0.7808896210873146                                            
+Test acc = 0.801605504587156 
+
+// RUN4
+###### RNN(rnn) MODEL ######
+Epoch 1: valid acc= 0.49917627677100496                                           
+Epoch 2: valid acc= 0.7364085667215815                                            
+Epoch 3: valid acc= 0.7781438769906645                                            
+Epoch 4: valid acc= 0.7786930258099946                                            
+Epoch 5: valid acc= 0.7677100494233937                                            
+Test acc = 0.7637614678899083   
+
+// RUN5
+###### RNN(rnn) MODEL ######
+Epoch 1: valid acc= 0.4986271279516749                                            
+Epoch 2: valid acc= 0.6924766611751785                                            
+Epoch 3: valid acc= 0.6749038989566173                                            
+Epoch 4: valid acc= 0.6694124107633168                                            
+Epoch 5: valid acc= 0.6776496430532675                                            
+Test acc = 0.6880733944954128    
