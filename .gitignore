@@ -3,3 +3,7 @@
 .*
 !*/
 !.gitignore
+*.mp4
+*.kdenlive
+*.zip
+*.jpg
