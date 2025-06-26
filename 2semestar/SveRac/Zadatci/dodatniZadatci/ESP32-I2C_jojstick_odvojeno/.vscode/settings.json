@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "cstdlib": "cpp",
+        "set": "cpp",
+        "format": "cpp",
+        "*.copy": "cpp",
+        "cstdint": "c"
+    },
+    "idf.portWin": "COM4",
+    "idf.flashType": "UART",
+    "C_Cpp.errorSquiggles": "disabled"
+}

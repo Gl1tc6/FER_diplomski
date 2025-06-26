@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "author": "Hrvoje Mlinaric",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "chip-i2c-alu", "id": "chip1", "top": 45.17, "left": 198.53, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "chip1:GND", "esp:GND.1", "black", [ "h-26.5", "v79.22" ] ],
+    [ "chip1:VCC", "esp:3V3", "red", [ "h-15.83", "v-1.05" ] ],
+    [ "chip1:SDA", "esp:D5", "green", [ "h-39.83", "v32.82" ] ],
+    [ "esp:D15", "chip1:SCL", "green", [ "h51.53", "v-83.33" ] ]
+  ]
+}

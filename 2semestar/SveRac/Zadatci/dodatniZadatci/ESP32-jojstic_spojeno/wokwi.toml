@@ -1,0 +1,9 @@
+[wokwi]
+version = 1
+firmware = ".pio/build/esp32doit-devkit-v1/firmware.bin"
+elf = ".pio/build/esp32doit-devkit-v1/firmware.elf"
+
+[config]
+simulation.speed = "1"
+
+lcd.immediate_mode = true

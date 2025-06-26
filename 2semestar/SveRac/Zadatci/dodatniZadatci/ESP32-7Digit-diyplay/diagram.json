@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "author": "Vedran Lugarić",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": { "builder": "esp-idf" }
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "sevseg1",
+      "top": 5.82,
+      "left": -306.08,
+      "attrs": { "digits": "2", "colon": "", "common": "anode", "color": "red"  }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:2", "sevseg1:A", "red", [] ],
+    [ "esp:4", "sevseg1:B", "orange", [] ],
+    [ "esp:16", "sevseg1:C", "yellow", [] ],
+    [ "esp:17", "sevseg1:D", "green", [] ],
+    [ "esp:5", "sevseg1:E", "blue", [] ],
+    [ "esp:18", "sevseg1:F", "purple", [] ],
+    [ "esp:19", "sevseg1:G", "gray", [] ],
+    [ "esp:21", "sevseg1:DIG1", "white", [] ],
+    [ "esp:22", "sevseg1:DIG2", "black", [] ],
+    [ "esp:GND.1", "sevseg1:COM", "black", [] ]
+  ],
+  "dependencies": {}
+}

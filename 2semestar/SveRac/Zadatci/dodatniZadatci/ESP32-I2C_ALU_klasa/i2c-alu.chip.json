@@ -1,0 +1,16 @@
+{
+  "name": "I2C ALU",
+  "author": "Hrvoje Mlinaric",
+  "pins": [
+    "SCL",
+    "SDA",
+    "GND",
+    "VCC",
+    "",
+    "",
+    "",
+    ""    
+  ],
+  "controls": [    
+  ]
+}

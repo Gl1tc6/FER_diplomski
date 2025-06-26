@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/CMakeFiles/bootloader"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/CMakeFiles/bootloader.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/CMakeFiles/bootloader-complete.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+		},
+		{
+			"file" : "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ZI_zadaci/ESP32-napon-mreze/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bootloader"
+		],
+		"name" : "bootloader"
+	}
+}

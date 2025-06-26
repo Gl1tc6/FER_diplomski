@@ -1,0 +1,28 @@
+{
+  "name": "Power monitor",
+  "author": "Hrvoje Mlinaric",
+  "pins": [
+    "",
+    "",
+    "OUT",
+    ""
+  ],
+  "controls": [
+    {
+      "id": "voltage",
+      "label": "Voltage",
+      "type": "range",
+      "min": 4,
+      "max": 5,
+      "step": 0.1
+    },
+    {
+      "id": "frequency",
+      "label": "Frequency",
+      "type": "range",
+      "min": 40,
+      "max": 60,
+      "step": 0.1
+    }
+  ]
+}

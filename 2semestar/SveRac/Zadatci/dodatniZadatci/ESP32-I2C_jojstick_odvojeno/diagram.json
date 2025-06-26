@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-analog-joystick",
+      "id": "joystick1",
+      "top": -48, 
+      "left": 182.4,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "esp:3V3", "joystick1:VCC", "red", [ "h0" ] ],
+    [ "esp:GND.1", "joystick1:GND", "black", [ "h0" ] ],
+    [ "esp:34", "joystick1:VERT", "green", [ "h0" ] ],
+    [ "esp:35", "joystick1:HORZ", "blue", [ "h0" ] ]
+  ]
+}

@@ -1,0 +1,5 @@
+source "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ESP_config/v5.4/esp-idf/components/bootloader/Kconfig.projbuild"
+source "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ESP_config/v5.4/esp-idf/components/esp_app_format/Kconfig.projbuild"
+source "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ESP_config/v5.4/esp-idf/components/esp_rom/Kconfig.projbuild"
+source "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ESP_config/v5.4/esp-idf/components/esptool_py/Kconfig.projbuild"
+source "D:/FER/2_Diplomski/2_Semestar/Sveprisutno_racunarstvo/ESP_config/v5.4/esp-idf/components/partition_table/Kconfig.projbuild"

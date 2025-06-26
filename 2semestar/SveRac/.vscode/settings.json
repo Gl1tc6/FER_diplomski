@@ -55,5 +55,13 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "latex-workshop.latex.clean.fileTypes": [
+        "*.aux", "*.bbl", "*.blg", "*.idx", "*.ind", 
+        "*.lof", "*.lot", "*.out", "*.toc", "*.acn", 
+        "*.acr", "*.alg", "*.glg", "*.glo", "*.gls", 
+        "*.fls", "*.log", "*.fdb_latexmk", "*.snm", 
+        "*.nav", "*.synctex.gz", "*.gz", "esej.synctex.gz"
+    ],
+    "latex-workshop.latex.autoClean.run": "onBuilt"
 }
