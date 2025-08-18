@@ -1,0 +1,170 @@
+Zadatci se rade u ESP IDF-u i simulira u Wokwiu (https://wokwi.com/esp32). Ne
+predajete cijeli projekt nego predajete zip arhivu koja sadrži sve c/cpp i h datoteke koje
+ste kreirali te prevedenu binarnu (izvršnu) datoteku (.bin).
+
+Zadatak (8 bodova)
+Na računalni sustav zasnovan sa ESP32 dodana su tri I2C vanjske jedinica (I2C_1,
+I2C_2, I2C_3 kako je prikazano na slici 1.
+
+Vanjska jedinica I2C_1 (adresa 0x20) izvršava operacije zbrajanja i oduzimanja.
+Vanjska jedinica I2C_2 (adresa 0x22) izvršava operacije množenja i dijeljenja.
+Vanjska jedinica I2C_3 (adresa 0x24) izvršava operacije kvadriranja i računanja drugog
+korijena
+
+SKLOP I2C_1
+I2C_1 sklop je „slave“ I2C uređaj koji se nalazi na adresi 0x20 i obavlja operaciju
+zbrajanja i oduzimanja s brojevima u formatu ﬂoat.
+Interno sklop ima tri registra u koje je moguće pisati. Čitanje iz registara nje moguće.
+Čitanjem sa ALU sklopa dobiva se rezultat operacije. Pogledati (ČITANJE SA I2C
+SKLOPA).
+Upis u registre se mora obavljati jedan po jedan. Nije moguće odjednom upisati
+podatke u više registara.
+REGISTAR OPERACIJE (0x00)
+Registar operacija je veličine jednog bajta koji određuje koja operacija će se raditi. Popis
+operacija je sljedeći:
+Operacija
+OPERATION_NOP
+OPERATION_ADD
+OPERATION_SUB
+OPERATION_READ_P1
+OPERATION_READ_P2
+
+Vrijednost
+0x00
+0x01
+0x02
+0x64
+0x65
+
+Opis operacije
+ne radi ništa ali kod čitanja vraća -0.101010
+Zbraja vrijednost PAR1 i PAR2
+Oduzima vrijednost PAR1 i PAR2
+Ne računa ništa, samo vrača PAR1
+Ne računa ništa, samo vrača PAR2
+
+REGISTAR PAR1 (0x01)
+Pisanjem u ovaj registar postavlja se vrijednost prvog parametra (PAR1). Registar je tipa float i za
+upisivanje je potrebno poslati 4 bajta koja predstavljaju float broj. Prvo se šalje niži bajt i onda
+prema višim bajtovima.
+REGISTAR PAR2 (0x02)
+Pisanjem u ovaj registar postavlja se vrijednost drugog parametra (PAR2). Registar je tipa float i
+za upisivanje je potrebno poslati 4 bajta koja predstavljaju float broj. Prvo se šalje niži bajt i onda
+prema višim bajtovima.
+
+SKLOP I2C_2
+I2C_2 sklop je „slave“ I2C uređaj koji se nalazi na adresi 0x22 i obavlja operacije
+množenja i dijeljenja s brojevima u formatu ﬂoat.
+Interno sklop ima tri registra u koje je moguće pisati. Čitanje iz registara nje moguće.
+Čitanjem sa ALU sklopa dobiva se rezultat operacije. Pogledati (ČITANJE SA I2C
+SKLOPA).
+Upis u registre se mora obavljati jedan po jedan. Nije moguće odjednom upisati
+podatke u više registara.
+REGISTAR OPERACIJE (0x00)
+Registar operacija je veličine jednog bajta koji određuje koja operacija će se raditi. Popis
+operacija je sljedeći:
+Operacija
+OPERATION_NOP
+OPERATION_MUL
+OPERATION_DIV
+OPERATION_READ_A
+OPERATION_READ_B
+
+Vrijednost
+0x00
+0x01
+0x02
+0x64
+0x65
+
+Opis operacije
+ne radi ništa ali kod čitanja vraća -0.101010
+Zbraja vrijednost PAR1 i PAR2
+Oduzima vrijednost PAR1 i PAR2
+Ne računa ništa, samo vrača PAR1
+Ne računa ništa, samo vrača PAR2
+
+REGISTAR PAR1 (0x01)
+Pisanjem u ovaj registar postavlja se vrijednost prvog parametra (PAR1). Registar je tipa float i za
+upisivanje je potrebno poslati 4 bajta koja predstavljaju float broj. Prvo se šalje niži bajt i onda
+prema višim bajtovima.
+REGISTAR PAR2 (0x02)
+Pisanjem u ovaj registar postavlja se vrijednost drugog parametra (PAR2). Registar je tipa float i
+za upisivanje je potrebno poslati 4 bajta koja predstavljaju float broj. Prvo se šalje niži bajt i onda
+prema višim bajtovima.
+
+SKLOP I2C_3
+I2C_3 sklop je „slave“ I2C uređaj koji se nalazi na adresi 0x24 i obavlja operacije
+kvadriranja i računanja drugog korijena s brojevima u formatu ﬂoat.
+Interno sklop ima dva registra u koje je moguće pisati. Čitanje iz registara nje moguće.
+Čitanjem sa ALU sklopa dobiva se rezultat operacije. Pogledati (ČITANJE SA I2C
+SKLOPA).
+Upis u registre se mora obavljati jedan po jedan. Nije moguće odjednom upisati
+podatke u više registara.
+REGISTAR OPERACIJE (0x00)
+Registar operacija je veličine jednog bajta koji određuje koja operacija će se raditi. Popis
+operacija je sljedeći:
+Operacija
+OPERATION_NOP
+OPERATION_POWER
+OPERATION_MUL
+OPERATION_READ_A
+
+Vrijednost
+0x00
+0x01
+0x02
+0x64
+
+Opis operacije
+ne radi ništa ali kod čitanja vraća -0.101010
+Zbraja vrijednost PAR1 i PAR2
+Oduzima vrijednost PAR1 i PAR2
+Ne računa ništa, samo vrača PAR1
+
+REGISTAR PAR1 (0x01)
+Pisanjem u ovaj registar postavlja se vrijednost prvog parametra (PAR1). Registar je tipa float i za
+upisivanje je potrebno poslati 4 bajta koja predstavljaju float broj. Prvo se šalje niži bajt i onda
+prema višim bajtovima.
+ČITANJE SA I2C SKLOPA (odnosi se na I2C_1, I2C_2 i I2C_3)
+Prilikom čitanja obavlja se operacija koja je zadana u internom registru operacija i potrebno je
+pročitati 4 uzastopna bajta. Pročitana 4 bajta predstavljaju rezultat u float formatu. Prvo se čita
+niži bajt i tako redom do najvišeg.
+KORIŠTENJE FLOAT BROJEVA
+Za pretvorbu float broja u bajt polje najjednostavnije je koristiti union strukturu:
+union floatunion_t {
+float f;
+unsigned char a[sizeof (float)];
+};
+Iz ove union strukture jednostavno možete čitati i pisati float broj i bajt polje.
+
+Potrebno je napisati program koji računa:
+𝑓(𝑎, 𝑏, 𝑐) =
+
+𝑏 + √𝑏 − 𝑎𝑐
+𝑎
+
+koristeći vanjske jedinica I2C_1, I2C_2 i I2C_3 bez da koristite funkcija c/c++ biblioteka.
+Vrijednosti a, b i c su realni brojevi.
+Rad programa provjeriti računanjem f(10, 11.5, 12.7) a rezultat usporediti sa programski
+izračunatim rezultatom koristeći c/c++ biblioteke.
+
+Slika 1.
+Potrebne datoteke za izvršavanje programa:
+-
+
+diagram.json
+i2c-1.chip.c
+i2c-1.chip.json
+i2c-2.chip.c
+i2c-2.chip.json
+i2c-3.chip.c
+i2c-3.chip.json
+
+Navedene datoteke treba dodati u Wokwi simulator koristeći opciju Upload
+ﬁle(s):
+
+Prije učitavanja diagram.json datoteke potrebno je maknuti staru tako da je
+odaberete i stisnete Delete opciju u izborniku.
+
+

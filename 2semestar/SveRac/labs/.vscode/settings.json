@@ -1,3 +1,4 @@
 {
-    "idf.pythonInstallPath": "/home/ante/miniconda3/bin/python"
+    "idf.pythonInstallPath": "/usr/bin/python3",
+    "cmake.sourceDirectory": "/home/ante/Documents/GitHub/FER_diplomski/2semestar/SveRac/labs/blink_example/blink"
 }

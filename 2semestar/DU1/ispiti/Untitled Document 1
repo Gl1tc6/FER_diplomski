@@ -1,0 +1,49 @@
+OSTATAK TEORIJE 2024/2025 MI
+
+1 zašto je konvolucijski sloj ponekad prikladniji od FC
+A jednostavnija implementacija
+B usklađenost sa ReLU-om
+C brže računanje gradijenta
+D regularizacijski efekt usred dijeljenja parametara
+
+2. Ima u pdfu
+
+3. Ako imamo logite ln2 0 -ln2 -ln4 -ln4 koliki je gubitak po softmaxu... tak nes
+A neka konstanta..
+B nema rj..
+C..
+D [-0.5, 0.25, 0.125, 0.0625, 0.0625] *
+
+4. Zašto su duboki modeli bolji od alternativa
+- Zbog kompozitne strukture ?!
+
+5. Odnos kvadratnog gubitka i neg log izglednosti
+A nisu povezani
+B iskljucuju se
+C KL poseban slučaj NLI
+D istoznačnice
+
+6. Što necemo nikad koristiti za aktivaciju?
+- g=beta + alfa*x 
+
+7. Točnost je konstantna na skupu za provjeru, a gubitak raste na skupu za provjeru. Uzrok?
+
+A model sve sigurniji u krive
+B podnaučenost koju vidimo zbog konstantne točnosti
+C ne znamo
+D podnaučenost koju vidimo zbog povecanog gubitka
+
+8. Nešto sa preljevom u logaritmu i stabilnosti
+
+9.ima u pdfu
+
+10. Jako složen model sa tipa 10 slojeva i lambda=100
+Kakav je odnos varijance i pristranosti...?
+
+11.koliko je receptivno polje nakon 2 konv sloja sa 3x3 i korakom 2 
+A 6 
+B 7 *
+C i D neki br
+
+12. Ponovljeno pitanje kad se uspoređuje izlaz iz softmaksa sa i bez stabilizacije (oduzimanje max(logits))
+a=b

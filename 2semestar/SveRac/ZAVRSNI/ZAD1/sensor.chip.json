@@ -1,0 +1,24 @@
+{
+  "name": "Sensor",
+  "author": "Hrvoje Mlinaric",
+  "pins": [
+     "",
+    "",
+    "",
+    "",
+    "VCC",
+    "GND",
+    "TX",
+    "RX"
+  ],
+  "controls": [
+    {
+      "id": "offset",
+      "label": "Offset",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "step": 1
+    }
+  ]
+}

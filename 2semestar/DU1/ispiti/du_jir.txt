@@ -1,0 +1,23 @@
+1. Zadana je funkcija f(w)=w^4 - 2w^3 + 5. Raspišite prve dvije iteracije optimiranja gradijentnim spustom počevši iz w0 = -1 uz korak optimizacije delta = 0.1. Bi li postupak drugačije konvergirao ako pretpostavimo da je korak opt. dovoljno mali? Ako da, navedite sva rješenja koja bi gradijentni spust mogao naći.
+
+2. Razmatramo duboki model:
+
+s1 = w1 * x + b
+h1 = ReLU(s1)
+s2 = w2 * h1 + b2
+s = s1 || s2
+y = softmax(s)
+
+Odredite analitički izraz za gradijente gubitka po w1 i b1. Prepostavite gubitak unakrsne entropije i veličinu grupe 1.
+
+3. Razmatramo implementaciju dubokog modela listom slojeva kao u labosu 2. Predložite implementaciju sloja SoftmaxCrossEntropyWithLogits s metodama forward, backwards_inputs i backwards_parameters.
+
+4. Razmatramo jezični model na razini slova koji temeljem dosad viđenih slova predviđa iduće. To rješavamo običnim povratnim modelom koj u povratnoj vezi ima prijenosnu f. tanh a na izlazu softmax. Veličina vokabulara je 80 a skrivenog sloja 200. 
+
+Odrediti dimenzije svih parametara uzevši u obzir i izlaznu transformaciju.
+
+5. Obični povratni model s prijenosnom f. min(1,x) i izlazom bez nelinearnosti. Zadatak modela je pobrojati jedinice i nule u binarnom broju pri čemu nam na ulaz doalzi proizvoljno dugačak niz jedinica i nula u jednojediničnoj reprezentaciji. Prijenosna matrica je Whh = I, početno stanje je h0 = [0,0] a elementi matrica Wxh i Why te vektora b i c su cijeli brojevi čiji je modul <= 1.
+
+Odrediti vrijednosti ostalih parametara i demonstrirati zaključivanje za 101.
+
+6. Sijamsko učenje, isti zadatak kao u već navedenom roku.

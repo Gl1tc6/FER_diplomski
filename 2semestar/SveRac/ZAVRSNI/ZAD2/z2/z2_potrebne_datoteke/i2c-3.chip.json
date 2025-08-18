@@ -1,0 +1,16 @@
+{
+  "name": "I2C_2 (POWER/SQRT)",
+  "author": "Hrvoje Mlinaric",
+  "pins": [
+     "",
+    "",
+    "",
+    "",
+    "VCC",
+    "GND",
+    "SDA",
+    "SCL"
+  ],
+  "controls": [    
+  ]
+}

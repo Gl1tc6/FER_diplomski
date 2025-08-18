@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "author": "Hrvoje Mlinaric",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {"builder": "esp-idf"} },
+    { "type": "chip-i2c-1", "id": "chip1", "top": 125.82, "left": 206.4, "attrs": {} },
+    { "type": "chip-i2c-2", "id": "chip2", "top": 49.02, "left": 206.4, "attrs": {} },
+    { "type": "chip-i2c-3", "id": "chip3", "top": 77.82, "left": -204.59, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "chip1:GND", "esp:GND.1", "black", [ "h-86.4", "v-4.6" ] ],
+    [ "chip1:VCC", "esp:3V3", "red", [ "h-57.6", "v0", "h-52.3" ] ],
+    [ "chip1:SDA", "esp:D5", "green", [ "h-39.83", "v32.82" ] ],
+    [ "esp:D15", "chip1:SCL", "green", [ "h33.1", "v-5.1" ] ],
+    [ "chip2:VCC", "chip1:VCC", "red", [ "h-57.6", "v67.2" ] ],
+    [ "chip2:GND", "chip1:GND", "black", [ "h-48", "v76.8" ] ],
+    [ "chip2:SDA", "esp:D5", "green", [ "h-67.2", "v19.2" ] ],
+    [ "chip2:SCL", "esp:D15", "green", [ "h-91.2", "v81.6" ] ],
+    [ "chip3:VCC", "esp:3V3", "red", [ "h0", "v96", "h211.2", "v-48" ] ],
+    [ "esp:D25", "chip3:SDA", "green", [ "h-14.6", "v4.7" ] ],
+    [ "esp:D26", "chip3:SCL", "green", [ "h-62.6", "v-14.6" ] ],
+    [ "chip3:GND", "chip2:GND", "black", [ "h19.2", "v-134.4", "h249.6", "v38.4" ] ]
+  ],
+  "dependencies": {}
+}

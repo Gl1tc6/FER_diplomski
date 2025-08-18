@@ -1,0 +1,44 @@
+Zadatci se rade u ESP IDF-u i simulira u Wokwiu (https://wokwi.com/esp32). Ne
+predajete cijeli projekt nego predajete zip arhivu koja sadrži sve c/cpp i h datoteke koje
+ste kreirali te prevedenu binarnu (izvršnu) datoteku (.bin).
+
+Zadatak 1 (7 bodova)
+Na računalni sustav zasnovan sa ESP32 je senzor koji prima i šalje bajtove. Kada senzor
+primi jedan podatak (bajt), nakon jedne sekunde pošalje primljenu vrijednost uvećanu
+za "o set" (vrijednost koja se može podesiti na komponenti senzor i može biti od (0 do
+10).
+Protokol komunikacije sa senzorom deﬁniram je sljedećim grafom (šalje se podatak
+0xAB:
+
+Cijeli paket slanja se sastoji od 10 poslanih bitova.
+Komunikacija počinje slanjem START bita. Signal ide iz stanja visokog (1) u stanje niskog
+(0) u trajanju od 1ms.
+Nakon toga se šalje 8 bitova podatka, nisko za vrijednost nule i visoko za vrijednost
+jedinice. Prvo se šalje najniži bit.
+Na kraju komunikacije ide STOP bit koji je deﬁniran sa visokim stanjem od 1ms.
+Isti je protokol za čitanje i za pisanje.
+Linija s koje se čita treba biti konﬁgurirana kao ulazna i da koristi zatezni otpor (PULLUP).
+Linija na koju se piše treba biti konﬁgurirana sam kao izlazna.
+
+Potrebno je napisati dvije funkcije: sensor_send i sensor_receive.
+U glavnom programu napraviti petlju koja šalje redom bajtove od 100 do 200. Nakon
+svakog poslanog bajta program čita podatak koji vraća senzor i ispisuje pročitani
+
+podatak na terminal za kontrolu rezultata. (Poslani podatak: 100, Primljeni podatak:
+105).
+
+Senzor je spojen na priključke RX na priključak 25, a TX na priključak 26
+
+Potrebne datoteke (ne smiju se mijenjati):
+-
+
+diagram.json
+sensor.chip.c
+sensor.chip.json
+Navedene datoteke treba dodati u Wokwi simulator koristeći opciju Upload
+ﬁle(s):
+
+Prije učitavanja diagram.json datoteke potrebno je maknuti staru tako da je
+odaberete i stisnete Delete opciju u izborniku.
+
+

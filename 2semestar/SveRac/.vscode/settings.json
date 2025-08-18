@@ -63,5 +63,8 @@
         "*.fls", "*.log", "*.fdb_latexmk", "*.snm", 
         "*.nav", "*.synctex.gz", "*.gz", "esej.synctex.gz"
     ],
-    "latex-workshop.latex.autoClean.run": "onBuilt"
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "idf.espIdfPath": "/home/ante/esp/v5.4.1/esp-idf",
+    "idf.toolsPath": "/home/ante/.espressif",
+    "idf.pythonInstallPath": "/usr/bin/python3"
 }

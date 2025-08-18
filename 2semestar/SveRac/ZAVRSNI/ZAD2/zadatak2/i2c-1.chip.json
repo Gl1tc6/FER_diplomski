@@ -1,0 +1,16 @@
+{
+  "name": "I2C_1 (ADD/SUB)",
+  "author": "Hrvoje Mlinaric",
+  "pins": [
+    "SCL",
+    "SDA",
+    "GND",
+    "VCC",
+    "",
+    "",
+    "",
+    ""    
+  ],
+  "controls": [    
+  ]
+}

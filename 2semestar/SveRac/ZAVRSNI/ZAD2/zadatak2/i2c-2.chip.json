@@ -1,0 +1,16 @@
+{
+  "name": "I2C_2 (MUL/DIV)",
+  "author": "Hrvoje Mlinaric",
+  "pins": [
+    "SCL",
+    "SDA",
+    "GND",
+    "VCC",
+    "",
+    "",
+    "",
+    ""    
+  ],
+  "controls": [    
+  ]
+}

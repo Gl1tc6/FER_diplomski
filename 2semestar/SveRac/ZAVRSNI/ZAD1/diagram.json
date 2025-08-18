@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "author": "Hrvoje Mlinaric",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -48, "left": 43.24, "attrs": {"builder": "esp-idf"} },
+    { "type": "chip-sensor", "id": "chip1", "top": 49.02, "left": -146.99, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "chip1:RECEIVE", "esp:25", "green", [ "h0" ] ],
+    [ "chip1:SEND", "esp:26", "green", [ "h0" ] ],
+    [ "esp:3V3", "chip1:VCC", "red", [ "h-19.05", "v105.6" ] ],
+    [ "chip1:GND", "esp:GND.2", "black", [ "h48", "v-134.4", "h9.6" ] ],
+    [ "chip1:RX", "esp:25", "green", [ "h0" ] ],
+    [ "chip1:TX", "esp:26", "green", [ "h0" ] ]
+  ],
+  "dependencies": {}
+}
