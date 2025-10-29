@@ -1,0 +1,7 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+06:A1:BB:80:30:97, 2025-10-14 21:09:54, 2025-10-14 21:10:20,  6, 360, WPA3 WPA2, CCMP, SAE, -35,      251,      195,   0.  0.  0.  0,   7, Test AP, 
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+1A:40:D5:8F:28:EC, 2025-10-14 21:10:03, 2025-10-14 21:10:19, -28,      261, 06:A1:BB:80:30:97,Test AP
+

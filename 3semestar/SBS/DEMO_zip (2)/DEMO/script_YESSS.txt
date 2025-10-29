@@ -1,0 +1,18 @@
+sudo dmesg | grep mt7921
+sudo apt update\nsudo apt install linux-firmware\nsudo apt upgrade\n\n# Check kernel version\nuname -r
+
+sudo systemctl stop NetworkManager
+sudo systemctl stop wpa_supplicant
+sudo rfkill unblock all
+
+sudo modprobe -r mt7921e
+sudo modprobe mt7921e
+iwconfig
+iwconfig wlp3s0 power off
+sudo iwconfig wlp3s0 power off
+sudo ip link set wlp3s0 down
+sudo iw dev wlp3s0 set type monitor
+sudo ip link set wlp3s0 up
+iw dev wlp3s0 info
+sudo airodump-ng wlp3s0
+
