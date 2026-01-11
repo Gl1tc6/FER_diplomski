@@ -1,0 +1,436 @@
+1
+00:00:00,000 --> 00:00:02,960
+Uživao sam u svim svojim zadacima u karijeri, ali biti vođa ekipe definitivno je bilo najvažnije
+
+2
+00:00:02,960 --> 00:00:05,719
+najviše me nagrađuje jer sve što radite kao vođa odreda, kad se sve svodi na
+
+3
+00:00:05,719 --> 00:00:08,240
+to su postupci vođenja trupa.
+
+4
+00:00:08,240 --> 00:00:12,200
+Postupci vođenja trupa definirani su u ADP 5-0, proces operacija, kao dinamika
+
+5
+00:00:12,200 --> 00:00:15,679
+proces koji koriste vođe malih jedinica za analizu misije, razvoj plana i pripremu za
+
+6
+00:00:15,679 --> 00:00:16,679
+operacije.
+
+7
+00:00:16,679 --> 00:00:19,679
+Ovaj okvir od osam koraka omogućuje vođama malih jedinica, bez podrške osoblja, izvršenje
+
+8
+00:00:19,679 --> 00:00:21,320
+planiranje i rješavanje problema.
+
+9
+00:00:21,320 --> 00:00:23,080
+Okvir se temelji na perspektivi manevara na zemlji.
+
+10
+00:00:23,080 --> 00:00:26,400
+Nije krut i može se prilagoditi na temelju situacije s kojom se lideri suočavaju.
+
+11
+00:00:26,399 --> 00:00:30,439
+Publikacije vojnih tehnika, ATP, dizajnirane su za vodove i satnije i sadrže poglavlja
+
+12
+00:00:30,439 --> 00:00:33,399
+o provođenju TLP-ova s ​​dodatnim perspektivama ratovanja.
+
+13
+00:00:33,399 --> 00:00:38,000
+Na primjer, inženjeri se mogu pozvati na Poglavlje 4 ATP-a 3-34.10, Inženjerski vod, za
+
+14
+00:00:38,000 --> 00:00:40,879
+pregled provođenja TLP-a u strojarskoj jedinici.
+
+15
+00:00:40,879 --> 00:00:43,359
+Osam koraka postupaka vođenja trupa su...
+
+16
+00:00:43,359 --> 00:00:44,359
+Korak 1.
+
+17
+00:00:44,359 --> 00:00:45,359
+Primite misiju.
+
+18
+00:00:45,359 --> 00:00:48,119
+Po primitku OP naloga ili WARN naloga, vođe obavljaju početnu analizu misije uz
+
+19
+00:00:48,119 --> 00:00:50,280
+varijable misije ili METTC.
+
+20
+00:00:50,280 --> 00:00:52,920
+Naredbe će biti objavljene ili u ritmu borbe ili kada se stvari promijene na bojnom polju.
+
+21
+00:00:52,920 --> 00:00:55,679
+Naše bi nam iskustvo moglo čak dati naznake da je promjena narudžbe neizbježna, kao što jesmo
+
+22
+00:00:55,679 --> 00:00:57,880
+preuzeli inicijativu ili smo naišli na otpor.
+
+23
+00:00:57,880 --> 00:01:01,039
+Po primitku misije, kao vođa odreda kada je to moguće, doveo sam svog vođu Alfa tima
+
+24
+00:01:01,039 --> 00:01:03,799
+sa mnom i dao upute mom Bravo Team Leaderu u našoj odsutnosti.
+
+25
+00:01:03,799 --> 00:01:06,879
+Također, davanje potvrdnog brifana zapovjedniku voda ili zapovjedniku na razumijevanje
+
+26
+00:01:06,879 --> 00:01:10,480
+njihova namjera i zadatak i svrha za moju organizaciju bili su ključni za naš uspjeh.
+
+27
+00:01:10,480 --> 00:01:11,480
+Korak 2.
+
+28
+00:01:11,480 --> 00:01:12,480
+Izdati NAREDBU UPOZORENJA.
+
+29
+00:01:12,480 --> 00:01:14,319
+Završite početnu procjenu i izdajte UPOZORENJE.
+
+30
+00:01:14,319 --> 00:01:17,280
+Pružite što više dostupnih informacija uz usmjerene vremenske okvire i specificirane upute
+
+31
+00:01:17,280 --> 00:01:18,280
+pripremiti svoju jedinicu.
+
+32
+00:01:18,280 --> 00:01:21,299
+Jako sam ponosan na sposobnost podčasničkog zbora da razumije
+
+33
+00:01:21,299 --> 00:01:24,079
+podrazumijevane zadatke unutar primanja misije i te podrazumijevane zadatke treba uključiti
+
+34
+00:01:24,799 --> 00:01:26,000
+svojoj maloj jedinici.
+
+35
+00:01:26,000 --> 00:01:28,799
+Koristite SOP svoje jedinice jer ćete prepoznati borbene vježbe koje treba izvesti.
+
+36
+00:01:28,799 --> 00:01:30,599
+Uvježbajte te i režirajte druge probe.
+
+37
+00:01:30,599 --> 00:01:34,200
+Ovdje navedite svoj plan provjera prije borbe i neke strukture koordinacije koje treba dovršiti.
+
+38
+00:01:34,200 --> 00:01:35,200
+Nemojte ih zamagliti.
+
+39
+00:01:35,200 --> 00:01:36,959
+Navedite što više informacija.
+
+40
+00:01:36,959 --> 00:01:37,959
+3. korak
+
+41
+00:01:37,959 --> 00:01:38,959
+Napravite TENTATIVNI PLAN.
+
+42
+00:01:38,959 --> 00:01:40,439
+Nadogradite početnu analizu misije.
+
+43
+00:01:40,439 --> 00:01:44,840
+Razvijte postupke ili COA-e, usporedite ih i zatim odaberite željeni COA.
+
+44
+00:01:44,840 --> 00:01:47,680
+Kao vođa odreda, suradnja je izgradila zajedničko razumijevanje, međusobno povjerenje i stvorila
+
+45
+00:01:47,680 --> 00:01:48,759
+najbolje rezultate za jedinicu.
+
+46
+00:01:48,759 --> 00:01:51,840
+Bio sam uspješniji kad sam vodio svoj tim, a bio sam blagoslovljen što sam imao mnogo sjajnih
+
+47
+00:01:51,840 --> 00:01:54,920
+kao što su narednik Millett i narednik Magnus i oni su mi uvelike pomogli u razvijanju planova
+
+48
+00:01:54,920 --> 00:01:57,159
+i odabir najboljeg puta naprijed.
+
+49
+00:01:57,159 --> 00:01:58,159
+Korak 4.
+
+50
+00:01:58,159 --> 00:01:59,159
+Pokrenite pokret.
+
+51
+00:01:59,159 --> 00:02:01,159
+Vođe provode bilo koji pokret koji se odredi ili smatra potrebnim.
+
+52
+00:02:01,159 --> 00:02:05,340
+To može zahtijevati dodatne informacije ili resurse ili kretanje jedinice na položaj
+
+53
+00:02:05,340 --> 00:02:06,820
+za sam zadatak.
+
+54
+00:02:06,820 --> 00:02:10,000
+Kao što je prethodno navedeno, ovi koraci nisu kruti i čak možete dobiti misiju
+
+55
+00:02:10,000 --> 00:02:12,719
+kretanje ili početak kretanja odmah nakon naredbe upozorenja.
+
+56
+00:02:12,719 --> 00:02:15,520
+Kritično za ovaj korak je dostupno vrijeme i logistički zahtjevi kao što su
+
+57
+00:02:15,520 --> 00:02:19,439
+kada i gdje su potrebni materijali klase 4 ili koje su veze potrebne.
+
+58
+00:02:19,439 --> 00:02:20,439
+Korak 5.
+
+59
+00:02:20,439 --> 00:02:21,439
+Provesti izviđanje.
+
+60
+00:02:21,439 --> 00:02:23,240
+Ovo je načelo patroliranja s razlogom.
+
+61
+00:02:23,240 --> 00:02:26,719
+Nikakva količina informacija iz unajmljenog poduzeća ne može zamijeniti iskustvo iz prve ruke i viđenje cilja.
+
+62
+00:02:26,719 --> 00:02:28,599
+Prođite zemljom prije izvršenja misije.
+
+63
+00:02:28,599 --> 00:02:30,840
+U najmanju ruku pogledajte kartu.
+
+64
+00:02:30,840 --> 00:02:33,919
+Ovdje potvrdite sve ispunjene TC čimbenike i vidite li promjene u početnom planu ili tečajevima
+
+65
+00:02:33,919 --> 00:02:35,759
+radnji koje je potrebno učiniti, učinite to.
+
+66
+00:02:35,759 --> 00:02:38,879
+Probno ciljno okupljalište postaje ciljno okupljalište nakon potvrde
+
+67
+00:02:38,879 --> 00:02:39,879
+iz izviđanja.
+
+68
+00:02:39,879 --> 00:02:42,719
+Kako ovo funkcionira na svakoj misiji je drugačije, ali razmislite o raspoloživom vremenu i
+
+69
+00:02:42,719 --> 00:02:44,560
+kako možete ublažiti rizik.
+
+70
+00:02:44,560 --> 00:02:45,560
+Korak 6.
+
+71
+00:02:45,560 --> 00:02:46,560
+Dovršite plan.
+
+72
+00:02:46,560 --> 00:02:47,560
+Dovršite plan ili narudžbu.
+
+73
+00:02:47,560 --> 00:02:50,120
+Izvršite konačnu koordinaciju s angažiranim i susjednim jedinicama ako vrijeme dopušta.
+
+74
+00:02:50,120 --> 00:02:52,960
+Pružajući im najbolji način djelovanja i identificirajući sve zahtjeve u ovom koraku,
+
+75
+00:02:52,960 --> 00:02:55,400
+jedna od najboljih stvari koje možete učiniti u ovom trenutku je da svom zaposleniku date povratne informacije
+
+76
+00:02:55,400 --> 00:02:56,400
+zapovjedništvo.
+
+77
+00:02:56,400 --> 00:02:58,080
+Ovo se razlikuje od potvrdnog sažetka.
+
+78
+00:02:58,080 --> 00:03:01,360
+Pozadinski sažetak objašnjava kako ćete izvršiti dodijeljeni zadatak ili svrhu i
+
+79
+00:03:01,360 --> 00:03:03,640
+stvoriti zajedničko razumijevanje s vašom organizacijom.
+
+80
+00:03:03,640 --> 00:03:04,719
+Korak 7.
+
+81
+00:03:04,719 --> 00:03:05,719
+Izdaj nalog.
+
+82
+00:03:05,719 --> 00:03:08,280
+Maksimizirajte sudjelovanje sa svakim članom vašeg tima kako biste uključili sve privitke i
+
+83
+00:03:08,280 --> 00:03:10,040
+pokretači koji će izvršiti misiju.
+
+84
+00:03:10,040 --> 00:03:13,200
+Prilagodite na temelju sigurnosti, razine odgovornosti, a zatim izdajte naredbu.
+
+85
+00:03:13,200 --> 00:03:16,159
+Ako možete, stanite na cilj ili upotrijebite model terena.
+
+86
+00:03:16,159 --> 00:03:18,040
+Koristite barem kartu.
+
+87
+00:03:18,040 --> 00:03:19,920
+Donesite pridružene jedinice za briefove misije tvrtke.
+
+88
+00:03:19,919 --> 00:03:23,159
+Trebaju biti prisutni timovi SIA-e, inženjera ili ljudi, pa čak i predstavnici
+
+89
+00:03:23,159 --> 00:03:26,639
+FSE ili naši drugi partneri poput Zračnih snaga trebaju biti dio zadatka misije.
+
+90
+00:03:26,639 --> 00:03:30,159
+Na kraju svake zapovijedi, vaši podređeni elementi duguju vam potvrdu.
+
+91
+00:03:30,159 --> 00:03:33,039
+Prilikom provođenja PCI, svi vojnici trebaju znati misiju, namjeru zapovjednika,
+
+92
+00:03:33,039 --> 00:03:34,879
+te zadatak i svrha tima.
+
+93
+00:03:34,879 --> 00:03:35,879
+Korak 8.
+
+94
+00:03:35,879 --> 00:03:36,879
+Nadzirati i usavršavati.
+
+95
+00:03:36,879 --> 00:03:38,959
+Voditelji prate TLP-ove tijekom cijelog procesa.
+
+96
+00:03:38,959 --> 00:03:41,679
+Vježbajte bitne zadatke za postizanje misije, identificirajte slabosti i poboljšajte pojedinca
+
+97
+00:03:41,679 --> 00:03:44,560
+razumijevanje operacija za jačanje povjerenja vojnika.
+
+98
+00:03:44,560 --> 00:03:48,359
+Povratne upute i probe omogućuju voditeljima izravnu sposobnost procjene priprema podređenih.
+
+99
+00:03:48,360 --> 00:03:51,960
+Mnogi vjeruju da probe spadaju u ovaj korak, ali one se moraju odvijati tijekom TLP procesa.
+
+100
+00:03:51,960 --> 00:03:55,240
+Probu je potrebno provesti dovoljno rano u procesu TLP-a kako bi se riješili nedostaci
+
+101
+00:03:55,240 --> 00:03:56,840
+koji je istaknut tijekom te probe.
+
+102
+00:03:56,840 --> 00:04:00,200
+Kada vođe mogu napraviti mali korak unatrag tijekom TLP-ova da delegiraju i nadziru, možete vidjeti
+
+103
+00:04:00,200 --> 00:04:02,720
+kada i gdje preusmjeriti svoje napore.
+
+104
+00:04:02,720 --> 00:04:05,460
+Naš zapovjedni pristup misiji uparen s našim profesionalnim dočasničkim zborom
+
+105
+00:04:05,460 --> 00:04:07,160
+pruža nam jedinstvenu prednost.
+
+106
+00:04:07,160 --> 00:04:10,040
+Pokušavajući sami kontrolirati sve čimbenike ili ne osnažiti svoje podređene vođe i
+
+107
+00:04:10,040 --> 00:04:12,880
+izgubit ćemo tu prednost.
+
+108
+00:04:12,880 --> 00:04:15,440
+Koristimo postupke vođenja trupa češće nego što znamo, bilo da se radi o kupnji
+
+109
+00:04:15,439 --> 00:04:18,319
+novo vozilo, planiranje obiteljskog odmora ili na terenskoj vježbi.
+
