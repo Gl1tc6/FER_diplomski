@@ -33,6 +33,46 @@
 
 \tjedan{1}{27. veljače -- 6. ožujka 2026.}
 
+\dan{Petak, 6. ožujka 2026.}
+\begin{itemize}
+    \item Istraživanje i razvoj skripte za postavljanje mrežnih pravila
+    \item Tokom vikenda razviti skriptu - pobrinuti se da se vrate postavke na staro kako se vrti na mojem računalu
+    \item skripta: \textit{net\_setReset\_rules.sh}
+\end{itemize}
+
+\dan{Četvrtak, 5. ožujka 2026.}
+\begin{itemize}
+    \item Istaživanje grafičkog riješenja za izradu projekta
+    \item Najbolji izbor je čini se Grafana
+    \item \href{https://grafana.com/oss/grafana/?plcmt=oss-nav}{Dokumentacija Grafane}
+    \subitem ...open source community and our growing number of users, Grafana introduces new innovations in every release to improve how you visualize, correlate, and share your data
+\end{itemize}
+
+\dan{Srijeda, 4. ožujka 2026.}
+\begin{itemize}
+    \item Razrada rješavanja putem laptopa - potreban adapter za "glumljenje" mrežnog sučelja
+    \item istražiti postavljanje privremenih pravila (kako bi se laptop mogao vratiti u prvotno stanje)
+\end{itemize}
+Ideja je pretvoriti laptop u switch/AP tako da u Ethernet port spojim ruter a na laptop spojim dodatni adapter koji glumi WiFi sučelje
+i na njega spojim ostale uređaje. Na taj način na moj ruter će biti spojen samo laptop, a sve ostalo na laptop (koji se kasnije može zamijeniti)
+\\ Trebalo bi razmisliti kako osigurati prenosivost ovog rješenja kako ne bi ovisilo o uređaju na kojem se vrti
+
+\dan{Utorak, 3. ožujka 2026.}
+\begin{itemize}
+    \item istraživanje o okolini i potencijalnim alatima koje bi trebao koristiti
+    \item Alati na Linuxu: hostapd, dnsmasq
+    \item Za instalirati: Zeek, Grafana
+    \item \href{https://zeek.org/get-zeek/}{Zeek (bivši Bro)}:
+    \subitem ...passive, open-source network traffic analyzer
+    \subitem ...operators use as network security monitor (NSM) to support investigations of suspicious or malicious activity
+    \subitem ...also supports a wide range of traffic analysis tasks beyond the security domain, including performance measurement and troubleshooting
+    \subitem Tekst preuzet iz dokumentacije - izabran zbog modela otvorenog koda i sveobuhvatnosti alata
+    \subitem \textit{bilo je nekoliko sličnih alata poput Sutricate ili programiranja od nule ali Zeek nudi sve i još je scriptable}
+    \item dnsmasq i hostapd mi trebaju za pretvaranja laptopa u pristpnu točku \#TODO još istražiti
+    \item Uz istraživanje i preinake ovo rješenje se može vrititi na Raspberry PI pločicama - eventualno pri kraju rada
+\end{itemize}
+Ne bi loše bilo ovo napraviti sve na Dockeru kako bi se izbjegao nekakav dependency hell tj. sve se sa "jednim gumbom" instalira
+
 \dan{Ponedjeljak, 2. ožujka 2026.}
 \begin{itemize}
     \item Nadopunjavanje milestonova/ izrada roadmapa
@@ -55,10 +95,10 @@ U sklopu diplomskog rada potrebno je osmisliti i implementirati mrežnu arhitekt
 \vspace{1em}
 \noindent\textbf{Milestoneovi (Rok: 15. lipnja 2026.):}
 \begin{enumerate}[label=\textbf{M\arabic*:}, leftmargin=*]
-    \item \textbf{Mrežna infrastruktura (do 20. ožujka):} Konfiguracija AP okruženja (hostapd, dnsmasq) i implementacija izolacije mrežnog prometa te NAT-a pomoću nftables skripti.
-    \item \textbf{Implementacija senzora (do 15. travnja):} Instalacija i podešavanje Suricate (IDS) za inbound detekciju te Zeeka za ekstrakciju metapodataka i outbound sesija.
-    \item \textbf{Pohrana i vizualizacija (do 5. svibnja):} Konfiguracija vremenske baze podataka (npr. InfluxDB) i spajanje senzora te izrada interaktivnog GUI-ja kroz Grafana nadzorne ploče.
-    \item \textbf{Testiranje i IoC integracija (do 20. svibnja):} Uvoz Indikatora kompromitacije (IoC) i simulacija malicioznog prometa radi potvrde ispravnosti rada detekcijskih mehanizama.
+    \item \textbf{Mrežna infrastruktura (do 20. ožujka):} Konfiguracija AP okruženja i implementacija izolacije mrežnog prometa te NAT-a pomoću nftables skripti.
+    \item \textbf{Implementacija senzora (do 15. travnja):} Instalacija i podešavanje IDS-a za inbound detekciju te alata za ekstrakciju metapodataka i outbound sesija.
+    \item \textbf{Pohrana i vizualizacija (do 5. svibnja):} Konfiguracija vremenske baze podataka i spajanje senzora te izrada interaktivnog GUI-ja nadzorne ploče.
+    \item \textbf{Testiranje i IoC integracija (do 20. svibnja):} Uvoz indikatora kompromitacije (IoC) i simulacija malicioznog prometa radi potvrde ispravnosti rada detekcijskih mehanizama.
     \item \textbf{Dokumentacija i predaja (do 15. lipnja):} Dokumentiranje koda, arhitekture i rezultata analize te finalna predaja rada.
 \end{enumerate}
 
