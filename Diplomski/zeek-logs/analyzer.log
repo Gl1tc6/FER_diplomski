@@ -1,0 +1,2 @@
+{"ts":1776447625.051554,"analyzer_kind":"protocol","analyzer_name":"HTTP","uid":"CmvqQW1P2NcUzlamPl","id.orig_h":"10.0.1.20","id.orig_p":43914,"id.resp_h":"91.134.54.28","id.resp_p":4222,"proto":"tcp","failure_reason":"not a http reply line"}
+{"ts":1776448024.585039,"analyzer_kind":"protocol","analyzer_name":"HTTP","uid":"CRieHb3b78dz36fL0e","id.orig_h":"10.0.1.20","id.orig_p":38312,"id.resp_h":"91.134.8.208","id.resp_p":4222,"proto":"tcp","failure_reason":"not a http reply line"}

@@ -1,0 +1,98 @@
+services:
+
+  # ============================================================
+  # ZEEK — pasivni network traffic analyzer
+  # Koristi network_mode: host za direktni pristup sučelju wlan1
+  # Logove zapisuje u ./zeek-logs/ (JSON format)
+  # ============================================================
+  zeek:
+    image: zeek/zeek:8.0.6
+    container_name: zeek-ids
+    restart: unless-stopped
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    working_dir: /usr/local/zeek/logs
+    volumes:
+      - ./zeek-logs:/usr/local/zeek/logs
+      - ./zeek/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek:ro
+    command: zeek -C -i wlan1 local
+
+  # ============================================================
+  # INFLUXDB — time-series baza podataka za Zeek logove
+  # Dostupna na: http://localhost:8086
+  # ============================================================
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influx-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USER}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
+
+  # ============================================================
+  # GRAFANA — vizualizacija podataka
+  # Dostupna na: http://localhost:3000
+  # InfluxDB data source se automatski konfigurira (provisioning)
+  # ============================================================
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grafana
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      # Prosljeđuje token u provisioning YAML putem env varijable
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUXDB_ORG=${INFLUXDB_ORG}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+    depends_on:
+      - influxdb
+
+  # ============================================================
+  # TELEGRAF — agent za ingestion Zeek logova u InfluxDB
+  # Čita ./zeek-logs/conn.log i šalje podatke u InfluxDB
+  # ============================================================
+  telegraf:
+    image: telegraf:1.38
+    container_name: telegraf
+    restart: unless-stopped
+    networks:
+      - monitoring
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./zeek-logs:/zeek-logs:ro
+    environment:
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUXDB_ORG=${INFLUXDB_ORG}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+    depends_on:
+      - influxdb
+
+# ============================================================
+# MREŽE
+# Zeek koristi host mrežu (vidi gore), ostali servisi
+# komuniciraju putem interne bridge mreže "monitoring"
+# ============================================================
+networks:
+  monitoring:
+    driver: bridge

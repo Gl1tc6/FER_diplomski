@@ -7,20 +7,40 @@
 \usepackage{titlesec}
 \usepackage{enumitem}
 
-% Makro za naslovnu stranicu tjedna (odvaja tjedne)
+\usepackage{listings}
+\usepackage{xcolor}
+
+% izgled koda
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!5},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{orange}
+}
+% naredba tjedan (odvaja tjedne)
 \newcommand{\tjedan}[2]{
     \newpage
     \vspace*{\fill}
     \begin{center}
-        \Huge \textbf{Tjedan #1} \\[0.5em]
-        \Large (#2)
+        \addcontentsline{toc}{section}{Tjedan #1 (#2)}
+        % Koristimo \Huge ili \Huge\bfseries umjesto \section* da izbjegnemo fiksne paddinge sekcije
+        {\Huge \textbf{Tjedan #1}} \\[0.5em]
+        {\Large (#2)}
     \end{center}
     \vspace*{\fill}
     \newpage
 }
 
-% Makro za vizualno jasno odvajanje dana
-\newcommand{\dan}[1]{\subsection*{#1} \vspace{-0.5em} \hrule \vspace{0.5em}}
+% dan
+\newcommand{\dan}[1]{
+    \subsection*{#1}
+    %\addcontentsline{toc}{subsection}{#1}
+    \vspace{-0.5em} 
+    \hrule \vspace{0.5em} 
+}
 
 \title{Izrada rješenja za nadzor komunikacije lokalne mreže sa naglaskom na izlazne tokove podataka iz mreže\\
 \large Dnevne bilješke o radu na diplomskom zadatku}
@@ -30,15 +50,669 @@
 \begin{document}
 \maketitle
 
+\newpage
+\tableofcontents
+\newpage
+
+\tjedan{7}{11. travnja -- 17. travnja 2026.}
+
+\dan{Petak, 17. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item itemNeki
+\end{itemize}
+- - - - - - \\
+
+\dan{Četvrtak, 16. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item itemNeki
+\end{itemize}
+- - - - - - \\
+
+\dan{Srijeda, 15. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item itemNeki
+\end{itemize}
+- - - - - - \\
+
+\dan{Utorak, 14. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item itemNeki
+\end{itemize}
+- - - - - - \\
+
+\dan{Ponedjeljak, 13. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item itemNeki
+\end{itemize}
+- - - - - - \\
+
+\dan{Nedjelja, 12. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item itemNeki
+\end{itemize}
+- - - - - - \\
+
+\dan{Subota, 11. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Provjera podataka u InfluxDB
+    \item Ispravak konfiguracija
+\end{itemize}
+- - - - - - \\
+Iako se početno nijedan alat nije žalio sa \lstinline|docker logs [alat] --tail 10| podatci se nisu prebacivali.
+Pogreška je bila što nisam "izbjegao" \lstinline|.| u konfiguraciji Telegrafa i onda je krivo parsirao informacije iz Zeeka.
+Uz to (što će ostati misterij) Zeek \lstinline|@scan| politika je zastarijela no ne shvaćam kako kada je verzija tvrdo postavljena (8.0.6).
+Kako nisam nigdje našao dobru zamjenu linija je u \lstinline|zeek/local.zeek| samo zakomentirana.
+Nakon svih promjena podatci su vidljivi u InfluxDB.
+
+\tjedan{6}{4. travnja -- 10. travnja 2026.}
+
+\dan{Petak, 10. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item pregled stanja M2 milestona i priprema za M3
+    \item potvrđen rad cijelog pipeline-a: Zeek $\rightarrow$ Telegraf $\rightarrow$ InfluxDB
+\end{itemize}
+- - - - - - \\
+Kako je tjedan bližio kraju napravio sam pregled svega što je napravljeno u sklopu M2 milestona.
+Pokretanjem \lstinline|sudo ./dipl.sh status| potvrđeno je da su svi servisi aktivni, a pregledom
+InfluxDB Data Explorera vidljiva su oba measurementa: \lstinline|zeek_conn| i \lstinline|zeek_notice|.
+\lstinline|zeek_notice| measurement sada prima zapise svaki put kada Zeek detektira nešto
+što zadovoljava uvjete neke od učitanih policy skripti --- port scan ili SSH brute force pokušaj.
+M2 milestone (rok: 15. travnja) je praktički završen tjedan ranije od planiranog što pruža
+dobar temelj za nadolazeći M3 koji uključuje izradu Grafana dashboarda.
+Sljedeći koraci uključuju dizajn dashboarda koji će vizualizirati podatke iz oba measurementa
+te integraciju \lstinline|notice.log| upozorenja kao zasebnog panela za sigurnosne događaje.
+ 
+\dan{Četvrtak, 9. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item dodavanje \lstinline|zeek_notice| measurementa u Telegraf konfiguraciju
+    \item provjera primitka \lstinline|notice.log| zapisa u InfluxDB-u
+\end{itemize}
+- - - - - - \\
+Nakon što je u srijeda potvrđeno da Zeek ispravno detektira i bilježi sigurnosne događaje u
+\lstinline|notice.log|, sljedeći logičan korak bio je proširiti Telegraf konfiguraciju da
+šalje i te podatke u InfluxDB, analogno postojećem \lstinline|zeek_conn| measurementu.
+Dodan je drugi \lstinline|[[inputs.tail]]| blok u \lstinline|telegraf/telegraf.conf| koji
+čita \lstinline|/zeek-logs/notice.log| i šalje zapise pod measurementom \lstinline|zeek_notice|.
+Kao tagovi definirani su \lstinline|note| (tip notifikatora, npr. \lstinline|Scan::Port_Scan|
+ili \lstinline|SSH::Password_Guessing|) i \lstinline|src_ip|, a kao polje pohranjena je
+\lstinline|msg| poruka koju Zeek generira uz svaki notice.
+Nakon restarta Telegrafa naredbom \lstinline|docker compose restart telegraf| i ponovljenog
+port scana, u InfluxDB Data Exploreru potvrđeni su novi zapisi pod \lstinline|zeek_notice|
+measurementom što znači da cijeli detekcijski lanac radi ispravno.
+ 
+\dan{Srijeda, 8. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item testiranje Zeek policy skripti simulacijom port scana alatom \lstinline|nmap|
+    \item potvrđen nastanak \lstinline|notice.log| i ispravna detekcija
+\end{itemize}
+- - - - - - \\
+Kao što je opisano u utorak, u \lstinline|zeek/local.zeek| dodane su policy skripte za detekciju
+skeniranja i SSH brute force napada.
+Kako bi se potvrdilo da skripte stvarno rade, simuliran je port scan s laptopa prema mobitelu
+spojenom na AP koristeći \lstinline|nmap|:
+\begin{itemize}
+    \item \lstinline|nmap -sS 10.0.1.10|
+\end{itemize}
+\lstinline|nmap| šalje SYN pakete na niz portova --- upravo one konekcije koje u \lstinline|conn.log|
+ostavljaju trag kao \lstinline|conn_state: S0| (SYN bez odgovora), što je obrazac koji
+\lstinline|policy/misc/scan.zeek| prati.
+Nakon scana, pregledom \lstinline|zeek-logs/| direktorija potvrđen je nastanak
+\lstinline|notice.log| datoteke --- što znači da Zeek nije samo zabilježio promet već ga je
+i interpretirao kao potencijalno maliciozan.
+Sadržaj \lstinline|notice.log| sadržavao je zapise tipa \lstinline|Scan::Port_Scan| s
+izvorišnom adresom laptopa i porukom o broju skeniranih portova, što je direktna potvrda
+da policy skripta radi ispravno u našem okruženju.
+ 
+\dan{Utorak, 7. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item proširenje \lstinline|zeek/local.zeek| s policy skriptama za detekciju napada
+    \item istraživanje kako skripte rade iznutra
+\end{itemize}
+- - - - - - \\
+Na temelju istraživanja provedenog u petom tjednu o \lstinline|conn_state| poljima i
+obrascima napada, te neuspješnog pokušaja ručne interpretacije logova Python skriptom
+(opisano u suboti), zaključeno je da je bolje koristiti već gotove Zeek policy skripte
+koje su dio standardne instalacije unutar kontejnera, nego pisati vlastitu heuristiku.
+Dostupne skripte provjerene su naredbom:
+\begin{itemize}
+    \item \lstinline|docker exec zeek-ids find /usr/local/zeek/share/zeek/policy -name "*.zeek"|
+\end{itemize}
+U \lstinline|zeek/local.zeek| dodane su dvije policy skripte:
+\begin{itemize}
+    \item \lstinline|@load policy/misc/scan| --- detektira port scanning praćenjem
+    neuspješnih konekcija (\lstinline|conn_state: S0|, \lstinline|REJ|) prema većem broju
+    portova ili hostova unutar vremenskog prozora; rezultat je \lstinline|Scan::Port_Scan|
+    ili \lstinline|Scan::Address_Scan| notice
+    \item \lstinline|@load policy/protocols/ssh/detect-bruteforcing| --- koristi Zeekov
+    \lstinline|SumStats| framework koji broji neuspješne SSH konekcije po izvorišnom hostu;
+    kada host prijeđe zadani prag (defaultno 30 neuspješnih pokušaja u 30 minuta) generira
+    se \lstinline|SSH::Password_Guessing| notice
+\end{itemize}
+Obje skripte su dio standardne Zeek instalacije i ne zahtijevaju nikakvo dodatno pisanje
+koda --- samo \lstinline|@load| direktivu u \lstinline|local.zeek|.
+Sve što skripte detektiraju završava u \lstinline|notice.log| putem Zeekove
+\lstinline|NOTICE()| funkcije, što ga čini centralnim mjestom za sigurnosne događaje.
+Zeek je restartiran kako bi učitao novu konfiguraciju \lstinline|docker restart zeek-ids|
+
+
+
+\dan{Subota, 4. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Neuspješan pokušaj interpretacije logova
+\end{itemize}
+- - - - - - \\
+Kako bi se povećalo razumijevanje Zeek logova, specifično \lstinline|conn_state| polja napisana
+je Python skripta za "ručnu provjeru" logova. Koristeći ulaze u \lstinline|conn.log|. Zapisi koji dolaze stavljeni
+su u ugnježđeni rječnik (eng. \textit{dict}) na način:
+\lstinline|{"id.orig_h": {"id.orig_p": {"id.resp_h:id.resp_p": [informacije]}}}|
+Odnosno prvi ključ je bila adresa izvora, potom \textit{port} pa konkatenirana adresa i port
+odredišta koji za vrijednost imaju listu gdje su svi puni zapisi iz redaka.
+Nadalje se taj riječnik dijeli na outbound i inbound veze ovisno o prvom ključu tj.
+izvorišnoj adresi - ako je unutar 10.0.1.0/24 onda spada pod outbound a inače inbound veze.
+Ovo se nije pokazalo najboljim jer je ovisilo o tome koliko dobro autor napiše heuristiku što nije
+trivijalan zadatak te se ova ideja i skripta na kraju zanemarila.
+
+\tjedan{5}{28. ožujka -- 3. travnja 2026.}
+
+\dan{Petak, 3. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item istraživanje Zeek \lstinline|conn_state| polja kao primarnog indikatora anomalija
+    \item pregled poznatih obrazaca napada vidljivih u \lstinline|conn.log|
+\end{itemize}
+- - - - - - \\
+Nakon što je pipeline potvrđen kao funkcionalan, fokus je premješten na razumijevanje
+kako interpretirati podatke u kontekstu detekcije napada.
+Zeekovo \lstinline|conn_state| polje pokazalo se ključnim indikatorom - vrijednosti poput
+\lstinline|S0| (SYN poslan, nema odgovora) u velikom broju ukazuju na port scanning,
+\lstinline|REJ| (konekcija odbijena) može signalizirati pokušaje pristupa zatvorenim portovima,
+a \lstinline|OTH| (promet bez SYN-a) može indicirati presretanje sesija.
+Proučeni su i obrasci koji su relevantni za outbound detekciju: neuobičajeno veliki
+\lstinline|orig_bytes| prema vanjskim IP adresama može ukazivati na eksfiltraciju podataka,
+dok ponavljajuće konekcije prema istom odredištu na neočekivanim portovima mogu
+signalizirati C2 (\textit{Command and Control}) komunikaciju.
+Identificirano je da je za IoC integraciju (M4 milestone) ključno uspoređivati
+\lstinline|id.resp_h| polje s poznatim malicioznim IP adresama iz javnih feed-ova.
+Ovi uvidi poslužit će kao osnova za dizajn Grafana dashboarda i detekcijskih pravila.
+ 
+\dan{Četvrtak, 2. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item istraživanje najboljih metoda za interpretaciju Zeek logova u sigurnosnom kontekstu
+    \item proučavanje Zeek \lstinline|notice.log| kao mehanizma za generiranje upozorenja
+\end{itemize}
+- - - - - - \\
+Istražene su preporučene prakse za rad sa Zeek logovima u kontekstu mrežnog nadzora.
+Utvrđeno je da \lstinline|conn.log| sam po sebi nije dovoljan za pouzdanu detekciju napada -
+potrebno ga je korelirati s ostalim logovima, posebno \lstinline|dns.log| (sumnjivi DNS upiti,
+DGA domene) i \lstinline|ssl.log| (nevažeći certifikati, neuobičajeni cipher suiteovi).
+Proučen je Zeekov \lstinline|notice.log| koji agregira upozorenja generirana Zeek skriptama -
+ovaj log bit će ključan za M4 fazu jer Zeek može nativno detektirati određene obrasce
+poput port scana ili \textit{brute force} pokušaja putem \lstinline|@load policy/protocols/ssh/detect-bruteforcing|
+i sličnih \textit{policy} skripti.
+Dokumentirani su planovi za proširenje \lstinline|zeek/local.zeek| s dodatnim politikama
+za detekciju specifičnih prijetnji, što će biti implementirano u M4 milestonu.
+ 
+\dan{Srijeda, 1. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item potvrđen primitak podataka u Influxu - vidljivi \lstinline|zeek_conn| zapisi
+    \item provjera ispravnosti oznaka i polja u Influx data exploreru
+\end{itemize}
+- - - - - - \\
+Nakon ispravaka Telegraf konfiguracije, pristupljeno je Influx web sučelju na
+\lstinline|localhost:8086| radi provjere da podaci stvarno dolaze.
+U \textit{Data explorer} sučelju potvrđeni su zapisi pod mjerenjem \lstinline|zeek_conn|
+unutar bucketa \lstinline|zeek-logs|.
+Provjerena je ispravnost oznaka: \lstinline|src_ip|, \lstinline|dst_ip|, \lstinline|proto|,
+\lstinline|service| i \lstinline|conn_state| vidljivi su kao očekivani tagovi, dok su
+\lstinline|src_bytes|, \lstinline|dst_bytes|, \lstinline|duration| i \lstinline|uid|
+ispravno pohranjena kao int i string polja.
+Uočeno je da zapisi s \lstinline|optional = true| poljima (poput \lstinline|duration| i
+\lstinline|service|) nisu uvijek prisutni, što je očekivano ponašanje jer Zeek ne popunjava
+sva polja za svaku konekciju - npr. UDP konekcije često nemaju \lstinline|duration|.
+Tok podataka Zeek $\rightarrow$ Telegraf $\rightarrow$ Influx funkcionira.
+ 
+\dan{Utorak, 31. ožujka}
+\textbf{Ukratko}
+\begin{itemize}
+    \item debugiranje Telegraf konfiguracije - podaci nisu stizali u InfluxDB
+    \item utvrđen uzrok: neispravna putanja do \lstinline|conn.log| unutar kontejnera
+\end{itemize}
+- - - - - - \\
+Pri prvom pokretanju Telegrafa podaci nisu stizali u Influx.
+Pregledom logova naredbom \lstinline|docker logs telegraf -f| utvrđeno je da Telegraf
+nije pronalazio \lstinline|conn.log| datoteku - ispisivao je upozorenje da datoteka
+ne postoji ili još nije kreirana.
+Uzrok je bila neispravna putanja: u \lstinline|telegraf.conf| putanja je bila postavljena
+na \lstinline|/zeek-logs/conn.log|, no \lstinline|conn.log| Zeek ne kreira odmah pri pokretanju
+- datoteka nastaje tek kada Zeek zabilježi prvu konekciju i zapiše prvi red u \lstinline|conn.log|.
+Dodatno, utvrđeno je da Zeek u standalone načinu rada (\lstinline|zeek -C -i wlan1 local|)
+ne rotira logove automatski kao \lstinline|zeekctl|, već piše kontinuirano u istu datoteku,
+što je zapravo povoljno za \lstinline|inputs.tail| plugin koji prati kraj datoteke (nešto kao tail kao na Linuxu).
+Nakon ponovnog pokretanja okoline s aktivnim mrežnim prometom, Telegraf je uspješno
+počeo čitati \lstinline|conn.log| i slati zapise prema Influxu.
+
+\dan{Ponedjeljak, 30. ožujka}
+\textbf{Ukratko}
+\begin{itemize}
+    \item prvo pokretanje Telegrafa - provjera konfiguracije i veze s Influxom
+    \item uočeni problemi s dozvolama na \lstinline|zeek-logs/| putanji
+\end{itemize}
+- - - - - - \\
+Telegraf je pokrenut \lstinline|docker compose up -d telegraf|
+te su logovi nadgledani s \lstinline|docker logs telegraf -f|.
+Telegraf je učitao konfiguraciju iz \lstinline|telegraf/telegraf.conf| i uspostavio
+vezu prema InfluxDB-u na \lstinline|http://influxdb:8086| koristeći nasumični token iz
+\lstinline|.env| datoteke.
+Uočen je problem s dozvolama: \lstinline|zeek-logs/| direktorij montiran je u Telegraf
+kontejner kao \lstinline|:ro| (read-only), no Telegraf je ispisivao upozorenja vezana uz
+praćenje datoteke (\textit{inotify}).
+Problem je riješen provjerom da je putanja dostupna svim korisnicima
+(\lstinline|chmod 755 zeek-logs/|) te ponovnim pokretanjem.
+Osnovna komunikacija između Telegrafa i InfluxDB-a potvrđena je, no obrada podataka
+još nije verificirana jer je potreban aktivan Zeek s prometom što nije bilo moguće zbog
+manjka interneta od strane operatera (kasnije popravljeno - modem je upao u neki boot loop pa ga
+je bilo potrebno ponovno pokernuti).
+
+\dan{Nedjelja, 29. ožujka}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Povezivanje \lstinline|Zeek -> Telegraf -> InfluxDB|
+\end{itemize}
+- - - - - - \\
+Primjetio sam da sam daleko ispred rokova kojih sam si zadao (\textbf{M2: Implementacija senzora}) čiji rok je do 15. travnja je 
+praktički napravljen; dakako bolje da je tako nego da kasnim no također ta spoznaja uvelike olakšava
+rad zbog manjka stresa prema radu.
+Kao što je jučer navedeno povezao sam Telegraf sa Zeekom i InfluxDB-om. Razlog zašto je trajalo cijeli dan je ukratko Docker,
+tj. moja obazrivost. Nakon debugiranja putanja i argumenata tj. svojstava međusobni su sustavi povezani.
+
+\dan{Subota, 28. ožujka}
+\textbf{Ukratko}
+\begin{itemize}
+    \item \textit{sanity check} cijelog projekta
+    \item Dodavanje Telegrafa u \lstinline|docker-compose.yml|
+\end{itemize}
+- - - - - - \\
+Danas nije bilo moguće napraviti puno konkretnog pomaka kako nisam bio i svom uobičajenom testnom okruženju (Zagreb),
+već sam putovao u Rijeku. Ondje imam slične uvjete te će konkretna implementacija biti nastavljena. Prije puta sam potvrdio rad 
+trenutne okoline.
+\\
+Pripremam se za dodavanje Telegraf agenta (nadalje samo Telegraf) koji bi trebao biti posrednik između Zeeka i InfluxDB.
+Da rezimiram (sanity check za budućnost): nisam mogao direktno spojiti Zeek sa InfluxDB jer Influx ne može čitati direktno 
+Zeek logove (bez obzira na oblik), a Zeek nema mogućnost dodavanja u Influx te da izbjegnem pisanje vlastitog \textit{bridgea} 
+između Zeeka i Influxa otkrio sam da Telegraf radi ono što meni treba. Također Grafana ne može primati iste logove niti direktno iz Zeeka 
+niti sa Telegrafa pa zato moram imati InfluxDB između jer ju Grafana podržava kao izvor informacija (\textit{datasource}).
+\\
+Kako nisam u mogućnosti testirati okolinu samo sam izmjenio \lstinline|docker-compose.yml| da uključuje i Telegraf. Sutra ću dodatno 
+povezati Zeek i Telegraf te Telegraf i Influx a onda mi samo manje više preostaje izrada "instrument ploče" (\textit{dashboarda}) na Grafani.
+
+\tjedan{4}{21. ožujka -- 27. ožujka 2026.}
+ 
+\dan{Petak, 27. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item istraživanje Telegraf agenta - arhitektura i konfiguracija za ingestion Zeek logova u InfluxDB
+\end{itemize}
+- - - - - - \\
+Nakon što je kompletna Docker okolina potvrđena kao funkcionalna i AP promet uspješno hvatan Zeekom,
+fokus je premješten na planiranje M2 milestona čija je srž implementacija Telegraf agenta.
+Telegraf je \textit{plugin-driven} agent otvorenog koda koji služi kao posrednik između izvora podataka
+i baza podataka - u našem slučaju čita Zeek logove iz \lstinline|./zeek-logs/| direktorija i šalje
+ih u InfluxDB.
+Proučena je službena dokumentacija za \lstinline|telegraf| Docker image s naglaskom na dva ključna
+plugina: \lstinline|inputs.tail| (čitanje log datoteka u realnom vremenu) i
+\lstinline|outputs.influxdb_v2| (slanje podataka u InfluxDB 2.x putem HTTP API-ja).
+Budući da Zeek logove zapisuje u JSON formatu (što je konfigurirano u \lstinline|zeek/local.zeek|
+prošlog tjedna), \lstinline|inputs.tail| plugin može parsirati svaki redak kao zaseban JSON objekt
+bez dodatne transformacije.
+Napravljen je nacrt \lstinline|telegraf.conf| konfiguracije koja će biti implementirana u sklopu M2.
+ 
+\dan{Četvrtak, 26. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item UFW firewall blokirao DHCP promet na \lstinline|wlan1| - dijagnostika i rješavanje
+    \item mobitel uspješno dobiva IP adresu putem DHCP-a
+\end{itemize}
+- - - - - - \\
+Unatoč tome što su \lstinline|hostapd| i \lstinline|dnsmasq| servisi bili aktivni i \lstinline|wlan1|
+ispravno konfiguriran s adresom \lstinline|10.0.1.1/24|, klijentski uređaji nisu mogli dobiti IP adresu.
+Dijagnostika je započeta pregledom \lstinline|nft list ruleset| gdje je utvrđeno da UFW (\textit{Uncomplicated Firewall})
+presreće DHCP pakete (port 67/UDP) na \lstinline|ufw-after-input| chainu i prosljeđuje ih u
+\lstinline|ufw-skip-to-policy-input| koji ih droppa - što je potvrđeno brojačem od 49 uhvaćenih paketa.
+Problem je riješen dodavanjem eksplicitnih UFW pravila:
+\begin{itemize}
+    \item \lstinline|ufw allow in on wlan1 to any port 67 proto udp|
+    \item \lstinline|ufw allow in on wlan1 to any port 68 proto udp|
+    \item \lstinline|ufw route allow in on wlan1 out on enp2s0|
+\end{itemize}
+Nakon primjene pravila, \lstinline|journalctl -u dnsmasq -f| potvrdio je primitak
+\lstinline|DHCPDISCOVER| paketa i uspješnu dodjelu IP adrese klijentskom uređaju iz raspona
+\lstinline|10.0.1.10 -- 10.0.1.100|.
+UFW pravila su dokumentirana radi reproducibilnosti - u budućnosti ih treba ugraditi u
+\lstinline|net_setReset_rules.sh| skriptu.
+ 
+\dan{Srijeda, 25. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item otklonjena greška u \lstinline|hostapd.conf| - nevažeći znakovi u SSID-u
+    \item \lstinline|dnsmasq| konflikt s \lstinline|systemd-resolved| na portu 53 - riješeno s \lstinline|bind-interfaces|
+\end{itemize}
+- - - - - - \\
+Pokretanjem \lstinline|sudo ./dipl.sh start| otkrivene su dvije greške koje su sprječavale
+podizanje AP okoline.
+Prva greška bila je u \lstinline|/etc/hostapd/hostapd.conf| - \lstinline|hostapd| je odbio
+pokrenuti se s porukom \lstinline|Line 6: invalid SSID|.
+Uzrok su bile zagrade u nazivu mreže (\lstinline|Dipl_test (NE SPAJATI SE/DO NOT CONNECT)|)
+koje \lstinline|hostapd| ne prihvaća kao valjane znakove u SSID stringu.
+SSID je preimenovan u \lstinline|Dipl_test_NO_CONNECT|.
+Druga greška bila je kod \lstinline|dnsmasq| servisa koji nije mogao kreirati socket na portu 53
+(\lstinline|Address already in use|).
+Pregledom \lstinline|ss -tulpn| utvrđeno je da \lstinline|systemd-resolved| drži port 53
+na \lstinline|127.0.0.53| i \lstinline|127.0.0.54|.
+Budući da \lstinline|dnsmasq.conf| već sadrži \lstinline|interface=wlan1|, dovoljno je bilo
+odkomentirati direktivu \lstinline|bind-interfaces| u \lstinline|/etc/dnsmasq.conf| čime
+\lstinline|dnsmasq| sluša isključivo na navedenom sučelju umjesto na \lstinline|0.0.0.0|,
+čime je konflikt s \lstinline|systemd-resolved| otklonjen bez gašenja sistemskog DNS resolvera.
+ 
+\dan{Utorak, 24. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item popravak \lstinline|docker-compose.yml| - neispravna sintaksa \lstinline|volumes| bloka
+    \item potvrđena funkcionalna Grafana $\leftrightarrow$ InfluxDB veza, 3 bucketa pronađena
+\end{itemize}
+- - - - - - \\
+Validacijom konfiguracije naredbom \lstinline|docker compose config| otkrivena je sintaksna greška:
+globalni \lstinline|volumes:| blok na dnu datoteke sadržavao je bind mount sintaksu
+(\lstinline|- ./influx-data:/var/lib/influxdb2|) koja je valjana jedino unutar definicije pojedinog
+servisa, a ne kao samostalni top-level blok.
+Greška je ispravljena premještanjem bind mountova direktno u \lstinline|volumes:| sekcije
+odgovarajućih servisa (\lstinline|influxdb| i \lstinline|grafana|), čime su lokalni
+direktoriji \lstinline|influx-data/| i \lstinline|grafana-storage/| ispravno montirani.
+Nakon ispravka, \lstinline|docker compose pull| povukao je sve imageove, pri čemu je utvrđeno
+da \lstinline|zeekurity/zeek| repozitorij više ne postoji te je zamijenjen ispravnim
+\lstinline|zeek/zeek:8.0.6|.
+Pokretanjem \lstinline|docker compose up -d influxdb grafana| (Zeek izostavljen jer zahtijeva
+\lstinline|wlan1|) potvrđena je ispravna komunikacija između Grafane i InfluxDB-a kroz
+Grafanin \textit{Test data source} mehanizam - pronađena su 3 bucketa, što potvrđuje
+da provisioning putem \lstinline|grafana/provisioning/datasources/influxdb.yaml| funkcionira ispravno.
+ 
+\dan{Ponedjeljak, 23. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item prvo pokretanje Zeeka s adapterom - potvrđen capture prometa na \lstinline|wlan1|
+    \item provjera JSON log outputa u \lstinline|zeek-logs/|
+\end{itemize}
+- - - - - - \\
+S dostupnim TP-LINK TL-WN722N adapterom, pokrenuta je kompletna okolina putem
+\lstinline|sudo ./dipl.sh start|.
+Zeek kontejner uspješno je pokrenut s \lstinline|network_mode: host| i direktnim pristupom
+sučelju \lstinline|wlan1|.
+Pregledom \lstinline|zeek-logs/| direktorija potvrđen je nastanak očekivanih log datoteka:
+\lstinline|conn.log|, \lstinline|dns.log|, \lstinline|http.log|, \lstinline|ssl.log| i ostalih.
+Inspekcijom \lstinline|conn.log| potvrđen je JSON format zapisa, što je rezultat
+\lstinline|@load policy/tuning/json-logs| direktive u \lstinline|zeek/local.zeek|.
+Svaki zapis sadržava polja poput \lstinline|ts|, \lstinline|uid|, \lstinline|id.orig_h|,
+\lstinline|id.resp_h|, \lstinline|proto|, \lstinline|service| i \lstinline|duration|
+koji će biti ključni za vizualizaciju u Grafani.
+Zeek logovi potvrđeni su kao ispravan ulazni format za Telegraf \lstinline|inputs.tail| plugin
+koji dolazi u M2.
+ 
+\dan{Nedjelja, 22. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item nadogradnja postojeće \lstinline|dipl.sh| skripte (obrada grešaka i ispis stanja)
+    \item dodjeljivanje privilegija i postavljanje aliasa za pokretanje
+\end{itemize}
+- - - - - - \\
+Postojeća upravljačka skripta \lstinline|dipl.sh| je nadograđena kako bi se olakšalo praćenje 
+servisa i spriječilo ostavljanje sustava u nedefiniranom stanju.
+Uvedena je obrada grešaka pri pokretanju: ako podizanje Docker kontejnera ne uspije, skripta 
+sada automatski poziva \lstinline|net_setReset_rules.sh reset|. Time se osigurava da pristupna 
+točka (AP) ne ostane aktivna ako Zeek IDS ne nadzire promet.
+Proširena je naredba \lstinline|status|. Umjesto ručne provjere svakog alata zasebno, skripta 
+sada u jednom terminalskom ispisu pregledno prikazuje stanje systemd procesa 
+(\lstinline|hostapd|, \lstinline|dnsmasq|) i svih Docker kontejnera.
+Kako bi se ubrzao svakodnevni rad, skripti su dodijeljene izvršne privilegije 
+(\lstinline|chmod +x|) te je u konfiguraciju ljuske dodan lokalni alias koji omogućava njeno 
+pokretanje iz bilo kojeg direktorija.
+ 
+\dan{Subota, 21. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item pregled stanja projekta na kraju M1 milestona i planiranje tjedna
+\end{itemize}
+- - - - - - \\
+Napravljen je pregled cjelokupnog stanja projekta na kraju M1 milestona.
+Struktura repozitorija sadrži sve očekivane komponente: \lstinline|net_setReset_rules.sh|,
+\lstinline|docker-compose.yml|, \lstinline|zeek/local.zeek|,
+\lstinline|grafana/provisioning/datasources/influxdb.yaml| i \lstinline|.env| datoteku s
+kredencijalima.
+Identificirani su otvoreni zadaci za tekući tjedan: testiranje kompletne okoline s fizičkim
+adapterom, verifikacija Zeek JSON log outputa i priprema za M2 koji uključuje implementaciju
+Telegraf ingestion pipeline-a.
+Pregledom \lstinline|docker-compose.yml| uočena je potencijalna sintaksna greška u
+\lstinline|volumes| bloku koja će biti adresirana idući radni dan.
+
+\tjedan{3}{14. ožujka -- 20. ožujka 2026.}
+
+\dan{Petak, 20. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item izrada \lstinline|dipl.sh| - skripta za jednokratno pokretanje kompletne okoline
+\end{itemize}
+- - - - - - \\
+Budući da okolina sada obuhvaća više komponenti (AP, Zeek, InfluxDB, Grafana), javila se potreba
+za jedinstvenom skriptom koja ih sve pokreće i gasi redom.
+Napravljena je \lstinline|dipl.sh| skripta koja sekvencijalno poziva \lstinline|net_setReset_rules.sh set|
+za postavljanje AP okoline, a zatim pokreće sve Docker servise putem \lstinline|docker compose up -d|.
+U slučaju greške pri pokretanju Dockera, skripta automatski poziva reset AP-a kako sustav ne bi
+ostao u nedefiniranom stanju.
+Podržane su tri naredbe: \lstinline|start|, \lstinline|stop| i \lstinline|status|, gdje
+\lstinline|status| prikazuje stanje i AP servisa i Docker kontejnera na jednom mjestu.
+Tjedan je zaključen s kompletnom Docker okolinom spremnom za daljnji razvoj u sklopu M2 milestona.
+
+\dan{Četvrtak, 19. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item testiranje pokretanja ažuriranog \lstinline|docker-compose.yml| - uočeni manji konfiguracijski problemi
+\end{itemize}
+- - - - - - \\
+Pokrenuta je nova konfiguracija naredbom \lstinline|docker compose up -d| te su praćeni logovi svakog kontejnera zasebno.
+Zeek i InfluxDB pokrenuli su se bez problema, dok je Grafana inicijalno imala problem s dozvolama na volume direktoriju.
+Problem je riješen ispravkom vlasništva direktorija na host sustavu.
+Provjerena je dostupnost Grafana sučelja na \lstinline|localhost:3000| i uspješno obavljena prijava s defaultnim kredencijalima.
+Konfiguracija InfluxDB data sourcea u Grafani ostavljena je za sljedeći dan.
+ 
+\dan{Srijeda, 18. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item ažuriran \lstinline|docker-compose.yml| - dodani InfluxDB i Grafana servisi
+\end{itemize}
+- - - - - - \\
+Postojeći \lstinline|docker-compose.yml| (koji je sadržavao samo Zeek servis) proširen je s InfluxDB i Grafana servisima.
+Definirana je interna Docker bridge mreža kako bi servisi mogli međusobno komunicirati, te su postavljeni volumeni za persistiranje podataka.
+Postavljene su environment varijable za inicijalizaciju InfluxDB instance (bucket, org, token).
+Grafana je konfigurirana da sluša na portu \lstinline|3000|, a InfluxDB na \lstinline|8086|.
+Zeek zadržava \lstinline|network_mode: host| konfiguraciju zbog potrebe za direktnim pristupom mrežnom sučelju \lstinline|wlan1|.
+ 
+\dan{Utorak, 17. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item istraživanje Grafana Docker konfiguracije i načina spajanja na InfluxDB
+\end{itemize}
+- - - - - - \\
+Istražena je konfiguracija Grafane unutar Dockera, uključujući persistiranje dashboarda i konfiguracije putem volumena.
+Proučeno je kako Grafana komunicira s InfluxDB-om koristeći Flux query jezik.
+Posebna pažnja posvećena je provisioningu data sourcea putem YAML datoteka kako bi se izbjeglo ručno konfiguriranje pri svakom pokretanju kontejnera.
+Napravljen je grubi plan strukture proširenog \lstinline|docker-compose.yml| koji će obuhvatiti sve komponente: Zeek, InfluxDB i Grafana.
+ 
+\dan{Ponedjeljak, 16. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item istraživanje InfluxDB Docker konfiguracije i sheme pohrane Zeek logova
+\end{itemize}
+- - - - - - \\
+Fokus dana bio je na InfluxDB-u i njegovoj konfiguraciji unutar Docker okoline.
+Proučena je službena dokumentacija za \lstinline|influxdb| Docker image, s naglaskom na inicijalizaciju baze i postavljanje autentikacijskih tokena putem varijabli okruženja.
+Razmatrano je kako strukturirati Zeek logove za unos u InfluxDB - konkretno koji su logovi relevantni (\lstinline|conn.log|, \lstinline|dns.log|, \lstinline|http.log|).
+Zeek logove u JSON formatu moguće je direktno ubaciti u InfluxDB, što je potvrđeno pregledom dokumentacije.
+Detaljna implementacija pipeline-a planirana je za M2 milestone.
+ 
+\dan{Nedjelja, 15. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item istraživanje Docker networking modela za međuservisnu komunikaciju
+\end{itemize}
+- - - - - - \\
+Istražio sam kako Docker omogućuje komunikaciju između kontejnera putem internih bridge mreža.
+Posebno me zanimalo kako Zeek, koji koristi \lstinline|network_mode: host| zbog direktnog pristupa mrežnim sučeljima, može dijeliti logove s ostalim servisima.
+Utvrđeno je da je rješenje mapiranje Zeek log direktorija kao volumena koji ostali kontejneri mogu čitati.
+Proučena je i osnovna dokumentacija za \lstinline|docker-compose| networking kako bi se razumjelo definiranje zajedničke interne mreže između servisa.
+ 
+\dan{Subota, 14. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item uočen problem s nativnom podrškom za Zeek, Grafanu i InfluxDB na trenutnom OS-u
+    \item odluka o migraciji na Docker
+\end{itemize}
+- - - - - - \\
+Prilikom pregleda dosadašnje konfiguracije uočene su nestabilnosti pri pokretanju Grafane i InfluxDB-a nativno na CachyOS-u (moj trenutni OS, baziran na Arch Linuxu).
+Dio paketa nije dostupan direktno u repozitorijima ili ima zastarjele verzije, što otežava daljnji razvoj.
+Kako Zeek već radi unutar Dockera, logičan sljedeći korak je migracija i preostalih servisa na isti pristup.
+Pokretanje svih komponenti unutar Dockera donosi prednosti: jednaka okolina na svim uređajima, lakše upravljanje verzijama i eliminacija dependency konflikata.
+Iduće dane planirano je istražiti Docker networking model i konfiguracije pojedinih servisa.
+
+\tjedan{2}{7. ožujka -- 13. ožujka 2026.}
+
+\dan{Petak, 13. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item izrada \lstinline|/etc/hostapd/hostapd.conf| datoteke
+\end{itemize}
+- - - - - - \\
+Izrada \lstinline|/etc/hostapd/hostapd.conf| u njenoj potpunosti. Ona diktira ponašanje AP-a.
+Definirani:
+\begin{itemize}
+    \item sučelje za koristiti (wlan1)
+    \item driver
+    \item ssid (Dipl\_test (NE SPAJATI SE/DO NOT CONNECT))
+    \item kanal (6)
+    \item ... ostale stvari poput 802.11n standarda,WPA2 i gašenje izolacije klijenata \\ \lstinline|ap_isolate=0| tako da Zeek može ubuduće gledati promet.
+\end{itemize}
+
+\dan{Četvrtak, 12. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item pokušaj testiranja \lstinline|net_setReset_rules.sh| - otkriven propust
+    \item izrada \lstinline|/etc/dnsmasq.conf| datoteke
+\end{itemize}
+- - - - - - \\
+Pokušao sam testirati radi li moja skripta i mogu li se spojiti na novonastali AP.
+Izrada osnovne konfiguracije \lstinline|dnsmasq.conf| za konfiguraciju
+DHCP-a (raspon adresa od 10.0.1.10 - 10.0.1.100, sa trajanjem 24 sata) i DNS-a (korišen Google i Cloudflare DNS serveri)
+\\
+Sutra potrebno napraviti \lstinline|/etc/hostapd/hostapd.conf|.
+
+\dan{Srijeda, 11. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item Instalirana Grafana
+\end{itemize}
+- - - - - - \\
+Samo sam instalirao Grafanu zbog viška poslovnih i osobnih obveza.
+
+\dan{Utorak, 10. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item preuzet Zeek - dodan \lstinline|src/docker-compose.yml|
+    \item isprobavanje mogućnosti putem \href{https://try.zeek.org/}{Zeek online} stranice
+\end{itemize}
+- - - - - - \\
+Gledao sam mogućnosti Zeeka i upoznavao se sa njihovim skriptnim jezikom.
+Kako Zeek nije nativno podržan na mojem operacijskom sustavu moram ga pokrenuti preko Dockera 
+za što je napravljena dodatna .yml skripta.
+\\
+Gledajući unaprijed ovo je dobro ako želimo dodati bazu podataka u koju ćemo spremati logove koje će 
+kasnije Grafana grafički prikazivati.
+\\
+Potrebno je još testiranja sa jezikom Zeeka
+
+\dan{Ponedjeljak, 9. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item ažurirana \textit{net\_setReset\_rules.sh}
+    \item dodani "rukohvati" kako se ne bi postavila dupla pravila tj. očistila nepostojeća
+\end{itemize}
+- - - - - - \\
+Ažurirao sam skriptu sa rukohvatima koristeći \lstinline|systemctl| kako bi provjerio ako je servis \lstinline|hostapd| (on po \textit{defaultu} ne radi)
+pokrenut i na temelju toga dozvoljava da se AP setira odnosno resetira.
+
+\dan{Nedjelja, 8. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item Ažurirana skripta koja vraća laptop i sučelja u izvorno stanje
+    \item \textit{net\_setReset\_rules.sh} je gotova
+\end{itemize}
+- - - - - - \\
+Sve što sam napravio jučer je samo trebalo reverzirati.
+
+\dan{Subota, 7. ožujka}
+\textbf{TL:DR}
+\begin{itemize}
+    \item Napisan prvi dio skripte \textit{net\_setReset\_rules.sh}
+    \item Opisana sučelja koja će se koristiti
+    \item Odabran uređaj koji će biti novi AP (odabran zbog dostupnosti)
+    \item Definirana pravila i naredbe
+\end{itemize}
+- - - - - - \\
+Započeta izrada skripte. Današnji cilj je samo pretvoriti laptop u bridge/switch između
+žičanog i bežičnog sučelja. Ethernet port se spaja na standardni ruter tj sučelje rutera kojeg obično pruža
+ISP (\textit{Internet Service Provider}). Dobivanje svih mrežnih sučelja na OS baziranom na Arch Linuxu 
+dobivamo s \lstinline|ip link| ili \lstinline|ip a| naredbom. Za svrhe rada zanimljiva će biti samo 2 sučelja:
+\lstinline|enp2s0| i \lstinline|wlan1| (\lstinline|wlan0| je mrežno sučelje kartice laptopa koja nije dovoljno "jaka" da podrži spajanje više uređaja na nju).
+\lstinline|enp2s0| je Ethernet mrežno sučelje dok je \lstinline|wlan1| sučelje \lstinline|TP-LINK TL-WN722N| vanjske mrežne kartice.
+\\
+Prvi zadatak je sada povezati ta dva sučelja da oni međusobno interno propuštaju sav promet (koji će Zeek kasnije nadgledati).
+\\
+Započeto sa pregledom \href{https://wiki.archlinux.org/title/Software_access_point}{Arch Wiki - Software access point} te \href{https://wiki.archlinux.org/title/Internet_sharing}{Arch Wiki - Internet sharing} članaka.
+Inače se mora pokrenuti i \lstinline|iw list| da vidimo podržava li naša kartica AP način rada, no kako sam već radio s njom znam da podržava.
+Koristiti ćemo \lstinline|nmcli| kako bi izolirali mrežno sučelje da \lstinline|NetworkManager| ne bi ugasio AP što je česti problem s kojim sam se prije susreo.
+Nakon toga potrebno je omogućiti \textit{IP proslijeđivanje} koristeći \lstinline|ip_forward| i spajajući \lstinline|enp2s0| i \lstinline|wlan1|.
+Za kraj je definiran set \lstinline|nftables| pravila.
+Sutra je cilj vratiti \lstinline|enp2s0| i \lstinline|wlan1| u prethodno stanje tj. napraviti cijelu radnju reverzibilnom.
 
 \tjedan{1}{27. veljače -- 6. ožujka 2026.}
 
 \dan{Petak, 6. ožujka 2026.}
+\textbf{TLDR}
 \begin{itemize}
     \item Istraživanje i razvoj skripte za postavljanje mrežnih pravila
     \item Tokom vikenda razviti skriptu - pobrinuti se da se vrate postavke na staro kako se vrti na mojem računalu
     \item skripta: \textit{net\_setReset\_rules.sh}
 \end{itemize}
+- - - - - - \\
+Izrada skripte koja olakšava očuvanje i postavljanje mrežnih postavki na računalu. 
+Glavni cilj je osigurati da se nakon testiranja AP okruženja sve vrati na staro bez 
+ručnih intervencija.
+\\
+Započet razvoj \textit{net\_setReset\_rules.sh} datoteke. 
+Skripta privremeno isključuje upravljanje USB adapterom unutar sustava 
+(\texttt{nmcli}) i postavlja \textit{dnsmasq} i \textit{hostapd} naredbe. Ovim se 
+izbjegava miješanje s postavkama ostatka sustava. Preko vikenda slijedi dovršavanje 
+logike za automatsko brisanje svih pravila i vraćanje mrežnog stacka u početno stanje.
 
 \dan{Četvrtak, 5. ožujka 2026.}
 \begin{itemize}
@@ -47,6 +721,14 @@
     \item \href{https://grafana.com/oss/grafana/?plcmt=oss-nav}{Dokumentacija Grafane}
     \subitem ...open source community and our growing number of users, Grafana introduces new innovations in every release to improve how you visualize, correlate, and share your data
 \end{itemize}
+Istraživanje načina za grafički prikaz mrežnih podataka. Potrebno je odabrati alat 
+koji može jasno prikazati kamo uređaji iz mreže šalju podatke.
+\\
+Grafana je odabrana kao najbolji izbor zbog jednostavnog povezivanja s bazama 
+podataka i mogućnosti slaganja preglednih ploča (dashboards). Proučena je službena 
+dokumentacija s naglaskom na 
+vizualizaciju tokova podataka u realnom vremenu. Alat omogućuje brzo uočavanje 
+neobičnih veza (anomalija), što je ključno za cilj projekta.
 
 \dan{Srijeda, 4. ožujka 2026.}
 \begin{itemize}
@@ -95,7 +777,7 @@ U sklopu diplomskog rada potrebno je osmisliti i implementirati mrežnu arhitekt
 \vspace{1em}
 \noindent\textbf{Milestoneovi (Rok: 15. lipnja 2026.):}
 \begin{enumerate}[label=\textbf{M\arabic*:}, leftmargin=*]
-    \item \textbf{Mrežna infrastruktura (do 20. ožujka):} Konfiguracija AP okruženja i implementacija izolacije mrežnog prometa te NAT-a pomoću nftables skripti.
+    \item \textbf{Mrežna infrastruktura (do 20. ožujka):} Konfiguracija AP okruženja i implementacija izolacije mrežnog prometa te NAT-a pomoću skripti.
     \item \textbf{Implementacija senzora (do 15. travnja):} Instalacija i podešavanje IDS-a za inbound detekciju te alata za ekstrakciju metapodataka i outbound sesija.
     \item \textbf{Pohrana i vizualizacija (do 5. svibnja):} Konfiguracija vremenske baze podataka i spajanje senzora te izrada interaktivnog GUI-ja nadzorne ploče.
     \item \textbf{Testiranje i IoC integracija (do 20. svibnja):} Uvoz indikatora kompromitacije (IoC) i simulacija malicioznog prometa radi potvrde ispravnosti rada detekcijskih mehanizama.
