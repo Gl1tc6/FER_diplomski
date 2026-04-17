@@ -10,3 +10,4 @@
 {"ts":1776448024.585039,"uid":"CRieHb3b78dz36fL0e","id.orig_h":"10.0.1.20","id.orig_p":38312,"id.resp_h":"91.134.8.208","id.resp_p":4222,"name":"invalid_http_09_request_method","addl":"CONNECT","notice":false,"peer":"zeek","source":"HTTP"}
 {"ts":1776448141.054956,"uid":"CJcoEp2mwqcYTDRIA3","id.orig_h":"10.0.1.20","id.orig_p":47354,"id.resp_h":"8.8.8.8","id.resp_p":443,"name":"QUIC_many_protocols","addl":"[h3, h3-29, h3-28, h3-27]","notice":false,"peer":"zeek"}
 {"ts":1776448267.792004,"uid":"C3S7hW2OX9nNFtdyGe","id.orig_h":"10.0.1.20","id.orig_p":42523,"id.resp_h":"8.8.8.8","id.resp_p":443,"name":"QUIC_many_protocols","addl":"[h3, h3-29, h3-28, h3-27]","notice":false,"peer":"zeek"}
+{"ts":1776448688.563848,"uid":"COOROl3XmqyBDd0GQ3","id.orig_h":"10.0.1.20","id.orig_p":37771,"id.resp_h":"8.8.8.8","id.resp_p":443,"name":"QUIC_many_protocols","addl":"[h3, h3-29, h3-28, h3-27]","notice":false,"peer":"zeek"}
