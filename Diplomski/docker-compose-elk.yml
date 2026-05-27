@@ -1,0 +1,88 @@
+services:
+
+  # ============================================================
+  # ZEEK — identična konfiguracija kao u docker-compose.yml
+  # ============================================================
+  zeek:
+    image: zeek/zeek:8.0.6
+    container_name: zeek-ids
+    restart: unless-stopped
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    working_dir: /usr/local/zeek/logs
+    volumes:
+      - ./zeek-logs:/usr/local/zeek/logs
+      - ./zeek/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek:ro
+    command: zeek -C -i wlan1 local
+
+  # ============================================================
+  # ELASTICSEARCH — zamjena za InfluxDB
+  # Dostupan na: http://localhost:9200
+  # Single-node, xpack security off za lokalni razvoj
+  # ============================================================
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    container_name: elasticsearch
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./elastic-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health | grep -q 'green\\|yellow'"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  # ============================================================
+  # TELEGRAF — isti agent, samo output ide u Elasticsearch
+  # Koristi isti telegraf.conf uz dodatni elasticsearch output
+  # ============================================================
+  telegraf:
+    image: telegraf:1.38
+    container_name: telegraf
+    restart: unless-stopped
+    networks:
+      - monitoring
+    volumes:
+      - ./telegraf/telegraf-elk.conf:/etc/telegraf/telegraf.conf:ro
+      - ./zeek-logs:/zeek-logs:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  # ============================================================
+  # GRAFANA — ista verzija, Elasticsearch data source
+  # Dostupna na: http://localhost:3000
+  # ============================================================
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grafana
+    restart: unless-stopped
+    networks:
+      - monitoring
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana-storage-elk:/var/lib/grafana
+      - ./grafana/provisioning-elk:/etc/grafana/provisioning:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-opensearch-datasource
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+networks:
+  monitoring:
+    driver: bridge

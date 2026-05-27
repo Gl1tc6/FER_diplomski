@@ -54,49 +54,787 @@
 \tableofcontents
 \newpage
 
+\tjedan{12}{16. svibnja -- 22. svibnja}
+
+\dan{Petak, 22. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Pisanje poglavlja o evaluaciji sustava
+    \item Definiranje metrika za usporedbu
+\end{itemize}
+- - - - - - \\
+Fokusirao sam se na poglavlje evaluacije gdje uspoređujem InfluxDB i Elasticsearch implementacije. Morao sam definirati jasne metrike za usporedbu: storage efficiency (koliko prostora zauzimaju isti podaci), query latency (brzina izvršavanja tipičnih upita), memory footprint (RAM potrošnja u idle i pod opterećenjem), i ease of deployment (koliko koraka treba za setup).
+\\
+Pišući evaluaciju, shvatio sam da mi nedostaju konkretni brojevi. Za sada imam samo rough estimates iz prethodnih testiranja. Trebat ću napraviti formalne benchmark testove s istim datasetom na oba sustava kako bi imao vjerodostojne rezultate za diplomski.
+\\
+Također sam pisao o false positive reduction mehanizmu. Objašnjavam koncept centralnog repozitorija, kako bi crowd-sourced heuristika funkcionirala, i kako bi opt-in/opt-out sustav bio implementiran s naglaskom na privatnost. Ovo je trenutno teorijski dio - implementacija dolazi kasnije.
+\\
+Dio o target audience-u (male firme, privatni korisnici) zahtijevao je objašnjenje zašto postojeća enterprise rješenja nisu primjenjiva. Argumenti: visoka cijena (Splunk, QRadar), kompleksnost konfiguracije (zahtijevaju dedicirane SOC timove), i hardware zahtjevi (serveri s desecima GB RAM-a). Moj sustav cilja na "democratization" NSM-a - moguće pokrenuti na starom laptopu s minimalnim znanjem.
+
+\dan{Četvrtak, 21. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Pisanje poglavlja o implementaciji
+    \item Dokumentiranje Docker konfiguracija
+\end{itemize}
+- - - - - - \\
+Danas sam pisao tehničke detalje implementacije. Prvo poglavlje pokriva Docker stack arhitekturu: kako su kontejneri međusobno povezani, koje volume mountove koriste, i kako network bridge omogućuje komunikaciju između njih.
+\\
+Dokumentirao sam svaki Docker Compose servis posebno: Zeek (koje interface-e sluša, koje skripte su učitane, retention policy), Telegraf (input/output konfiguracija, parsing logike), InfluxDB (database setup, retention policies, user permissions), i Grafana (dashboard konfiguracija, data source povezivanje).
+\\
+Pisanje ovog dijela me natjeralo da pregledam svoje trenutne konfiguracije. Uočio sam nekoliko nedosljednosti - neke environment varijable su hardkodirane umjesto da se koriste .env datoteke, neki volumei nisu optimalno mapirani. Napravio sam bilješke što moram ispraviti u kodu prije finalizacije.
+\\
+Također sam pisao o CachyOS host konfiguraciji: hostapd.conf za AP setup, dnsmasq.conf za DHCP, i iptables rules za NAT/forwarding. Ovo je kritično jer korisnici koji žele replicirati sustav trebaju znati kako postaviti host prije pokretanja Docker stacka.
+\\
+Shvatio sam da mi nedostaje dijagram arhitekture. Tekst objašnjava komponente, ali vizualni prikaz bi bio mnogo jasniji. Moram napraviti dijagram koji pokazuje data flow: mrežni promet → host interface → Zeek kontejner → logovi → Telegraf → InfluxDB → Grafana dashboard.
+
+\dan{Srijeda, 20. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Pisanje poglavlja o pregledu postojećih rješenja
+    \item Istraživanje komercijalnih NSM alata
+\end{itemize}
+- - - - - - \\
+Pisao sam poglavlje koje uspoređuje postojeća NSM rješenja s mojim pristupom. Morao sam istražiti što nude komercijalni alati (Splunk, QRadar, AlienVault) i open-source alternative (Security Onion, SELKS, pfSense).
+\\
+Splunk je industry standard ali astronomski skup za male firme. Licensing model je baziran na volumenu podataka (GB per day) što ga čini neisplativim za kontinuirani monitoring. Također zahtijeva dedicirani server sa značajnim resursima.
+\\
+Security Onion je najpopularniji open-source NSM stack. Dolazi s Zeekom, Suricata, Elasticsearch, i Kibana dashboardima. Problem je što je dizajniran za enterprise deployment - instalacija zahtijeva minimum 12GB RAM-a, kompleksna je za konfiguraciju, i targeting je SOC profesionalce, ne tehnički pismene laike.
+\\
+Moj pristup se razlikuje po tome što je lightweight (radi na 4GB RAM-a), containerized (lako deployment i izolacija), i user-friendly (predkonfigurirani dashboardi, minimalna ručna konfiguracija). Trade-off je manji feature set - nemam IPS funkcionalnost, naprednu korelaciju, ili threat hunting alate koje Security Onion nudi.
+\\
+Pisanje ovog dijela mi je pomoglo jasnije artikulirati value proposition mog rada: nije zamjena za enterprise SOC, već enabling tool za one koji inače ne bi imali NSM mogućnosti.
+
+\dan{Utorak, 19. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Pisanje uvodnog poglavlja
+    \item Definiranje motivacije i ciljeva
+\end{itemize}
+- - - - - - \\
+Započeo sam pisanje uvodnog poglavlja koje objašnjava motivaciju za ovaj rad. Ključna točka: male firme i privatni korisnici nemaju pristup enterprise-level network security monitoring alatima zbog cijene i kompleksnosti, ali su jednako ranjivi na napade kao i velike korporacije.
+\\
+Statistika koju sam pronašao: 43\% cyber napada cilja mala preduzeća, ali samo 14\% ima adekvatnu zaštitu. Glavni razlozi: nedostatak budžeta za security alate i nedostatak ekspertize za njihovu implementaciju. Moj sustav pokušava riješiti oba problema - besplatan je (open-source komponente) i jednostavan za deployment (Docker Compose + predkonfigurirani dashboardi).
+\\
+Ciljevi rada koje sam definirao: (1) Implementirati funkcionalan NSM sustav koristeći Zeek i open-source alate, (2) Omogućiti deployment na commodity hardware (laptop, mali server), (3) Pružiti intuitivne dashboarde za monitoring mrežnog prometa, (4) Evaluirati različite backend opcije (InfluxDB vs Elasticsearch), (5) Istražiti mogućnosti automatske reakcije na prijetnje.
+\\
+Također sam pisao o scope limitation-ima - što ovaj rad ne pokriva. Ne bavim se host-based detekcijom (endpoint security), ne implementiram puni SOC workflow (incident response, forensics), i ne razvijam nove detekcijske algoritme (koristim postojeće Zeek mogućnosti).
+\\
+Uvod je kritičan jer postavlja očekivanja i kontekst za ostatak rada. Želim izbjeći situaciju gdje čitatelj očekuje enterprise-level sustav, a dobiva proof-of-concept za mala okruženja.
+
+\dan{Ponedjeljak, 18. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Strukturiranje diplomskog rada
+    \item Kreiranje outline-a i referenci
+\end{itemize}
+- - - - - - \\
+Počeo sam s definiranjem strukture diplomskog rada. Poglavlja: 1. Uvod, 2. Teorijske osnove (NSM, Zeek arhitektura, time-series baze), 3. Pregled postojećih rješenja, 4. Arhitektura sustava, 5. Implementacija, 6. Evaluacija, 7. Zaključak i budući rad.
+\\
+Kreirao sam LaTeX template s potrebnim paketima (hyperref za linkove, listings za code snippets, graphicx za dijagrame). Postavio sam bibliografiju - trebam reference za Zeek paper, InfluxDB dokumentaciju, Docker best practices, i NSM metodologiju (Bejtlich knjige).
+\\
+Također sam definirao strukture koje će se ponavljati kroz rad: code listings će imati konzistentan formatting (syntax highlighting, line numbers), dijagrami će koristiti isti stil (boje, fontove), i tablice će imati uniform layout.
+\\
+Jedan problem koji sam uočio: nemam dovoljno screenshot-ova Grafana dashboarda. Trenutno imam samo basic grafove, ali za diplomski trebam pokazati finalne, polished dashboarde s realnim podacima. Moram generirati promet i napraviti kvalitetne screenshot-ove.
+\\
+Kreirao sam TODO listu za svako poglavlje - što mi još nedostaje u implementaciji da mogu pisati o tome. Npr. za poglavlje Evaluacija trebam benchmark rezultate, za Implementaciju trebam čiste Docker Compose datoteke, za Arhitekturu trebam dijagrame.
+
+\dan{Nedjelja, 17. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje literature za diplomski
+    \item Prikupljanje referenci
+\end{itemize}
+- - - - - - \\
+Proveo sam dan tražeći relevantnu literaturu za diplomski rad. Trebam academic papers o NSM-u, tehničku dokumentaciju Zeeka, i best practice guide-ove za Docker deploymente.
+\\
+Našao sam nekoliko ključnih resursa: Bejtlich-eva "The Practice of Network Security Monitoring" (biblija NSM-a), Zeek documentation (https://docs.zeek.org), InfluxDB vs Elasticsearch comparisons (nekoliko blog postova i technical reports), i Docker security best practices (od Docker Inc i NIST).
+\\
+Problem s akademskim paperima je što su većina fokusirani na novel research (novi algoritmi za detekciju, machine learning pristupe), a ne na praktičnu implementaciju existing tools. Moj rad je više "systems engineering" nego research, pa moram biti oprezan kako to prezentiram.
+\\
+Također sam tražio statistics o cyber security u malim firmama - trebam podatke koji podržavaju motivaciju rada. Pronašao sam nekoliko izvještaja od Verizon DBIR i Cisco koji pokazuju da male firme su sve češće meta napada, ali nemaju resurse za zaštitu.
+\\
+Kreirao sam Zotero biblioteku za upravljanje referencama. Sve što pročitam i planiram citirati dodajem tamo s notama zašto je relevantno. To će ubrzati pisanje bibliografije kasnije.
+
+\dan{Subota, 16. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Planiranje poglavlja o automatskoj reakciji
+    \item Istraživanje Python watchdog modula
+\end{itemize}
+- - - - - - \\
+Iako još nisam implementirao automatsku reakciju, moram planirati kako će to poglavlje izgledati u diplomskom. Teorijski, automatska reakcija ima nekoliko komponenti: detekcija (Zeek generira notice.log), odlučivanje (Python skripta evaluira je li to stvarna prijetnja), i akcija (blokiranje IP-a, slanje upozorenja).
+\\
+Istraživao sam watchdog Python modul detaljnije. Dokumentacija pokazuje kako postaviti observer za file system events. Za moj use case, trebam observer na Zeek log direktoriju koji triggera callback kad se notice.log modificira. Callback čita novi redak, parsira ga, i odlučuje treba li reagirati.
+\\
+Problem koji sam anticipirao: race conditions. Što ako Zeek piše u notice.log istovremeno kad Python skripta čita? Trebam mehanizam za file locking ili buffering. Jedna opcija je koristiti tail -F umjesto watchdog-a - tail automatski čeka da se pisanje završi prije čitanja.
+\\
+Za diplomski, planiram napisati pseudo-code algoritma za automatsku reakciju, čak i ako implementacija nije kompletna. To će pokazati razumijevanje problema i planiran pristup rješavanju. Također ću dokumentirati design decisions (zašto log parsing umjesto Broker-a, zašto watchdog umjesto polling-a).
+\\
+Cilj je da čitatelj može uzeti moj rad i implementirati feature sam, čak i ako ja to ne stignem do obrane.
+
+
+\tjedan{11}{9. svibnja -- 15. svibnja}
+
+\dan{Petak, 15. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Usporedba InfluxDB i Elasticsearch arhitektura
+    \item Evaluacija storage modela
+\end{itemize}
+- - - - - - \\
+Nastavio sam istraživanje razlika između InfluxDB-a (koji trenutno koristim) i Elasticsearch-a (koji sam ranije testirao). Fokus je bio na arhitekturi podataka i kako svaki sustav optimizira storage.
+\\
+InfluxDB je time-series baza što znači da je optimizirana za podatke koji dolaze sekvencijalno s timestamp-om. Svaki zapis ima time, tags (indeksirani metapodaci), i fields (vrijednosti). Za moj use case (Zeek conn.log koji se zapisuje kontinuirano), InfluxDB prirodno mapira strukturu: timestamp iz Zeeka postaje time, source/destination IP-ovi su tagovi, a bytes transferred je field.
+\\
+Elasticsearch je document store koji tretira svaki log entry kao JSON dokument. Nema inherentnog koncepta vremena - timestamp je samo još jedno polje koje se može indeksirati. Prednost je fleksibilnost: mogu pohraniti potpuno različite strukture podataka u istu bazu (conn.log, dns.log, http.log) bez predefiniranja scheme.
+\\
+Storage efficiency test: Uzeo sam 1GB conn.log podataka i usporedio veličinu nakon ingesta. InfluxDB: ~450MB (kompresija ~55\%). Elasticsearch: ~1.2GB (overhead zbog inverted index-a). Za moj laptop setup sa ograničenim prostorom, InfluxDB je jasna prednost.
+\\
+Međutim, uočio sam da Elasticsearch ima bolju full-text search nad string poljima (npr. traženje specifičnih domena u dns.log), dok InfluxDB to ne podržava dobro jer su stringovi tretirani kao tagovi s ograničenom kardinalnosti.
+
+\dan{Četvrtak, 14. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje query performansi
+    \item Analiza aggregation mogućnosti
+    \item Testiranje kompleksnih upita
+\end{itemize}
+- - - - - - \\
+Testirao sam query performanse oba sustava na istom datasetu. Cilj je vidjeti koji je brži za tipove upita koje moj dashboard zahtijeva (top N destination IP-ova, broj veza po minuti, anomalije u prometu).
+\\
+InfluxDB koristi InfluxQL ili Flux query jezik. Za jednostavne agregacije (COUNT, SUM, MEAN) po vremenu, performanse su odlične - upiti se izvršavaju u <100ms čak i na velikim datasetima. Problem nastaje kad trebam kompleksne JOIN-ove između različitih measurement-a (npr. korelacija conn.log i dns.log). InfluxDB to ne podržava prirodno - moram raditi klijentsku agregaciju.
+\\
+Elasticsearch koristi Query DSL (JSON-based). Aggregation framework je moćniji - mogu raditi nested aggregations, terms buckets, i kombinirati više izvora podataka u jednom upitu. Ali, latencija je veća - isti upiti traju ~300-500ms. Za dashboard koji se refresha svakih 30 sekundi, to nije problem, ali za real-time reakciju možda jest.
+\\
+Zaključak do sada: InfluxDB je bolji za moj trenutni use case (time-series dashboarding, minimalni resursi). Elasticsearch bi bio bolji ako mi treba napredna korelacija logova i full-text search, ali to dolazi s cjenom većeg memorijskog otiska.
+\\
+Za diplomski rad, planiram zadržati InfluxDB kao default, ali dokumentirati kako korisnici mogu switchati na Elasticsearch ako im trebaju naprednije mogućnosti.
+
+\dan{Srijeda, 13. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje retention policy razlika
+    \item Analiza data lifecycle management-a
+    \item Evaluacija downsampling strategija
+\end{itemize}
+- - - - - - \\
+Jedan od ključnih aspekata za male firme i privatne korisnike je koliko dugo mogu zadržati podatke prije nego zauzmu previše prostora. Istraživao sam kako svaki sustav rukuje retention i downsampling-om.
+\\
+InfluxDB ima ugrađene retention policies. Mogu definirati da conn.log drži sirove podatke 7 dana, zatim automatski agregira na 1-minutne prosjeke i drži to 30 dana, i na kraju briše sve starije od toga. To je idealno za moj scenarij gdje laptop nema puno diska - detaljni podaci za skorašnju analizu, agregirani za povijesni trend.
+\\
+Elasticsearch ne dolazi s built-in retention mehanizmom. Moram koristiti Index Lifecycle Management (ILM) koji zahtijeva dodatnu konfiguraciju. ILM omogućuje rollover (kreiranje novog indexa nakon određene veličine/vremena), shrinking (smanjivanje broja shardova), i deletion. Kompleksnije je postaviti, ali i fleksibilnije.
+\\
+Testirao sam downsampling na oba sustava. InfluxDB continuous queries automatski agregiraju podatke u pozadini - npr. svaki sat izračuna prosjek prometa i spremi u novi measurement. Elasticsearch zahtijeva Transform job koji također radi agregaciju, ali s više overhead-a.
+\\
+Za use case malih firmi koje nemaju dedicirani storage i trebaju zadržati podatke dugoročno bez velikih troškova, InfluxDB retention + downsampling je jednostavniji za konfigurirati i održavati.
+
+\dan{Utorak, 12. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje centraliziranog repozitorija za logove
+    \item Evaluacija crowd-sourced threat intelligence pristupa
+    \item Analiza opt-in/opt-out mehanizama
+\end{itemize}
+- - - - - - \\
+Mentor je predložio zanimljivu značajku: centralni repozitorij gdje korisnici mogu slati anonomizirane logove i dobivati heuristiku natrag. Ideja je smanjiti false positive rate kroz crowd-sourced inteligenciju - ako 1000 korisnika vidi isti pattern koji nije prijetnja, sustav to nauči.
+\\
+Istraživao sam postojeće implementacije ovog koncepta. VirusTotal radi nešto slično za file hash-eve - korisnici uploadaju sumnjiive fajlove, svi dobivaju pristup rezultatima skeniranja. Za mrežni promet, AlienVault OTX nudi community-driven threat intelligence feed.
+\\
+Problem s logovima je privatnost. Zeek conn.log sadrži source i destination IP adrese koje mogu otkriti što korisnik radi. Prije slanja u centralni repozitorij, morao bih anonimizirati osjetljive podatke: zamjenu privatnih IP-ova s placeholder-ima, hashing domena (da zadržim pattern ali ne točan domain), i uklanjanje payload podataka.
+\\
+Statistika koju bih skupljao: koliko puta se određeni pattern pojavio (npr. connection na port 8082), koliko korisnika je generiralo notice za taj pattern, i koliko ih je označilo kao false positive. Heuristika: ako >80\% korisnika označi pattern kao false positive, sustav automatski ga dodaje na whitelist.
+\\
+Opt-in/opt-out mehanizam mora biti jasan i transparentan. Default bi bio opt-out (privatnost first), s jasnim objašnjenjem što se šalje i kako se koristi ako korisnik odluči sudjelovati. GDPR compliance je kritičan ako planiram nuditi ovo u EU.
+
+
+\dan{Ponedjeljak, 11. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Prijepis sastanka
+    \item Početak pisanja diplomskog rada
+\end{itemize}
+- - - - - - \\
+Danas je održan sastanak s mentorom zbog dogovora oko daljnjeg razvoja diplosmkog rada.
+Pod područjima za istraživanje definirani su:
+\begin{itemize}
+    \item istraživanje o razlikama, prednostima i manama korištenja InfluxDB i ElasticSearch baza podataka
+    \item Definiran dodatna značajka eliminacije alarma (smanjivanje broja "false positiva")
+    \subitem - Centalni repozitorij za logove + statistika i potom heuristika korištenja (uključi i opt-in/out za skupljanje podataka)
+\end{itemize}
+Cilj je omogućiti i usmjeriti uslugu privatnim korisnicima i malim firmama što uključuje dijelove SOC aktivnosti i procesa te omogućavnje nadzora i kontrole tehnički pismenoj osobi.
+Započeto pisanje diplomskog rada.
+
+\dan{Nedjelja, 10. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Daljnja optimizacija repozitorija
+\end{itemize}
+- - - - - - \\
+Nastavak optimizacije od jučer. Morao sam se pobrinuti da su nepotrebni "dependency" paketi uklonjeni.
+
+\dan{Subota, 9. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Čišćenje repozitorija i alata
+\end{itemize}
+- - - - - - \\
+Išao sam sekvencijski micati alate iz repozitorija kako bi olakšao cijelokupni obujam direktorija. Također mobitel sa rootom je ostao u Rijeci pa ne mogu raditi t50 i hping3 sa mobitela više.
+\\
+Maknuo sam .spicy skripte i parsiranje Radius protokola. Iako korisno u mojem slučaju ($ISP \rightarrow_{ETH}\rightarrow LokalniRuter \rightarrow_{BUS} \rightarrow AP \rightarrow_{WiFi}\rightarrow Ostali\ klijenti$) ne mogu očekivati da će se svi spajati preko Radius protokola.
+\\
+Također i zeek2es skripte jer sam shvatio da ga limitiram ne koristeći Elasticsearch. Riješiti ću to drugačije kako ne bih dodavao nepotreban bloat na projekt.
+\\
+Za sada se Zeek Broker + ZPM miču zbog redundancije.
+
+\tjedan{10}{2. svibnja -- 8. svibnja 2026.}
+
+\dan{Petak, 8. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Validacija postojećih Zeek konfiguracija
+    \item Provjera Docker volume mountova
+    \item Testiranje log rotacije
+\end{itemize}
+- - - - - - \\
+Dan posvećen validaciji postojećeg setup-a. S obzirom da nisam imao vremena za nove implementacije, fokusirao sam se na provjeru radi li sve kako treba.
+\\
+Prvo sam validirao Docker volume mountove između kontejnera. Zeek kontejner zapisuje logove u shared volume koji Telegraf čita. Provjerio sam permisije i vlasništvo datoteka - sve je ispravno postavljeno. Telegraf uspješno čita nove log zapise kako Zeek stvara ih.
+\\
+Log rotacija je potencijalni problem koji sam uočio. Zeek po defaultu rotira logove svakih sat vremena, što znači da se stari conn.log preimenova u conn.log.1, a novi conn.log se kreira. Telegraf mora biti svjestan ovog ponašanja inače propušta podatke. Provjerio sam Telegraf konfiguraciju - koristi tail input plugin s from\_beginning = true opcijom što znači da prati datoteku čak i nakon rotacije.
+\\
+Testirao sam i što se događa kad InfluxDB kontejner padne ili se restarta. Telegraf ima buffer mehanizam koji čuva podatke lokalno dok InfluxDB nije dostupan, pa onda šalje sve odjednom. To je dobro za kontinuitet podataka, ali može stvoriti spike u Grafana dashboardu ako padne na dulje vrijeme.
+\\
+Nisu bile velike izmjene, ali validacija postojećeg sustava je bitna prije nego počnem dodavati nove komponente poput automatske reakcije.
+
+\dan{Četvrtak, 7. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Čitanje dokumentacije o Zeek skriptama
+    \item Analiza notice framework-a
+    \item Planiranje detekcijskih pravila
+\end{itemize}
+- - - - - - \\
+Proveo sam dan u Zeek dokumentaciji pokušavajući bolje razumjeti kako notice framework funkcionira. To je ključno za implementaciju automatske reakcije jer notice.log je centralno mjesto gdje Zeek šalje sva upozorenja.
+\\
+Notice framework omogućuje definiranje custom upozorenja kroz Zeek skripte. Svako upozorenje ima type (npr. Scan::Port\_Scan), message (opis što se dogodilo), i dodatne metadata poput source IP-a i vremena. Problem je što default Zeek instalacija dolazi s minimalnim brojem detekcijskih skripti - većina prijetnji neće generirati notice bez dodatnih skripti.
+\\
+Proučavao sam kako napisati pravilo za detekciju SYN flood napada. Logika je jednostavna: prati broj novih SYN paketa po source IP-u u određenom vremenskom prozoru, i ako premaši threshold, generiraj notice. Zeek koristi SumStats framework za agregaciju podataka kroz vrijeme, što je idealno za ovakve scenarije.
+\\
+Još jedan zanimljiv koncept iz dokumentacije je Intelligence framework. Omogućuje učitavanje liste poznatih malicioznih IP adresa, domena ili hasheva, i automatsko generiranje notice-a kad Zeek vidi match. To bi bilo korisno za integraciju s threat intelligence feedovima koje sam analizirao ranije (The DFIR Report).
+\\
+Zaključak: trebam napisati nekoliko custom Zeek skripti koje će generirati notice-e za najčešće napade (port scanning, SYN flood, suspicious DNS queries). To će biti input za Python skriptu koja izvršava automatsku reakciju.
+
+\dan{Srijeda, 6. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Proučavanje Zeek Broker dokumentacije
+    \item Evaluacija real-time komunikacije
+    \item Usporedba Broker vs. log parsing pristupa
+\end{itemize}
+- - - - - - \\
+Istraživao sam Zeek Broker framework kao alternativu čitanju log datoteka za automatsku reakciju. Broker je Zeek-ov messaging sistem koji omogućuje real-time komunikaciju između Zeek procesa i vanjskih aplikacija.
+\\
+Prednost Broker pristupa je latencija - umjesto da Python skripta čeka da se log zapiše na disk, parsira ga i reagira, Broker omogućuje slanje eventa direktno iz Zeeka u Python aplikaciju čim se dogodi. To znači da reakcija može biti gotovo trenutna.
+\\
+Tehnički, trebao bih napisati Zeek skriptu koja šalje Broker event kad detektira prijetnju, i Python listener koji prima te eventove koristeći broker Python binding. Problem je što Broker zahtijeva kompleksniju setup - trebam otvoriti dodatni port na Zeek kontejneru za komunikaciju, i osigurati da Python aplikacija može pristupiti tom portu.
+\\
+Usporedio sam oba pristupa za moj use case:
+- Log parsing (zeek2es): Jednostavniji, ne zahtijeva promjene u Zeek kontejneru, ali latencija ~1-5 sekundi.
+- Broker: Brži (latencija <1 sekunda), ali kompleksnija implementacija i debugging.
+\\
+Za proof-of-concept, log parsing pristup je dovoljan. Broker mogu dodati kasnije ako se ispostavi da je latencija problem. Realno, za većinu prijetnji koje planiram detektirati (SYN flood, port scanning), par sekundi kašnjenja u reakciji nije kritično.
+
+\dan{Utorak, 5. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Analiza postojećih Zeek skripti iz package managera
+    \item Istraživanje ZPM (Zeek Package Manager, zkg)
+    \item Evaluacija community skripti
+\end{itemize}
+- - - - - - \\
+Umjesto da pišem sve Zeek skripte od nule, istraživao sam što već postoji u Zeek community. ZKG (Zeek Package Manager) je centralni repozitorij za Zeek skripte i pluginove.
+\\
+Našao sam nekoliko korisnih paketa: ja3 (TLS fingerprinting koji sam spominjao ranije za detekciju uređaja bez obzira na MAC), hassh (SSH fingerprinting), i cve-2020-0601 (detekcija specifičnog Windows exploit-a). Instalacija je jednostavna kroz zkg install komandu unutar Zeek kontejnera.
+\\
+Problem je što mnogi paketi nisu održavani ili su dizajnirani za starije verzije Zeeka. Testirao sam nekoliko njih - neki rade bez problema, neki bacaju errore pri učitavanju. Moram biti oprezan s dependency-jima jer dodavanje previše skripti može usporiti Zeek processing.
+\\
+ja3 paket je posebno zanimljiv za moj problem MAC randomizacije. Instalirao sam ga i testirao na prometu preko AP-a. Zeek sada generira ssl.log s dodatnim poljem ja3 koje sadrži hash TLS client hello-a. To znači da mogu identificirati uređaj čak i kad mijenja MAC adresu - isti uređaj će uvijek imati isti ja3 hash.
+\\
+Za implementaciju automatske reakcije, planiram koristiti kombinaciju default Zeek detekcija + nekoliko community paketa (ja3, hassh) + custom skripte koje ću napisati za specifične use case-ove mog sustava.
+
+\dan{Ponedjeljak, 4. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje iptables integracije s Python skriptama
+    \item Proučavanje subprocess modula
+    \item Planiranje arhitekture za blocking mehanizam
+\end{itemize}
+- - - - - - \\
+Fokusirao sam se na drugu polovicu automatske reakcije - izvršavanje akcija nakon detekcije prijetnje. Najjednostavnija akcija je blokiranje IP adrese kroz iptables na CachyOS host-u.
+\\
+Python subprocess modul omogućuje pozivanje shell komandi direktno iz Python skripte. To znači da mogu napisati funkciju koja prima IP adresu kao parametar i izvršava iptables -A INPUT -s <IP> -j DROP. Problem je što iptables komande zahtijevaju root privilegije.
+\\
+Istraživao sam nekoliko pristupa kako to riješiti:
+- Pokretanje Python skripte kao root (loša security praksa)
+- Korištenje sudo s NOPASSWD za specifične iptables komande (bolji pristup, ali zahtijeva modifikaciju sudoers)
+- Pisanje privilegiranog servisa (systemd unit) koji prima komande preko socket-a (najsigurniji ali najkompleksniji)
+\\
+Za proof-of-concept, koristit ću sudo pristup. U produkcijskom okruženju bih otišao sa systemd servisom.
+\\
+Još jedan detalj koji moram riješiti je "unblocking". Ako automatski blokuram IP, trebam i mehanizam da ga odblokujem nakon određenog vremena ili ručno. To znači da Python skripta mora voditi evidenciju blokiranih IP adresa i timestampova, i periodički provjeravati treba li ih odblokirati.
+\\
+Planiram koristiti SQLite bazu za ovu evidenciju - lightweight, ne zahtijeva dodatni Docker kontejner, i dovoljno brza za ovaj use case.
+
+\dan{Nedjelja, 3. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje real-time log parsing biblioteka
+    \item Evaluacija watchdog Python modula
+    \item Testiranje file monitoring pristupa
+\end{itemize}
+- - - - - - \\
+Proučavao sam kako implementirati real-time čitanje Zeek logova bez konstantnog poll-anja datoteka. watchdog Python biblioteka omogućuje monitoring datotečnog sustava i triggering event-a kad se datoteka modificira.
+\\
+Ideja je postaviti watchdog observer na Zeek log direktorij (koji je mountan kao Docker volume). Kad Zeek zapiše novi redak u notice.log, watchdog detektira promjenu i triggera callback funkciju u mojoj Python skripti. Ta funkcija parsira novi redak (koristeći zeek2es ili direktno čitanje TSV formata) i odlučuje treba li reagirati.
+\\
+Testirao sam watchdog na testnoj datoteci - radi kako treba. Problem je što watchdog triggerira event za svaku promjenu, što znači da će se callback pozvati čak i kad Zeek samo flushuje buffer bez dodavanja novih redaka. Moram dodati logiku koja provjeri je li se stvarno dodao novi log entry.
+\\
+Alternativni pristup je korištenje tail -F komande kroz subprocess i čitanje stdout-a. To je jednostavnije, ali manje "pythonic" rješenje. Za proof-of-concept, tail pristup je vjerojatno brži za implementirati.
+\\
+Zaključak: za prvu verziju automatske reakcije, koristit ću tail -F notice.log | python script.py pristup. watchdog mogu dodati kasnije ako tail pristup ne bude dovoljno robustan.
+
+\dan{Subota, 2. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Revizija dokumentacije zeek2es alata
+    \item Testiranje JSON parsinga Zeek logova
+    \item Evaluacija error handling strategija
+\end{itemize}
+- - - - - - \\
+Nastavio sam istraživanje zeek2es alata iz prošlog tjedna. Fokus danas bio je na praktičnim detaljima kako integrirati ga u Python skriptu za automatsku reakciju.
+\\
+zeek2es pretvara Zeek TSV logove u JSON format koji je jednostavan za parsiranje. Testirao sam ga na različitim log tipovima (conn.log, dns.log, notice.log) - sve radi bez problema. JSON struktura je intuitivna: svako polje iz Zeek loga postaje ključ u JSON objektu.
+\\
+Problem koji sam uočio je handling malformiranih log zapisa. Ako Zeek zapisuje podatke dok se paket još procesira, može se dogoditi da redak u logu bude nepotpun ili oštećen. zeek2es u tom slučaju baca exception koji bi srušio moju Python skriptu ako ga ne uhvatim.
+\\
+Istraživao sam best practice za error handling u Python skriptama koje rade 24/7. Ključ je koristiti try-except blokove oko parsing logike, i logirati svaki error u posebnu datoteku za kasniju analizu. Ako jedan log redak ne može biti parsiran, skripta ga preskače i nastavlja s sljedećim.
+\\
+Još jedna stvar koju sam primjetio u dokumentaciji je da zeek2es podržava direktno slanje u Elasticsearch ako je konfiguriran. To bi moglo biti korisno za arhiviranje svih Zeek logova u pretraživu bazu, ali za moj trenutni use case (real-time reakcija) nije potrebno.
+\\
+Plan je napisati jednostavnu Python skriptu koja čita notice.log kroz zeek2es, parsira JSON, i izvršava akciju (npr. print za testiranje) kad vidi specifičan tip prijetnje.
+
+
+\tjedan{9}{25. travnja -- 1. svibnja 2026.}
+
+\dan{Petak, 1. svibnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Praznik rada
+\end{itemize}
+- - - - - - \\
+Praznik rada, danas nije ništa napravljeno.
+
+\dan{Četvrtak, 30. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Istraživanje Python biblioteka za automatsku reakciju
+    \item Analiza ZAT (Zeek Analysis Tools)
+    \item Evaluacija zeek2es za JSON processing
+\end{itemize}
+- - - - - - \\
+Fokus dana bio je na istraživanju kako implementirati poluautomatsku reakciju na Zeek upozorenja koju mentor traži. Proučavao sam dva pristupa: ZAT biblioteku i zeek2es alat.
+\\
+ZAT (Zeek Analysis Tools) izgleda kao najdirektnije rješenje. Biblioteka omogućuje čitanje Zeek logova direktno iz Pythona i rad s njima kao s pandas DataFrames. Primjeri s njihove dokumentacije pokazuju kako se može napraviti real-time monitoring - skripta čita conn.log ili notice.log i okida akcije na temelju definiranih pravila. Problem je što većina primjera pretpostavlja statičke log datoteke, a meni treba stream processing jer Zeek radi kontinuirano u Docker kontejneru.
+\\
+zeek2es pristup je zanimljiviji za moj use case. Iako je primarno namijenjen za Elasticsearch integraciju, alat pretvara Zeek logove u JSON format koji se može procesirati bilo kojim Python skriptom. To znači da mogu napisati listener koji prati notice.log, parsira JSON output i šalje upozorenja ili izvršava akcije (npr. blokiranje IP adrese kroz iptables na CachyOS host-u).
+\\
+Glavni izazov je kako spojiti ovo s postojećim stackom (Zeek → Telegraf → InfluxDB → Grafana). Jedna opcija je da Python skripta čita iste log datoteke koje Telegraf već procesira, ali to može dovesti do race condition problema. Druga opcija je koristiti Zeek's Broker framework za komunikaciju, ali to zahtijeva dublju integraciju.
+\\
+Zaključak dana: zeek2es + Python listener izgleda kao najjednostavniji proof-of-concept za automatsku reakciju. Sljedeći korak je testirati ga na stvarnim Zeek logovima iz mog sustava.
+
+\dan{Srijeda, 29. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Instalacija fuzzing alata (hping3, t50)
+    \item Testiranje generatora prometa
+    \item Evaluacija Termux okruženja za testiranje
+\end{itemize}
+- - - - - - \\
+Kako bi mogao testirati detekciju prijetnji i automatsku reakciju, trebam način da generiram kontrolirani "zlonamjerni" promet. Istraživao sam fuzzing alate koji mogu simulirati različite vrste napada preko mog AP-a.
+\\
+hping3 je prvi alat koji sam instalirao. To je packet crafter koji omogućuje slanje custom TCP/UDP/ICMP paketa. Koristim ga za simulaciju SYN flood napada i testiranje hoće li Zeek detektirati anomaliju u conn.log. Prednost je što mogu precizno kontrolirati sve parametre paketa (source IP, flags, payload).
+\\
+t50 je "multi-protocol injector" - brutalniji alat koji može generirati ogroman volumen prometa preko 15 različitih protokola istovremeno. Testirao sam ga u kontroliranom okruženju da vidim kako se moj Docker stack ponaša pod opterećenjem. Rezultat: Telegraf i InfluxDB nemaju problema, ali Zeek počinje gubiti pakete (capture\_loss.log pokazuje ~2\% gubitka) kad t50 pošalje više od 50k paketa po sekundi.
+\\
+Termux na mobitelu je zanimljiva opcija za mobilno testiranje. Instalirao sam ga i podigao osnovne networking alate. Ideja je koristiti mobitel kao "napadački" uređaj koji se spaja na moj AP, što bi simuliralo stvaran scenarij kompromitiranog uređaja u mreži. Ograničenje je što neki alati (poput t50) zahtijevaju root pristup koji je problematičan na Android-u.
+\\
+Ovo je temelj za testiranje automatske reakcije - trebam kontrolirane prijetnje da mogu verificirati rade li Python skripte koje planiram napisati.
+
+\dan{Utorak, 28. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Praktično testiranje fuzzing alata
+    \item Analiza Zeek outputa pod napadom
+    \item Dokumentiranje baseline ponašanja
+\end{itemize}
+- - - - - - \\
+Nastavio sam s testiranjem iz jučer. Pokrenuo sam hping3 sa svog laptopa prema vanjskom serveru (da vidim kako Zeek bilježi odlazni promet) i sa mobitela (preko Termux-a) prema laptopu (dolazni promet preko AP-a).
+\\
+Zeek je uspješno detektirao SYN flood. U conn.log se pojavljuju stotine kratkih veza s istim source IP-om ali različitim portovima. notice.log nije generirao automatsko upozorenje jer nemam učitanu odgovarajuću detekcijsku skriptu - to je nešto što moram dodati. Ovo potvrđuje da sam Zeek vidi promet ispravno, ali mu nedostaje inteligencija za prepoznavanje specifičnih napada.
+\\
+Usporedio sam "normalan" conn.log (par sati obične browsing aktivnosti preko 
+AP-a) s conn.log tijekom hping3 testa. Razlika je očita: normalni promet ima 
+dulje veze (duration $>$ 1s), veće količine prenesenih podataka, i raznolike 
+destination portove. Napad ima kratke veze (duration $\tilde{}$ 0.001s), minimalne podatke, i sve ide na isti port.
+\\
+Ovo mi je dalo ideju za prvu Python skriptu: pravilo koje gleda za anomaliju "više od 100 novih veza sa istog IP-a u manje od 10 sekundi prema istom portu". To je jednostavno pravilo koje pokriva SYN flood, a lako se implementira čitanjem conn.log kroz zeek2es.
+\\
+Dokumentirao sam baseline podatke (prosječan broj veza po minuti, top 10 destination portova, prosječno trajanje veze) jer to će biti referentna točka za detekciju anomalija.
+
+\dan{Ponedjeljak, 27. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Postavljanje Termux okruženja
+    \item Instalacija networking alata na mobitelu
+    \item Prvi testovi s Android uređajem kao klijentom
+\end{itemize}
+- - - - - - \\
+Počeo sam s postavkom Termux-a na mobitelu. Ideja je imati mobilni "laboratorij" koji se može spojiti na moj AP i generirati kontrolirani promet bez potrebe za dodatnim hardverom. Instalacija je bila jednostavna - Termux iz F-Droid repozitorija, zatim pkg install za osnovne alate (nmap, curl, netcat).
+\\
+hping3 instalacija je bila problematična jer zahtijeva kompajliranje iz izvora, a neki headeri nedostaju u Termux okruženju. Nakon traženja po forumima, našao sam da postoji precompiled verzija u Termux community repo, ali i dalje zahtijeva root za raw socket pristup. Odlučio sam koristiti Android rooting samo za testne svrhe, ne kao trajno rješenje.
+\\
+Prvi testovi bili su jednostavni - spojio mobitel na moj AP (koji vrti hostapd na CachyOS-u) i provjerio vidi li ga Zeek. U conn.log se pojavljuje s MAC adresom mobitela i IP adresom iz dnsmasq DHCP raspona. dns.log bilježi sve upite koje mobitel šalje (puno Google servisa i Android connectivity checkova).
+\\
+Ovo potvrđuje da moj setup ispravno hvata sve što se događa preko AP-a. Sljedeći korak je koristiti mobitel za simulaciju zlonamjernog ponašanja (port scanning, DoS pokušaji) i testirati hoće li Zeek upozorenja biti dovoljno precizna za automatsku reakciju.
+
+\dan{Nedjelja, 26. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Analiza prometa iz prethodnog tjedan
+    \item Identifikacija pattern-a za detekciju
+    \item Planiranje arhitekture za automatsku reakciju
+\end{itemize}
+- - - - - - \\
+Proveo sam dan analizirajući Zeek logove koje sam skupljao kroz prethodni tjedan. Cilj je bio pronaći pattern-e koji bi mogli biti temelj za automatsku detekciju prijetnji.
+\\
+U conn.log sam primijetio nekoliko zanimljivih anomalija: periodične kratke veze prema istim IP adresama u Rusiji (svaki put isti destination port 443), što izgleda kao beacon ponašanje. dns.log pokazuje da neki uređaji na AP-u konstantno resolvaju iste domene koje su sumnjive (kratki nazivi, TLD-ovi poput .top i .xyz). http.log bilježi User-Agent stringove koji ne odgovaraju OS-u koji bi uređaj trebao imati prema DHCP hostname-u.
+\\
+Ovo su sve signali koje mogu pretvoriti u detekcijska pravila. Problem je što trenutno nemam način da razlikujem legitiman od malicioznog ponašanja - trebam veći dataset "normalnog" prometa da mogu postaviti baseline.
+\\
+Arhitektura za automatsku reakciju bi trebala izgledati ovako: Zeek generira logove → Python skripta (koristi zeek2es) čita notice.log u real-time → ako se detektira prijetnja, skripta šalje komandu na CachyOS host (iptables DROP za blokiradu IP-a ili killall za prekid veze) → istovremeno šalje notification u Grafana dashboard preko InfluxDB custom metrike.
+\\
+Sljedeći tjedan moram napraviti proof-of-concept s jednostavnim pravilom (npr. blokiranje IP-a ako generiš više od 1000 veza u minuti) i testirati ga s fuzzing alatima.
+
+\dan{Subota, 25. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Spajanje Zeeka na mrežu nakon izmjena
+    \item Verifikacija Docker mreže
+    \item Testiranje vidljivosti prometa kroz AP
+\end{itemize}
+- - - - - - \\
+Nakon prošlotjednih promjena u konfiguraciji, morao sam verificirati da Zeek kontejner ispravno vidi sav promet koji prolazi kroz laptop. Problem s Docker mrežom je što kontejneri po defaultu vide samo promet unutar Docker bridge mreže, ne i promet koji prolazi kroz host-ov network interface.
+\\
+Rješenje je bilo prebaciti Zeek kontejner na host network mode (--network host). To znači da kontejner dijeli mrežni namespace s CachyOS host-om i vidi sve isto što vidi i host. Testirao sam s tcpdump-om na host-u i usporedio output s Zeek conn.log - svi paketi su prisutni.
+\\
+Drugi test bio je spojiti mobitel na AP (hostapd) i generirati promet (streaming video, browsing). Zeek je uspješno bilježio sve HTTP i HTTPS veze. dns.log je pokazivao sve DNS upite koje mobitel šalje prije spajanja na servere. http.log je bilježio Host headere i User-Agent stringove.
+\\
+Jedini problem bio je što Telegraf nije mogao čitati Zeek logove jer su vlasništvo Docker container usera. Riješio sam to dodavanjem Telegraf usera u odgovarajuću grupu i montiranjem Zeek log direktorija kao shared volume između Zeek i Telegraf kontejnera.
+\\
+Na kraju dana, cijeli stack (Zeek → Telegraf → InfluxDB → Grafana) radi kako treba. Grafana dashboardi pokazuju real-time podatke prometa koji prolazi kroz moj AP i ethernet vezu prema ISP-u.
+
+\tjedan{8}{18. travnja -- 24. travnja 2026.}
+
+\dan{Petak, 24. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Implementacija Spicy parsera za Radius protokol
+    \item Testiranje s Spicy Driverom
+\end{itemize}
+- - - - - - \\
+Nakon što sam shvatio kako Zeek "razgovara" s protokolima kroz Spicy framework, danas je bio dan za praktičnu implementaciju. 
+Fokus je bio na Radius protokolu jer je relativno jednostavan za početak, a pritom rješava konkretan problem - autentifikaciju 
+korisnika neovisno o MAC adresi u mom AP okruženju.
+\\
+Proces je bio iterativan: pisanje .spicy datoteke s gramatikom protokola, zatim povezivanje s Zeekovim eventima kroz .evt datoteku. 
+Ključni trenutak je bilo shvaćanje da svaki parser mora imati requires klauzulu za provjeru duljine paketa - bez toga dolazi do 
+overflowa i parser pada na prvom pogrešno formatiranom paketu.
+\\
+Spicy Driver se pokazao kao spasitelj živaca. Umjesto da svaki put pokrećem cijeli Zeek kontejner i čekam da procesira pcap, 
+jednostavno pokrenem driver nad testnom datotekom i vidim gdje parser puca. To ubrzava razvoj s sat vremena po iteraciji na par minuta.
+\\
+Dan završavam s funkcionalnim parserom koji uspješno izvlači usernames iz Radius paketa. Plan je integrirati ga u svoj Zeek 
+kontejner kako bi radius.log omogućio korelaciju korisnika preko DHCP-a, neovisno o tome koliko puta uređaji mijenjaju MAC adrese na 
+mom AP-u. To će biti kritično za poluautomatsku detekciju prijetnji.
+
+\dan{Četvrtak, 23. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Eksperimentiranje s ELK stackom
+    \item Testiranje zeek2es alata
+    \item Evaluacija potrebe za Elasticsearch-om u mom sustavu
+\end{itemize}
+- - - - - - \\
+Pokušao sam pokrenuti ELK stack na svom Acer Aspire 3 i odmah sam naišao na problem memorije. Sa 12GB RAM-a, Elasticsearch i 
+Kibana zajedno zauzimaju oko 4-5GB u idle stanju. S obzirom da laptop funkcionira kao gateway (CachyOS host + Docker stack: 
+Zeek, Telegraf, InfluxDB, Grafana), plus hostapd i dnsmasq za AP, to je previše.
+\\
+Testirao sam zeek2es koji pretvara Zeek logove u JSON format. Shvatio sam da za moje trenutne potrebe - dashboarding preko 
+Grafane - JQ filtriranje JSON-a daje istu funkcionalnost bez memorijskog opterećenja. Telegraf ionako već čita Zeek logove i 
+šalje ih u InfluxDB, tako da dodavanje Elasticsearch-a u stack bi bilo redundantno za osnovni monitoring.
+\\
+Ipak, zadržavam ELK kao opciju za naprednije korelacije kad počnem implementirati poluautomatsku reakciju na prijetnje. 
+Elasticsearch bi mogao poslužiti za kompleksne upite koji kombiniraju više Zeek logova istovremeno (npr. korelacija DNS, HTTP i 
+conn.log za detekciju C2 komunikacije).
+\\
+Najvažnije otkriće dana: UID (jedinstveni identifikator sesije) omogućuje praćenje cijele priče jednog uređaja kroz različite 
+Zeek logove, bez obzira na MAC randomizaciju. To mogu iskoristiti u Grafana dashboardu za prikaz "životnog ciklusa" sumnjive veze.
+
+\dan{Srijeda, 22. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Analiza CTI izvještaja (The DFIR Report)
+    \item Pretvaranje TTPs u Zeek upite
+    \item Postavljanje izoliranog analitičkog okruženja
+\end{itemize}
+- - - - - - \\
+Današnji fokus je bio na praktičnoj primjeni threat intelligence izvještaja. Uzeo sam jedan od izvještaja s The DFIR Report koji 
+opisuje Trickbot infekciju i pokušao ga prevesti u konkretne Zeek upite. TTPs iz izvještaja mogu se pretvoriti u Zeek skripte 
+koje automatski generiraju notice.log eventi.
+\\
+Umjesto da tražim specifične IP adrese (koje se mijenjaju), fokusirao sam se na ponašanje. Izvještaj je govorio o RDP-u preko 
+nestandardnih portova, pa sam napravio upit koji traži sve conn.log zapise gdje je service=="rdp" ali resp\_p != 3389. Sljedeći 
+korak je napisati Zeek skriptu koja će takve anomalije automatski detektirati i slati upozorenje u moj Grafana dashboard preko 
+InfluxDB metrike.
+\\
+Još jedan detalj iz izvještaja bio je korištenje "staged" domena za C2 komunikaciju. Zeek dns.log omogućuje povijesnu pretragu - mogu 
+vidjeti je li netko preko mog AP-a ikad kontaktirao te domene, čak i ako su sada ugašene.
+\\
+Druga polovica dana bila je posvećena sigurnosti analitičkog okruženja. Budući da radim na CachyOS-u, pokušao sam replicirati Windows 
+Sandbox pristup kroz Firejail. Sumnjive pcap datoteke otvaraju se u izoliranom okruženju jer Wireshark i Brim imaju historie ranjivosti. 
+Firejail se pokazao kao dobar kompromis - brz je za pokretanje, izolira mrežu i datotečni sustav, a ne konzumira resurse kao puna VM. 
+To je važno jer mi laptop već radi kao gateway s Docker stackom.
+
+\dan{Utorak, 21. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Video 10: Taksonomija NSM podataka
+    \item Video 11: Spicy Driver debugging
+    \item Video 12: Log management s zeek2es
+\end{itemize}
+- - - - - - \\
+Dan je započeo s razumijevanjem Bejtlicheve taksonomije podataka. Uvijek mi je bilo nejasno zašto sustavi drže i pcap i logove kad 
+logovi sadrže sve bitno. Danas sam shvatio - svaki tip podataka služi različitoj svrsi u mom sustavu. PCAP bi bio "nulti dokaz" za 
+detaljnu analizu, Zeek logovi (koje Telegraf čita) su za brzu korelaciju i dashboarding u Grafani, ekstrahirane datoteke su za 
+potencijalni sandbox, a IDS upozorenja (notice.log) su polazna točka za automatsku reakciju.
+\\
+CloudShark primjer iz videa pokazuje kako idealno sučelje treba izgledati - klikneš na upozorenje i odmah vidiš pripadajuće pakete. 
+To pokušavam postići s mojim stackom, ali trenutno imam samo Grafana dashboard koji prikazuje agregirane podatke iz InfluxDB-a. 
+Trebam dodati vezu na PCAP datoteke za dubinsku analizu.
+\\
+Video 11 me naučio pravilnom pristupu razvoju Spicy parsera. Umjesto da pišem kod naslijepo u Zeek kontejneru, Spicy Driver omogućuje 
+brzo testiranje izvan Docker okruženja. Najbitniji dio je bio razumijevanje requires klauzule - svaki parser mora provjeriti duljinu 
+paketa prije parsiranja.
+\\
+Log management video me natjerao na razmišljanje o skalabilnosti. Trenutno imam relativno male količine podataka (promet preko mog 
+AP-a i laptop prometa), ali jednom kad počnem producijski monitoring veće mreže, logovi će rasti eksponencijalno. Moj trenutni stack 
+(Zeek → Telegraf → InfluxDB → Grafana) je dovoljan, ali zeek2es + JQ kombinacija može biti korisna za ad-hoc analize van dashboarda.
+
+\dan{Ponedjeljak, 20. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Video 6: Monitoring bežičnih mreža
+    \item Video 7: Statistika gubitka paketa
+    \item Video 8: Instalacija Zeeka
+    \item Video 9: Uvod u Spicy framework
+\end{itemize}
+- - - - - - \\
+Prvi radni dan novog ciklusa učenja. Videi 6-9 su bili tehnički intenzivni, posebno dio o bežičnim mrežama. Shvatio sam da pokušaj 
+sniffanja WiFi prometa direktno iz zraka nije rješenje - previše komplikacija s kanalima i enkripcijom. Moj pristup (postavljanje Zeek
+ senzora na CachyOS host-u gdje se agregira promet s AP-a i ethernet veze prema ISP-u) je ispravna arhitektura. Zeek vidi sve što 
+ prođe kroz laptop koji funkcionira kao gateway.
+\\
+Najvažniji dio dana bio je razumijevanje capture\_loss mehanizma. Zeek prati TCP sekvencijske brojeve i detektira izgubljene pakete. 
+To je kritično za moj sustav - ako gubim pakete između izvora i Zeek kontejnera, moji Grafana dashboardi pokazuju nepotpune podatke, a 
+ekstrahirane datoteke su korumpirane. Za UDP i ICMP nema takve zaštite, što znači da moram paziti na konfiguraciju Docker mreže i 
+bridge-a.
+\\
+Instalacija Zeeka je potvrdila da je Docker pristup ispravan - koristim službene image-e umjesto kompajliranja. Najvažniji korak je 
+bio testiranje - usporedio sam Zeek output s tcpdump zahvatom na host sustavu da potvrdim da kontejner ispravno vidi promet koji 
+prolazi kroz laptop.
+\\
+Uvod u Spicy mi je otvorio mogućnosti proširenja. Do sada sam mislio da sam ograničen na protokole koje Zeek već razumije, ali Spicy 
+omogućuje pisanje potpuno novih parsera. To će biti ključno ako naletim na custom protokole u prometu koji prolazi kroz moj AP.
+
+\dan{Nedjelja, 19. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Video 1: Temeljna filozofija NSM-a
+    \item Video 2: Analiza kompromitacije (Mike's PC)
+    \item Video 3: Trickbot case study
+    \item Video 4: Postavljanje senzora
+    \item Video 5: Pasivna detekcija asseta
+\end{itemize}
+- - - - - - \\
+Kroz nekoliko sljedećih dana (pretpostavljam danas i sutra) ću se pozabaviti ovom listom na youtubu koju je postavio kanal Zeek 
+(pretpostavljam netko od razvojnih programera Zeeka).
+\\
+Lista: \href{https://www.youtube.com/playlist?list=PL2EYTX8UVCMitvFQeWxILfR0cTAhaWz9w}{Zeek in Action by Zeek}
+\\
+Prvi dan analize videa 1-5 bio je ključan za razumijevanje metodologije. Bejtlich je brutalno jasan - NSM nije igranje s 
+alatima već sustavno prikupljanje dokaza. To me natjeralo da preispitam svoj pristup - do sada sam fokusiran na dashboarding 
+(Grafana grafovi: trenutne veze, najpopularnije odredište/izvorište, notice.log), ali nisam razmišljao o forenzičkoj vrijednosti i 
+povezivanju podataka za analizu incidenata.
+\\
+Najvažnije otkriće: hijerarhija izvora podataka. U mom sustavu to znači: krenem od Grafana dashboarda koji agregira conn.log podatke 
+iz InfluxDB-a da vidim anomalije, zatim se spustim na Zeek HTTP i DNS logove za detalje, a tek na kraju koristim Wireshark za PCAP 
+analizu. Prije sam radio obrnuto - skakao direktno u Wireshark i gubio vrijeme.
+\\
+Problem MAC randomizacije koji me muči od početka projekta napokon ima rješenje - korelacija kroz DHCP hostname 
+(dnsmasq na mom AP-u) i JA3 fingerprinting. Uređaj može mijenjati MAC koliko hoće, ali njegov TLS handshake ostaje konzistentan. 
+To moram implementirati u Zeek skripte kako bi Grafana dashboard prikazivao stvarne uređaje, ne nasumične MAC adrese.
+\\
+Trickbot case study mi je pokazao koliko je važno poznavati "normalno" ponašanje. Anomalija (nestandardni port 8082) je očita samo 
+ako znam baseline. To znači da trebam provesti više vremena u pasivnom promatranju prometa preko mog AP-a i izgraditi profil normalnog
+ ponašanja prije nego što mogu efikasno detektirati prijetnje. 
+
+\dan{Subota, 18. travnja}
+\textbf{Ukratko}
+\begin{itemize}
+    \item Smanjivanje memorijskog otiska projekta
+\end{itemize}
+- - - - - - \\
+Daljnjim istraživanjem uvidjelo se da i InfluxDB nudi izgradnju "kontrolne ploče". Sučelje je slično i nudi slične opcije no neke vrijednosti se ne mogu odabrati kao "nositelji stupaca" najčešće stringovi poput IP adresa.
+Uz to InfluxDB nudi manje grafova sveukupno što znači da nije moguće na razumljiv i jasan način prikazati podatke kao što je to slučaj u Grafani.
+Iako je prvobitan plan bio dodavanje novih funkcionalnosti Zeeku također je pritom bio i pokušaj optimizacije cijelog projekta.
+Trenutno to je jedino moguće traženjem novog prihvatljivog riješenja (nešto što Grafana može čitati a taj "nepoznati" alat može čitati json datoteke).
+\\
+Zaključak dana je da se trenutni "stack" neće optimizirati do kraja projekta.
+
 \tjedan{7}{11. travnja -- 17. travnja 2026.}
 
 \dan{Petak, 17. travnja}
 \textbf{Ukratko}
 \begin{itemize}
-    \item itemNeki
+    \item Finalizacija osnovnog Grafana dashboarda
+    \item Testiranje s realnim mrežnim prometom
+    \item Dokumentacija Flux upita i panela
 \end{itemize}
 - - - - - - \\
+Dashboard je konačno funkcionalan i prikazuje osnovne metrike iz \lstinline|zeek_conn| i \lstinline|zeek_notice| measurementa.
+Kreirao sam četiri osnovna panela: (1) vremenski graf broja konekcija po minuti, (2) tablicu top 10 destinacijskih IP adresa, 
+(3) distribuciju protokola (TCP/UDP/ICMP), i (4) alert panel za Zeek notice zapise. Svaki panel koristi Flux upite s 
+\lstinline|range(start: -1h)| za prikaz zadnjeg sata podataka. Testirao sam s normalnim prometom (browsing, YouTube) i generiranim 
+prometom (nmap scan, SSH brute-force simulacija). Svi eventi su se pravilno prikazali u panelima s latencijom od ~5-10 sekundi. 
+Dashboard sam exportao u JSON i spremio u \lstinline|grafana/provisioning/dashboards/| kako bi se automatski učitavao pri pokretanju. 
+Milestone M2 je sada potpuno verificiran s vizualizacijom podataka.
 
 \dan{Četvrtak, 16. travnja}
 \textbf{Ukratko}
 \begin{itemize}
-    \item itemNeki
+    \item Kreiranje prvog Grafana panela za konekcije
+    \item Debugging Flux upita i vizualizacija problema
+    \item Dodavanje filtera za protokole
 \end{itemize}
 - - - - - - \\
+Počeo sam s najjednostavnijim panelom - time series grafom ukupnog broja konekcija. Početni upit je bio problematičan jer nisam 
+koristio \lstinline|aggregateWindow()| funkciju pa su se svi eventi prikazivali kao pojedinačne točke bez agregacije. Nakon istraživanja 
+Grafana-InfluxDB integracije, shvatio sam da moram grupirati podatke u vremenske intervale. Konačni upit koristi 
+\lstinline|aggregateWindow(every: 1m, fn: count)| za brojanje konekcija po minuti. Dodao sam i \lstinline|filter()| za odvajanje TCP, UDP 
+i ICMP prometa korištenjem \lstinline|r.proto| polja iz conn.log zapisa. Panel prikazuje tri linije (po jedna za svaki protokol) s 
+različitim bojama. Problem je bio što sam inicijalno koristio \lstinline|r._value| umjesto \lstinline|r.proto|, što je vraćalo greške u 
+parsiranju.
 
 \dan{Srijeda, 15. travnja}
 \textbf{Ukratko}
 \begin{itemize}
-    \item itemNeki
+    \item Eksperimentiranje s Flux upitima u InfluxDB Data Explorer
+    \item Identifikacija relevantnih polja iz \lstinline|zeek_conn| measurementa
+    \item Testiranje agregacijskih funkcija
 \end{itemize}
 - - - - - - \\
+Prije nego što sam počeo raditi u Grafani, htio sam se upoznati s InfluxDB Data Explorer sučeljem i testirati Flux upite direktno. 
+Koristio sam 
+\begin{lstlisting}
+    from(bucket: "zeek_logs") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "zeek_conn")
+\end{lstlisting}
+kao bazni upit i eksperimentirao s različitim filterima. Otkrio sam da Telegraf sprema sva Zeek polja kao tagove ili fieldove - važna polja su 
+\lstinline|id_orig_h| (source IP), \lstinline|id_resp_h| (destination IP), \lstinline|id_resp_p| (destination port), 
+\lstinline|proto|, i \lstinline|conn_state|. Testirao sam funkcije kao \lstinline|group()|, \lstinline|count()|, \lstinline|sort()|, 
+i \lstinline|limit()| kako bih razumio kako agregirati podatke za Grafana panele. 
 
 \dan{Utorak, 14. travnja}
 \textbf{Ukratko}
 \begin{itemize}
-    \item itemNeki
+    \item Konfiguracija Grafana datasourcea za InfluxDB
+    \item Debugging autentifikacije i connection stringova
+    \item Kreiranje novog dashboarda
 \end{itemize}
 - - - - - - \\
+Grafana je već bila konfigurirana putem \lstinline|grafana/provisioning/datasources/influxdb.yaml| no nisam je 
+testirao do danas. Prilikom prvog pokušaja dodavanja panela, dobio sam grešku "unauthorized" što je značilo da 
+kredencijali nisu prošli. Problem je bio što sam u YAML-u koristio environment varijable 
+(\lstinline|${INFLUXDB_ADMIN_USER}|) koje nisu bile dostupne Grafana containeru. 
+Bar sam tako mislio dok nisam vidio da imam zatipak u .env datoteci koji sam onda odmah ispravio.
+Nakon toga "Test \& Save" je bio uspješan. InfluxDB je bio dostupan na \lstinline|http://influxdb:8086| iz Grafana containera zahvaljujući 
+Docker networku. Query language sam postavio na Flux (ne InfluxQL). Kreirao sam novi dashboard pod nazivom "Zeek Network Monitoring" i 
+spremio ga u provisioning direktorij.
 
 \dan{Ponedjeljak, 13. travnja}
 \textbf{Ukratko}
 \begin{itemize}
-    \item itemNeki
+    \item Istraživanje Grafana dashboard best practices
+    \item Planiranje panela za prikaz podataka
+    \item Sketching dashboard layouta
 \end{itemize}
 - - - - - - \\
+Prije implementacije, htio sam planirati koje metrike su najvažnije za nadzor lokalne mreže. Istraživao sam 
+postojeće Zeek/Grafana dashboarde na GitHub-u i Grafana Labs stranici kako bih vidio što drugi monitoring 
+sustavi prikazuju. Odlučio sam fokusirati se na pet  ključnih područja: 
+\begin{itemize}
+    \item promet i bandwidth (konekcije po vremenu, protokoli)
+    \item top komunikatori (najaktivniji source/destination IP-ovi)
+    \item sigurnosni eventi (Zeek notice zapisi, port scanovi, SSH brute-force)
+    \item DNS upit analiza (budući work)
+    \item sumnjive konekcije (conn\_state != "SF", neobični portovi)
+\end{itemize}
+Za ovaj tjedan cilj je implementirati samo prva tri područja - ostatak dolazi u idućim iteracijama. 
+Napravio sam skicu layouta na papiru s pozicijama panela. Izvori koje sam koristio su Grafana dokumentacija i 
+\href{https://github.com/corelight/ecs-zeek-dashboards}{Corelight ECS-Zeek dashboards} repozitorij.
 
 \dan{Nedjelja, 12. travnja}
 \textbf{Ukratko}
 \begin{itemize}
-    \item itemNeki
+    \item Učenje o Flex skriptnom jeziku
+    \item Uređivanje bilješki - \lstinline|biljeske.tex|
 \end{itemize}
 - - - - - - \\
+Zbog same duljine ovoga dokumenta, dodao sam dodatne \textit{anchore} na tjedne i Sadržaj kako 
+bih se lakše snalazio u dokumentu. \
+Za davanje upita nad InfluxDB-om i Grafanom potrebno je znati \lstinline|Flux| jezik.
+Prethodno sam ga istraživao i trebao bi biti lakši od klasičnog SQL-a.
+Za izvore sam koristio:
+\begin{itemize}
+    \item \href{https://docs.influxdata.com/flux/v0/get-started/}{Get started with Flux}
+    \item \href{https://www.youtube.com/watch?v=sjfBPPBw8k8}{Flux query language and Influxdb basics}
+    \item \href{https://www.youtube.com/watch?v=LbQCYNGcWUU}{InfluxDB: Flux Basics}
+    \item \href{https://www.youtube.com/watch?v=8gt_MdCFw3k}{Intro to Flux Functions}
+    \item \href{https://www.youtube.com/watch?v=8jsoWCZZ5bk}{Samantha Wang | Transform Your Data Using Telegraf \& Flux | InfluxDays}
+    \item \href{https://www.youtube.com/watch?v=sF2inT5tlTg}{InfluxDB: Intro to Telegraf}
+\end{itemize}
+\
+Linkovi se mogu naći u .tex datoteci te su svi dostupni na WebArchive stranici - provjereno zadnje 15.4.2026
+Primjer flux upita:
+\begin{lstlisting}
+    from(bucket: "example-bucket")
+    |> range(start: -1d)
+    |> filter(fn: (r) => r._measurement == "example-measurement")
+    |> mean()
+    |> yield(name: "_results")
+\end{lstlisting}
+\textit{Bucket} smo postavili još kad smo postavljali .env datoteku i docker-compose.yml. Zove se \lstinline|zeek_logs| te iz nje dohvaćamo
+zapise.
 
 \dan{Subota, 11. travnja}
 \textbf{Ukratko}
@@ -124,7 +862,7 @@ Kako je tjedan bližio kraju napravio sam pregled svega što je napravljeno u sk
 Pokretanjem \lstinline|sudo ./dipl.sh status| potvrđeno je da su svi servisi aktivni, a pregledom
 InfluxDB Data Explorera vidljiva su oba measurementa: \lstinline|zeek_conn| i \lstinline|zeek_notice|.
 \lstinline|zeek_notice| measurement sada prima zapise svaki put kada Zeek detektira nešto
-što zadovoljava uvjete neke od učitanih policy skripti --- port scan ili SSH brute force pokušaj.
+što zadovoljava uvjete neke od učitanih policy skripti - port scan ili SSH brute force pokušaj.
 M2 milestone (rok: 15. travnja) je praktički završen tjedan ranije od planiranog što pruža
 dobar temelj za nadolazeći M3 koji uključuje izradu Grafana dashboarda.
 Sljedeći koraci uključuju dizajn dashboarda koji će vizualizirati podatke iz oba measurementa
@@ -141,7 +879,7 @@ Nakon što je u srijeda potvrđeno da Zeek ispravno detektira i bilježi sigurno
 \lstinline|notice.log|, sljedeći logičan korak bio je proširiti Telegraf konfiguraciju da
 šalje i te podatke u InfluxDB, analogno postojećem \lstinline|zeek_conn| measurementu.
 Dodan je drugi \lstinline|[[inputs.tail]]| blok u \lstinline|telegraf/telegraf.conf| koji
-čita \lstinline|/zeek-logs/notice.log| i šalje zapise pod measurementom \lstinline|zeek_notice|.
+čita \lstinline|/zeek-logs/notice.log| i šalje zapise pod measure \lstinline|zeek_notice|.
 Kao tagovi definirani su \lstinline|note| (tip notifikatora, npr. \lstinline|Scan::Port_Scan|
 ili \lstinline|SSH::Password_Guessing|) i \lstinline|src_ip|, a kao polje pohranjena je
 \lstinline|msg| poruka koju Zeek generira uz svaki notice.
@@ -163,11 +901,11 @@ spojenom na AP koristeći \lstinline|nmap|:
 \begin{itemize}
     \item \lstinline|nmap -sS 10.0.1.10|
 \end{itemize}
-\lstinline|nmap| šalje SYN pakete na niz portova --- upravo one konekcije koje u \lstinline|conn.log|
+\lstinline|nmap| šalje SYN pakete na niz portova - upravo one konekcije koje u \lstinline|conn.log|
 ostavljaju trag kao \lstinline|conn_state: S0| (SYN bez odgovora), što je obrazac koji
 \lstinline|policy/misc/scan.zeek| prati.
 Nakon scana, pregledom \lstinline|zeek-logs/| direktorija potvrđen je nastanak
-\lstinline|notice.log| datoteke --- što znači da Zeek nije samo zabilježio promet već ga je
+\lstinline|notice.log| datoteke - što znači da Zeek nije samo zabilježio promet već ga je
 i interpretirao kao potencijalno maliciozan.
 Sadržaj \lstinline|notice.log| sadržavao je zapise tipa \lstinline|Scan::Port_Scan| s
 izvorišnom adresom laptopa i porukom o broju skeniranih portova, što je direktna potvrda
@@ -190,17 +928,17 @@ Dostupne skripte provjerene su naredbom:
 \end{itemize}
 U \lstinline|zeek/local.zeek| dodane su dvije policy skripte:
 \begin{itemize}
-    \item \lstinline|@load policy/misc/scan| --- detektira port scanning praćenjem
+    \item \lstinline|@load policy/misc/scan|- detektira port scanning praćenjem
     neuspješnih konekcija (\lstinline|conn_state: S0|, \lstinline|REJ|) prema većem broju
     portova ili hostova unutar vremenskog prozora; rezultat je \lstinline|Scan::Port_Scan|
     ili \lstinline|Scan::Address_Scan| notice
-    \item \lstinline|@load policy/protocols/ssh/detect-bruteforcing| --- koristi Zeekov
+    \item \lstinline|@load policy/protocols/ssh/detect-bruteforcing| - koristi Zeekov
     \lstinline|SumStats| framework koji broji neuspješne SSH konekcije po izvorišnom hostu;
     kada host prijeđe zadani prag (defaultno 30 neuspješnih pokušaja u 30 minuta) generira
     se \lstinline|SSH::Password_Guessing| notice
 \end{itemize}
 Obje skripte su dio standardne Zeek instalacije i ne zahtijevaju nikakvo dodatno pisanje
-koda --- samo \lstinline|@load| direktivu u \lstinline|local.zeek|.
+koda - samo \lstinline|@load| direktivu u \lstinline|local.zeek|.
 Sve što skripte detektiraju završava u \lstinline|notice.log| putem Zeekove
 \lstinline|NOTICE()| funkcije, što ga čini centralnim mjestom za sigurnosne događaje.
 Zeek je restartiran kako bi učitao novu konfiguraciju \lstinline|docker restart zeek-ids|
@@ -400,7 +1138,7 @@ Problem je riješen dodavanjem eksplicitnih UFW pravila:
 \end{itemize}
 Nakon primjene pravila, \lstinline|journalctl -u dnsmasq -f| potvrdio je primitak
 \lstinline|DHCPDISCOVER| paketa i uspješnu dodjelu IP adrese klijentskom uređaju iz raspona
-\lstinline|10.0.1.10 -- 10.0.1.100|.
+\lstinline|10.0.1.10 - 10.0.1.100|.
 UFW pravila su dokumentirana radi reproducibilnosti - u budućnosti ih treba ugraditi u
 \lstinline|net_setReset_rules.sh| skriptu.
  
