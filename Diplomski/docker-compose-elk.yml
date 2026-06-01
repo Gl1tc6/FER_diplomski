@@ -43,18 +43,21 @@ services:
       retries: 10
 
   # ============================================================
-  # TELEGRAF — isti agent, samo output ide u Elasticsearch
-  # Koristi isti telegraf.conf uz dodatni elasticsearch output
+  # FILEBEAT — čita Zeek logove i šalje direktno u Elasticsearch
+  # Zamjena za Telegraf u ovom stacku
+  # Podržava sve Zeek log tipove (conn, dns, http, ssl, notice...)
   # ============================================================
-  telegraf:
-    image: telegraf:1.38
-    container_name: telegraf
+  filebeat:
+    image: elastic/filebeat:8.17.0
+    container_name: filebeat
     restart: unless-stopped
+    user: root
     networks:
       - monitoring
     volumes:
-      - ./telegraf/telegraf-elk.conf:/etc/telegraf/telegraf.conf:ro
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - ./zeek-logs:/zeek-logs:ro
+    command: filebeat -e --strict.perms=false
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -62,6 +65,7 @@ services:
   # ============================================================
   # GRAFANA — ista verzija, Elasticsearch data source
   # Dostupna na: http://localhost:3000
+  # Odvojen storage od InfluxDB varijante (grafana-storage-elk)
   # ============================================================
   grafana:
     image: grafana/grafana:11.4.0
@@ -78,7 +82,6 @@ services:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_INSTALL_PLUGINS=grafana-opensearch-datasource
     depends_on:
       elasticsearch:
         condition: service_healthy

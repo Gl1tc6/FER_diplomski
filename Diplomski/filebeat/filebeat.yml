@@ -1,0 +1,121 @@
+# ============================================================
+# Filebeat konfiguracija za ingestion Zeek logova u Elasticsearch
+# Spremi kao: filebeat/filebeat.yml
+# ============================================================
+
+# ------------------------------------------------------------
+# INPUTS — svaki Zeek log tip kao zaseban input
+# ------------------------------------------------------------
+filebeat.inputs:
+
+  - type: filestream
+    id: zeek-conn
+    enabled: true
+    paths:
+      - /zeek-logs/conn.log
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          add_error_key: false
+    fields:
+      zeek_type: "conn"
+    fields_under_root: false
+
+  - type: filestream
+    id: zeek-notice
+    enabled: true
+    paths:
+      - /zeek-logs/notice.log
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          add_error_key: false
+    fields:
+      zeek_type: "notice"
+    fields_under_root: false
+
+  - type: filestream
+    id: zeek-dns
+    enabled: true
+    paths:
+      - /zeek-logs/dns.log
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          add_error_key: false
+    fields:
+      zeek_type: "dns"
+    fields_under_root: false
+
+  - type: filestream
+    id: zeek-http
+    enabled: true
+    paths:
+      - /zeek-logs/http.log
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          add_error_key: false
+    fields:
+      zeek_type: "http"
+    fields_under_root: false
+
+  - type: filestream
+    id: zeek-ssl
+    enabled: true
+    paths:
+      - /zeek-logs/ssl.log
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          add_error_key: false
+    fields:
+      zeek_type: "ssl"
+    fields_under_root: false
+
+  - type: filestream
+    id: zeek-dhcp
+    enabled: true
+    paths:
+      - /zeek-logs/dhcp.log
+    parsers:
+      - ndjson:
+          keys_under_root: true
+          add_error_key: false
+    fields:
+      zeek_type: "dhcp"
+    fields_under_root: false
+
+# ------------------------------------------------------------
+# PROCESORI — konverzija Zeek ts (Unix float) u @timestamp
+# ------------------------------------------------------------
+processors:
+  - timestamp:
+      field: ts
+      layouts:
+        - 'UNIX'
+      target_field: '@timestamp'
+      ignore_missing: true
+      ignore_failure: true
+
+# ------------------------------------------------------------
+# OUTPUT — Elasticsearch
+# Indeks po tipu i datumu: zeek-conn-2026.05.29
+# ------------------------------------------------------------
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "zeek-%{[fields.zeek_type]}-%{+yyyy.MM.dd}"
+
+# ------------------------------------------------------------
+# INDEX TEMPLATE — isključi ILM, postavi vlastiti pattern
+# ------------------------------------------------------------
+setup.template.name: "zeek"
+setup.template.pattern: "zeek-*"
+setup.template.overwrite: false
+setup.ilm.enabled: false
+
+# ------------------------------------------------------------
+# LOGGING — samo greške u terminalu (smanjuje buku)
+# ------------------------------------------------------------
+logging.level: warning
+logging.to_stderr: true
