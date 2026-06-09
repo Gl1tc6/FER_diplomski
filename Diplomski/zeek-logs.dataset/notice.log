@@ -1,0 +1,6 @@
+{"ts":1780938199.908768,"note":"Custom_Port_Scan","msg":"Mogući port scan: 10.0.1.94 kontaktirao 50 različitih portova","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+{"ts":1780941076.602353,"note":"Custom_Port_Scan","msg":"Mogući port scan: 10.0.1.94 kontaktirao 50 različitih portova","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+{"ts":1780941301.649581,"note":"Custom_Port_Scan","msg":"Mogući port scan: 10.0.1.94 kontaktirao 50 različitih portova","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+{"ts":1780943597.40068,"note":"Custom_Port_Scan","msg":"Mogući port scan: 10.0.1.94 kontaktirao 50 različitih portova","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+{"ts":1780943908.798762,"note":"Custom_Port_Scan","msg":"Mogući port scan: 10.0.1.94 kontaktirao 50 različitih portova","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+{"ts":1780944238.831374,"note":"Custom_Port_Scan","msg":"Mogući port scan: 10.0.1.39 kontaktirao 50 različitih portova","src":"10.0.1.39","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}

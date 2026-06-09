@@ -34,7 +34,7 @@ if [ "$1" == "set" ]; then
     # Dodavanje pravila za prolazak prometa prema wlan1
     ufw allow in on wlan1 to any port 67 proto udp
     ufw allow in on wlan1 to any port 68 proto udp
-    ufw route allow in on wlan1 out on enp2s0
+    ufw route allow in on wlan1 out on $WAN_IF
 
     # pokretanje APa
     systemctl start dnsmasq
@@ -60,7 +60,7 @@ elif [ "$1" == "reset" ]; then
     # brisanje FW pravila
     ufw delete allow in on wlan1 to any port 67 proto udp
     ufw delete allow in on wlan1 to any port 68 proto udp
-    ufw route delete allow in on wlan1 out on enp2s0
+    ufw route delete allow in on wlan1 out on $WAN_IF
 
     # vraćanje postavki
     sysctl -w net.ipv4.ip_forward=0 > /dev/null

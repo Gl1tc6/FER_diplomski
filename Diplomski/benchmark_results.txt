@@ -1,0 +1,39 @@
+============================================================
+  BENCHMARK REZULTATI: InfluxDB vs Elasticsearch
+  Datum: 2026-06-08 22:14:31
+  Host:  cachyos-x8664 | x86_64
+  OS:    GNU/Linux 7.0.1-1-cachyos
+============================================================
+
+=== 0. VERIFIKACIJA ===
+  InfluxDB: 13435 | Elasticsearch: 14027
+
+=== 1. STORAGE ===
+  Sirovi conn.log: 4,7M
+  InfluxDB bucket: N/A (bucket dir nije pronađen)
+  Elasticsearch (_cat/indices zeek-*):
+    zeek-conn-2026.06.08 14027 4.9mb
+
+=== 2. RAM POTROŠNJA ===
+  --- uzorak 1 ---
+  influxdb         137.3MiB / 11.02GiB | 0.03%
+  elasticsearch    1.071GiB / 11.02GiB | 0.44%
+  telegraf         68.59MiB / 11.02GiB | 0.18%
+  --- uzorak 2 ---
+  influxdb         136.6MiB / 11.02GiB | 0.03%
+  elasticsearch    1.073GiB / 11.02GiB | 0.45%
+  telegraf         69.57MiB / 11.02GiB | 0.18%
+  --- uzorak 3 ---
+  influxdb         135.5MiB / 11.02GiB | 0.02%
+  elasticsearch    1.075GiB / 11.02GiB | 0.35%
+  telegraf         69.08MiB / 11.02GiB | 1.15%
+
+=== 3. QUERY LATENCY ===
+  InfluxDB: COUNT                  276.4       
+  InfluxDB: TOP 10 dst_ip          143.5       
+  InfluxDB: AGG po minutama        375.4       
+
+  Elastic: COUNT                   5.1         
+  Elastic: TOP 10 dst_ip           5.1         
+  Elastic: AGG po minutama         7.5         
+

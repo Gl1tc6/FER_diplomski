@@ -15,6 +15,7 @@ services:
     volumes:
       - ./zeek-logs:/usr/local/zeek/logs
       - ./zeek/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek:ro
+      - ./zeek/intel.dat:/usr/local/zeek/share/zeek/site/intel.dat:ro
     command: zeek -C -i wlan1 local
 
   # ============================================================

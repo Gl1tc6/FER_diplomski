@@ -1,0 +1,17 @@
+\chapter{Uvod}
+
+Svaki uređaj danas je povezan u neku mrežu. Velika većina tih uređaja pripada jednoj od bezbroj lokalnih mreža. Neke su kućne, neke poslovne, a neke vojne.
+Činjenica je da su lokalne mreže svugdje oko nas. Sigurnost lokalnih mreža (kao i sigurnost bilo čega drugog) nije pratila razvoj i pristupačnost tih istih mreža.
+Jednom kada se sigurnosni incidenti krenu nizati se krene buditi i svijest poslovnih i privatnih korisnika.
+
+Kako bi se incidenti (a time i troškovi pogotovo za poslovne korisnike) izbjegli na tržištu se pojavilo mnoštvo programa\cite{splunk_docs}\cite{security_onion} pa čak i zanimanja (SOC analist).
+Ta rješenja funkcioniraju za one koji ih mogu platiti. Ako postoji potreba za pravim 24 satnim nadzorom onda firmi nije problem zaposliti (najmanje) 3 SOC analista koji će se izmjenjivati u 8 satnim
+smjenama. Postoji i mogućnost računalne zaštite koja nije toliko dobra ali i dalje nudi neku razinu zaštite. No ipak problem svih navedenih rješenja je što koštaju.
+
+Cilj ovog rada je ponuditi programsko rješenje osobnim korisnicima i malim firmama kako bi zaštitili svoju lokalnu mrežu unatoč manjoj financijskoj sposobnosti koja nije problem za veće firme zbog toga što su male firme cilj
+nemalog broja napada čak 43\%\cite{totalassure_smallbusiness}.
+U radu su obrađena dva moguća rješenja gore navedenog problema. Korišteni alati sa kojima se radilo je Zeeku kao osnovnom alatu za prikupljanje podataka, nakon toga se ispitivanje provodilo nad 2 para 
+baze podataka i njezinim agregatorom podataka: InfluxDB uz Telegraf kao agentu za prikupljanje podataka te Elasticsearch uz Filebeat Obje baze podataka na kraju su informacije agregirale u Grafani za vizualizaciju 
+prikupljenih informacija.
+
+Nakon objašnjenja rada i procesa ponuditi će se čitateljima mogući smjerovi za ovo implementacijsko rješenje te koje daljnje korake autor vidi u ovom radu.

@@ -34,57 +34,57 @@ filebeat.inputs:
       zeek_type: "notice"
     fields_under_root: false
 
-  - type: filestream
-    id: zeek-dns
-    enabled: true
-    paths:
-      - /zeek-logs/dns.log
-    parsers:
-      - ndjson:
-          keys_under_root: true
-          add_error_key: false
-    fields:
-      zeek_type: "dns"
-    fields_under_root: false
+  # - type: filestream
+  #   id: zeek-dns
+  #   enabled: true
+  #   paths:
+  #     - /zeek-logs/dns.log
+  #   parsers:
+  #     - ndjson:
+  #         keys_under_root: true
+  #         add_error_key: false
+  #   fields:
+  #     zeek_type: "dns"
+  #   fields_under_root: false
 
-  - type: filestream
-    id: zeek-http
-    enabled: true
-    paths:
-      - /zeek-logs/http.log
-    parsers:
-      - ndjson:
-          keys_under_root: true
-          add_error_key: false
-    fields:
-      zeek_type: "http"
-    fields_under_root: false
+  # - type: filestream
+  #   id: zeek-http
+  #   enabled: true
+  #   paths:
+  #     - /zeek-logs/http.log
+  #   parsers:
+  #     - ndjson:
+  #         keys_under_root: true
+  #         add_error_key: false
+  #   fields:
+  #     zeek_type: "http"
+  #   fields_under_root: false
 
-  - type: filestream
-    id: zeek-ssl
-    enabled: true
-    paths:
-      - /zeek-logs/ssl.log
-    parsers:
-      - ndjson:
-          keys_under_root: true
-          add_error_key: false
-    fields:
-      zeek_type: "ssl"
-    fields_under_root: false
+  # - type: filestream
+  #   id: zeek-ssl
+  #   enabled: true
+  #   paths:
+  #     - /zeek-logs/ssl.log
+  #   parsers:
+  #     - ndjson:
+  #         keys_under_root: true
+  #         add_error_key: false
+  #   fields:
+  #     zeek_type: "ssl"
+  #   fields_under_root: false
 
-  - type: filestream
-    id: zeek-dhcp
-    enabled: true
-    paths:
-      - /zeek-logs/dhcp.log
-    parsers:
-      - ndjson:
-          keys_under_root: true
-          add_error_key: false
-    fields:
-      zeek_type: "dhcp"
-    fields_under_root: false
+  # - type: filestream
+  #   id: zeek-dhcp
+  #   enabled: true
+  #   paths:
+  #     - /zeek-logs/dhcp.log
+  #   parsers:
+  #     - ndjson:
+  #         keys_under_root: true
+  #         add_error_key: false
+  #   fields:
+  #     zeek_type: "dhcp"
+  #   fields_under_root: false
 
 # ------------------------------------------------------------
 # PROCESORI — konverzija Zeek ts (Unix float) u @timestamp
@@ -113,6 +113,7 @@ setup.template.name: "zeek"
 setup.template.pattern: "zeek-*"
 setup.template.overwrite: false
 setup.ilm.enabled: false
+setup.template.enabled: false
 
 # ------------------------------------------------------------
 # LOGGING — samo greške u terminalu (smanjuje buku)

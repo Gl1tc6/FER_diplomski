@@ -15,6 +15,31 @@
 \usepackage{setspace} % For setting line spacing
 \onehalfspacing % Set line spacing to 1.5
 
+\captionsetup[lstlisting]{labelfont=bf,labelsep=period,font=small}
+
+% Tvoj postojeći kod ostaje isti
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!5},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{orange},
+    captionpos=b,
+    lineskip=-1.5pt
+}
+
+\renewcommand{\lstlistingname}{Kod}
+
+\AtBeginDocument{
+    \renewcommand{\thelstlisting}{\arabic{chapter}.\arabic{lstlisting}}
+}
+
+% 2. Dodatak za hyperref kako bi \autoref{...} ispisivao "Kod X.Y" umjesto samo broja
+\newcommand{\lstlistingautorefname}{Kod}
+
+
 \usepackage{titlesec} % To control the title spacing
 \titlespacing*{\chapter}{0pt}{-50pt}{20pt}
 
@@ -24,9 +49,8 @@
 \renewcommand{\contentsname}{Sadržaj}
 \renewcommand\thepage{}
 
-\title{Using ZAP tool as alternative to Burp Suite Professional}
-\naslov{Implementacija središnjeg sustava za nadzor i vizualizaciju komunikacijskih
-obrazaca lokalne mreže}
+\title{Implementation of a centralized system for monitoring and visualizing local network communication patterns}
+\naslov{Implementacija središnjeg sustava za nadzor i vizualizaciju komunikacijskih obrazaca lokalne mreže}
 \brojrada{1586}
 \author{Ante Čavar}
 \datum{lipanj, 2026.}
@@ -36,46 +60,32 @@ obrazaca lokalne mreže}
 \maketitle
 \zadatak{hr_0036540817_94.pdf}
 \begin{zahvale}
-Zahvaljujem se prof.\ dr.\ sc. Stjepanu Grošu na pruženoj pomoći prilikom izrade rada.
+Zahvaljujem svojoj obitelji što je uvijek bila uz mene.
 \end{zahvale}
 \newpage
 \tableofcontents
 \newpage
 \mainmatter
-% \setcounter{page}{1}
-% \renewcommand\thepage{\arabic{page}}
+\setcounter{page}{1}
+\renewcommand\thepage{\arabic{page}}
 \include{uvod}
-\include{opis_alata}
-%\include{testiranje}
-%\include{usporedba}
-%\include{zakljucak}
+\include{teorijska_osnova}
+\include{arhitektura}
+\include{implementacija}
+\include{evaluacija}
+\include{testiranje}
+\include{zakljucak}
 \bibliography{literatura}
 
 
 \begin{sazetak}
-  Cilj ovog rada bio je usporediti Burp Suite Professional i OWASP ZAP. Prije svega, uspoređene su njihove značajke po dokumentaciji, 
-  a zatim su testirani u sigurnom okruženju. Oba alata su se pokazala izuzetno korisnima i sveobuhvatnima, te je bilo koji problem 
-  moguće riješiti neovisno o izboru između ta dva alata. Uz to što su oba alata izuzetno korisna, također vrijedi nadodati kako oba 
-  posjeduju mogućnost proširenja kako bi zadovoljili različite potrebe. Pokazano je zašto je ipak ZAP malo bolji izbor, posebno za 
-  male tvrtke i pojedince, te kako ga je moguće automatizirati jednostavnim skriptama.
-
-  Na kraju je zaključeno kako su oba alata jednako bitna, te odluka koji će biti korišten u kojem trenutku ovisi o budžetu, znanju, 
-  iskustvu i situaciji. Ne postoji jedan alat koji može zamijeniti sve ostale, ali činjenica da postoji više od jednog je zdrava za 
-  razvoj, održavanje i unapređivanje svih alata na tržištu.
+  None
 \end{sazetak}
 \begin{kljucnerijeci}
-  web sigurnost, OWASP, Burp Suite, penetracijsko testiranje, automatizacija, PortSwigger, ZAP
+  None
 \end{kljucnerijeci}
 \begin{abstract}
-  The aim of this study was to compare Burp Suite Professional and OWASP ZAP. Initially, their features were compared based on 
-  documentation, followed by testing in a secure environment. Both tools proved to be extremely useful and comprehensive, and any 
-  issue can be resolved regardless of the choice between these two tools. In addition to being extremely useful, it is worth noting 
-  that both tools have the capability for extensions to meet various needs. It has been demonstrated why ZAP is a slightly better 
-  choice, especially for small companies and individuals, and how it can be automated with simple scripts.
-
-  In the end, it was concluded that both tools are equally important, and the decision on which tool to use in a given situation 
-  depends on the budget, knowledge, experience, and context. There is no single tool that can replace all others, but the existence 
-  of more than one tool is beneficial for the development, maintenance, and improvement of all tools on the market.
+  None
 \end{abstract}
 \begin{keywords}
     None
@@ -113,3 +123,21 @@ Zahvaljujem se prof.\ dr.\ sc. Stjepanu Grošu na pruženoj pomoći prilikom izr
 %   \caption{Primjer tablice.}
 %   \label{tab:example-table}
 % \end{table}
+%
+% Primjer ubacivanja koda
+% \begin{lstlisting}[language=Python, caption={Petlja za čitanje notice.log datoteke u stvarnom vremenu.}, label={lst:auto-reaction-petlja}]
+% def process_log():
+%    print(f"[*] Nadzor pokrenut nad {LOG_FILE}")
+%    while not os.path.exists(LOG_FILE):
+%        time.sleep(1)
+
+%    with open(LOG_FILE, 'r') as f:
+%        f.seek(0, os.SEEK_END)
+%        while True:
+%            line = f.readline()
+%            if not line:
+%                time.sleep(0.2)
+%                continue
+% \caption{Naslov}
+% \label{lst:primjer-koda}
+% \end{lstlisting}
