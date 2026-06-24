@@ -1,10 +1,10 @@
 #!/bin/bash
-STATE=0
 
 # config
 WAN_IF="enp2s0"   # Ethernet
 AP_IF="wlan1"     # TP-Link
 AP_IP="10.0.1.1"
+TIMEOUT="30s"
 
 if [ "$EUID" -ne 0 ]; then
   echo "Start as root (sudo)."
@@ -26,15 +26,22 @@ if [ "$1" == "set" ]; then
     ip addr add $AP_IP/24 dev $AP_IF
     sysctl -w net.ipv4.ip_forward=1 > /dev/null
 
-    # NAT (izolirana tablica - manje muke sa čišćenjem)
-    nft add table ip diplomski_nat
-    nft add chain ip diplomski_nat postrouting { type nat hook postrouting priority 100 \; }
-    nft add rule ip diplomski_nat postrouting oifname $WAN_IF masquerade
+    # NetFilter (izolirana tablica - manje muke sa čišćenjem)
+    nft add table ip diplomski
+    nft add chain ip diplomski postrouting { type nat hook postrouting priority 100 \; }
+    nft add rule ip diplomski postrouting ip saddr 10.0.1.0/24 oifname $WAN_IF masquerade
     
+    nft add set   ip diplomski denylist { type ipv4_addr \; flags timeout \; timeout $TIMEOUT \; }
+
+    nft add chain ip diplomski drop_fwd { type filter hook forward priority -10 \; }
+    nft add rule  ip diplomski drop_fwd ip saddr @denylist drop
+    nft add chain ip diplomski drop_in  { type filter hook input   priority -10 \; }
+    nft add rule  ip diplomski drop_in  ip saddr @denylist drop
+
     # Dodavanje pravila za prolazak prometa prema wlan1
-    ufw allow in on wlan1 to any port 67 proto udp
-    ufw allow in on wlan1 to any port 68 proto udp
-    ufw route allow in on wlan1 out on $WAN_IF
+    ufw allow in on $AP_IF to any port 67 proto udp
+    ufw allow in on $AP_IF to any port 68 proto udp
+    ufw route allow in on $AP_IF out on $WAN_IF
 
     # pokretanje APa
     systemctl start dnsmasq
@@ -55,12 +62,12 @@ elif [ "$1" == "reset" ]; then
     systemctl stop dnsmasq
 
     # brisanje NAT pravila
-    nft delete table ip diplomski_nat 2>/dev/null
+    nft delete table ip diplomski 2>/dev/null
 
     # brisanje FW pravila
-    ufw delete allow in on wlan1 to any port 67 proto udp
-    ufw delete allow in on wlan1 to any port 68 proto udp
-    ufw route delete allow in on wlan1 out on $WAN_IF
+    ufw delete allow in on $AP_IF to any port 67 proto udp
+    ufw delete allow in on $AP_IF to any port 68 proto udp
+    ufw route delete allow in on $AP_IF out on $WAN_IF
 
     # vraćanje postavki
     sysctl -w net.ipv4.ip_forward=0 > /dev/null

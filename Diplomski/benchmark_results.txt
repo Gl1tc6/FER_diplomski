@@ -1,39 +1,44 @@
 ============================================================
   BENCHMARK REZULTATI: InfluxDB vs Elasticsearch
-  Datum: 2026-06-08 22:14:31
+  Datum: 2026-06-14 11:06:26
   Host:  cachyos-x8664 | x86_64
   OS:    GNU/Linux 7.0.1-1-cachyos
 ============================================================
 
 === 0. VERIFIKACIJA ===
-  InfluxDB: 13435 | Elasticsearch: 14027
+  Redaka u conn.log (izvor):   14027
+  Elasticsearch dokumenata:    14027
+  InfluxDB točaka (zeek_conn):  13435
 
 === 1. STORAGE ===
-  Sirovi conn.log: 4,7M
-  InfluxDB bucket: N/A (bucket dir nije pronađen)
-  Elasticsearch (_cat/indices zeek-*):
-    zeek-conn-2026.06.08 14027 4.9mb
+  Sirovi conn.log (referenca): 4,7M
+  InfluxDB bucket na disku:    N/A (bucket id nije dohvaćen — provjeri token/URL)
+  Elasticsearch indeks:
+    zeek-conn-2026.06.08 14027 4.8mb
 
 === 2. RAM POTROŠNJA ===
   --- uzorak 1 ---
-  influxdb         137.3MiB / 11.02GiB | 0.03%
-  elasticsearch    1.071GiB / 11.02GiB | 0.44%
-  telegraf         68.59MiB / 11.02GiB | 0.18%
+  influxdb         106.7MiB / 11.02GiB | 0.03%
+  telegraf         39.46MiB / 11.02GiB | 0.43%
+  elasticsearch    576.4MiB / 11.02GiB | 0.32%
+  filebeat         84.11MiB / 11.02GiB | 0.01%
   --- uzorak 2 ---
-  influxdb         136.6MiB / 11.02GiB | 0.03%
-  elasticsearch    1.073GiB / 11.02GiB | 0.45%
-  telegraf         69.57MiB / 11.02GiB | 0.18%
+  influxdb         106.4MiB / 11.02GiB | 0.04%
+  telegraf         39.48MiB / 11.02GiB | 0.15%
+  elasticsearch    576.6MiB / 11.02GiB | 0.31%
+  filebeat         84.12MiB / 11.02GiB | 0.00%
   --- uzorak 3 ---
-  influxdb         135.5MiB / 11.02GiB | 0.02%
-  elasticsearch    1.075GiB / 11.02GiB | 0.35%
-  telegraf         69.08MiB / 11.02GiB | 1.15%
+  influxdb         106.4MiB / 11.02GiB | 0.03%
+  telegraf         39.69MiB / 11.02GiB | 0.12%
+  elasticsearch    576MiB / 11.02GiB | 0.33%
+  filebeat         84.12MiB / 11.02GiB | 0.00%
 
 === 3. QUERY LATENCY ===
-  InfluxDB: COUNT                  276.4       
-  InfluxDB: TOP 10 dst_ip          143.5       
-  InfluxDB: AGG po minutama        375.4       
+  InfluxDB: COUNT (sken)        49.5 ms  (min 45.3, max 51.9)
+  InfluxDB: TOP 10 dst_ip       42.4 ms  (min 40.3, max 44.5)
+  InfluxDB: AGG po minutama     63.6 ms  (min 62.8, max 64.9)
 
-  Elastic: COUNT                   5.1         
-  Elastic: TOP 10 dst_ip           5.1         
-  Elastic: AGG po minutama         7.5         
+  Elastic:  COUNT (sken)        4.4 ms  (min 4.0, max 5.3)
+  Elastic:  TOP 10 dst_ip       5.1 ms  (min 4.4, max 5.3)
+  Elastic:  AGG po minutama     7.4 ms  (min 6.1, max 9.1)
 

@@ -1,0 +1,161 @@
+\chapter{Evaluacija podsustava za pohranu}
+
+Cilj ovog poglavlja jest usporediti dva ispitana podsustava za pohranu opisana u poglavljima arhitekture i implementacije. Vremenski orijentiranu bazu InfluxDB
+s agentom Telegraf te dokumentno orijentiranu bazu Elasticsearch s agentom Filebeat. Usporedba se provodi nad istovjetnim ulaznim podatcima kako bi se
+uočene razlike mogle pripisati isključivo pozadinskoj bazi i njezinu agentu, a ne ulazu. Naglasak je na trima mjerljivim svojstvima koja su za ciljanu primjenu
+(potrošački laptop ograničenih resursa) presudna - zauzeću prostora na disku, potrošnji radne memorije te kašnjenju upita.
+
+\section{Metodologija usporedbe}
+
+Mjerenja su provedena na domaćinu temeljenom na jezgri \texttt{7.0.1 cachyos} (\texttt{x86\_64}) s ukupno približno 12 GB dostupne radne memorije.
+Korištene su inačice InfluxDB 2.7, Elasticsearch 8.17 i Grafana 11.4, dok je veličina JVM gomile Elasticsearcha ograničena postavkom
+\texttt{ES\_JAVA\_OPTS=-Xms512m} odnosno 512 MB.
+
+Za razliku od produkcijske konfiguracije, u kojoj se zbog sukoba na ulazu 3000 (Grafana) i istovjetnog naziva senzorskog kontejnera izvodi isključivo jedan
+podsustav, mjerenja su provedena uz istovremeno podignute obje baze i pripadne agente, no bez Grafane i bez senzora. Time se obje baze izlažu istom opterećenju
+domaćina u istom trenutku, pa su mjerenja međusobno usporediva pod identičnim uvjetima. Kao ulaz korišten je jedan zamrznuti zapis \texttt{conn.log} veličine
+4.7 MB s 14027 zapisa veza, koji oba agenta čitaju iz istoga dijeljenog direktorija.
+
+Poštenost usporedbe počiva na tome da oba podsustava obrade isti ulaz, svaki ga pročitavši točno jednom, a to se provjerava brojem zapisa. Elasticsearch indeksira
+svaki redak kao zaseban dokument, pa broj dokumenata mora odgovarati broju redaka ulaza. InfluxDB, naprotiv, točku jednoznačno određuje kombinacijom mjerenja,
+skupa oznaka i vremenske oznake. Zapisi s istovjetnim vrijednostima tih polja stapaju se u jednu točku umjesto da se pišu zasebno. Posljedica je da InfluxDB
+prijavljuje nešto manji broj točaka od broja ulaznih redaka, što nije gubitak podataka nego svojstvo modela pohrane i podrobnije se razmatra u raspravi.
+Izmjereni su brojevi prikazani u tablici \ref{tab:verify}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Izvor} & \textbf{Broj zapisa} \\
+        \hline
+        Redaka u \texttt{conn.log} (ulaz) & 14027 \\
+        Elasticsearch dokumenata & 14027 \\
+        InfluxDB točaka (\texttt{zeek\_conn}) & 13435 \\
+        \hline
+    \end{tabular}
+    \caption{Provjera istovjetnosti ulaza}
+    \label{tab:verify}
+\end{table}
+
+Mjerenja su automatizirana skriptom \texttt{benchmark.sh}, koja redom provodi provjeru ulaza, mjerenje prostora, uzorkovanje memorije i mjerenog kašnjenja upita.
+
+\section{Potrošnja prostora na disku}
+
+Mjeri se zauzeće na disku za istovjetan skup Zeekovih zapisa, uz izvornu datoteku \texttt{conn.log} kao referentnu vrijednost. Za InfluxDB mjeri se
+veličina podatkovnog direktorija pripadnog spremnika \engl{bucket}, a za Elasticsearch veličina indeksa \texttt{zeek-conn} dobivena iz sučelja
+\texttt{\_cat/indices}.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|}
+      \hline
+      Izvor & Zauzeće \\
+      \hline
+      Sirovi \texttt{conn.log} referenca & 4.7 MB \\
+      Elasticsearch indeks \texttt{zeek-conn} & 4.8 MB \\
+      InfluxDB spremnik \texttt{zeek-logs} & 1.5 MB \\
+      \hline
+  \end{tabular}
+  \caption{Zauzeće prostora na disku}
+  \label{tab:storage}
+\end{table}
+
+Kao dodatni kontekst pri tumačenju ovih vrijednosti potrebno je naglasiti veličinu izmjerenog skupa. Drugim riječima izmjereni skup je malen (reda veličine nekoliko megabajta), 
+pa razlike u zauzeću prostora prouzročavaju ponajprije dodatni troškovi formata pohrane, a ne ponašanje pri rastu količine podataka. Elasticsearch gradi invertirani indeks (uz pohranu podataka) 
+koji radi pretrage po sadržaju polja, što povećava zauzeće diska u odnosu na sam volumen ulaza. InfluxDB, naprotiv, primjenjuje kompresiju prilagođenu vremenskim nizovima, pa je
+izmjereni spremnik (1.5 MB) zauzeo otprilike trećinu Elasticsearchova indeksa i manje od same sirove datoteke. Posljedice tih značajki baza podrobnije se razmatraju u raspravi.
+
+\section{Potrošnja radne memorije}
+
+Potrošnja radne memorije mjerena je po kontejneru, u tri uzorka nakon što se sustav prilagodio, korištenjem Docker statistike. Tablica \ref{tab:ram}
+prikazuje reprezentativne vrijednosti.
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{Kontejner} & \textbf{Radna memorija} \\
+    \hline
+    InfluxDB (baza, podsustav A) & 106 MB \\
+    Telegraf (agent, podsustav A) & 40 MB \\
+    Elasticsearch (baza, podsustav B) & 576 MB \\
+    Filebeat (agent, podsustav B) & 84 MB \\
+    \hline
+    \end{tabular}
+    \caption{Potrošnja radne memorije po kontejneru (nakon prilagodbe)}
+    \label{tab:ram}
+\end{table}
+
+Razlika u potrošnji memorije najizraženija je i najpostojanija od svih mjerenih veličina. Cijeli podsustav s InfluxDB-om (baza i agent) zadržava se na razini
+oko 146 MB, dok podsustav s Elasticsearchom (baza i agent) troši oko 660 MB, odnosno približno četiri i pol puta više. Bitno je da ta razlika nije posljedica
+količine podataka, nego donje granice koju nameće Java virtualni stroj. Potrošnja Elasticsearcha određena je prije svega zadanom veličinom JVM gomile
+(ovdje 512 MB), koja predstavlja donju granicu neovisnu o broju pohranjenih zapisa. Uz veću gomilu otisak bi bio i veći. Za ciljanu primjenu na sklopovlju
+ograničenih resursa ta je donja granica presudna i razmatra se u zaključku. Također je bitno za napomenuti da je ta granica pomična no naravno što se više memorije
+udijeli to su pretraživanja brža.
+
+\section{Kašnjenje upita}
+
+Mjereno je kašnjenje triju upita koje koristi i nadzorna ploča: brojanje veza, ljestvica deset najčešćih odredišnih adresa te agregacija broja veza po
+vremenskim prozorima. Svaki je upit pokrenut deset puta, uz odbacivanje dvaju početnih pokretanja radi zagrijavanja, a prijavljeni su medijan te najmanja i
+najveća izmjerena vrijednost. Mjeri se ukupno kašnjenje kakvo klijent vidi na povratnoj adresi, dakle uključujući obradu zahtjeva, a ne samo unutarnje vrijeme
+izvođenja upita u jezgri baze. Kako bi usporedba bila poštena, brojanje u oba sustava obavlja prolaz kroz zapise (u Elasticsearchu agregacijom
+\texttt{value\_count}, a ne očitanjem održavanoga broja dokumenata).
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Upit} & \textbf{InfluxDB (Flux)} & \textbf{Elasticsearch} \\
+        \hline
+        Brojanje (sken) & 49,5 (45,3-51,9) & 4,4 (4,0-5,3) \\
+        Deset najčešćih odredišta & 42,4 (40,3-44,5) & 5,1 (4,4-5,3) \\
+        Agregacija po minutama & 63,6 (62,8-64,9) & 7,4 (6,1-9,1) \\
+        \hline
+    \end{tabular}
+    \caption{Kašnjenje upita: medijan (najmanje-najveće), u milisekundama}
+    \label{tab:latency}
+\end{table}
+
+Na svim trima upitima Elasticsearch postiže niže kašnjenje. Rezultat je nužno tumačiti uz činjenicu da je izmjereni skup malen, pa se mjeri pretežno dodatni trošak
+izvođenja upita (priprema Flux upita i obrada zahtjeva nad sučeljem InfluxDB-a naspram Luceneova izvođenja u Elasticsearchu), a ne ponašanje pri rastu količine
+podataka. Apsolutne su vrijednosti u oba sustava niske i za potrebe osvježavanja nadzorne ploče u sekundnim razmacima posve dostatne; razlika bi mogla dobiti na
+značaju tek pri znatno većim skupovima ili pri upotrebi za pravovremenu reakciju, što ostaje smjernicom za daljnji rad.
+
+\section{Rasprava rezultata}
+
+Mjerenja se mogu objediniti kroz razliku u modelu podataka dvaju sustava, opisanu u poglavlju o teorijskim osnovama. Elasticsearch svaki Zeekov zapis
+tretira kao dokument i nad poljima gradi invertirani indeks, što mu daje snažnu pretragu punim tekstom, povoljno kašnjenje agregacijskih upita i korelaciju
+izvora, ali po cijeni većega prostornog otiska i, presudno, donje granice radne memorije koju nameće JVM. InfluxDB je optimiziran za vremenske
+nizove pa mu je vrijeme glavna organizacijska dimenzija. Također primjenjuje kompresiju i politike zadržavanja, a memorijski otisak ostaje malen. Iz istoga modela slijedi 
+i opažena razlika u broju zapisa iz tablice \ref{tab:verify}. Budući da InfluxDB točku određuje skupom oznaka i vremenskom oznakom, veze koje dijele te vrijednosti
+stapaju se u jednu točku, pa je broj točaka manji od broja ulaznih redaka. Stapanje pogađa isključivo agregatni broj zapisa veza (otprilike 4\%) i posljedica je svjesne odluke da se 
+identifikator veze \texttt{uid} drži poljem, a ne oznakom - držanje oznakom očuvalo bi svaki redak, ali bi količina vremenskih serija naraslo na broj veza i poništilo memorijsku prednost 
+zbog koje se InfluxDB i odabire. Zapisi \texttt{notice} nisu zahvaćeni. Za primjenu usmjerenu na vizualizaciju obrazaca i dojavu, a ne na forenzičku rekonstrukciju pojedine veze, riječ je o 
+prihvatljivom kompromisu. Unutar Elasticsearcha, gdje je svaki redak zaseban dokument, takvoga stapanja nema.
+
+Posljedica je očita specijalizacija alata. InfluxDB je bolji izbor kada su upiti temeljeni na vremenu i kad su računalni resursi domaćina oskudni. Kad su
+potrebni pretraga po sadržaju polja (primjerice traženje domena u \texttt{dns.log}), niže kašnjenje složenijih agregacija i korelacija više vrsta
+zapisa u jednom upitu Elasticsearch se ističe kao očiti odabit. InfluxDB ne podržava prirodno te mogućnosti te zahtijeva agregaciju na strani klijenta.
+
+Naposljetku valja istaknuti glavno ograničenje cijele evaluacije. Mjerenja su provedena na malenom skupu podataka, pa pouzdano govore o fiksnim zapisima i
+donjim granicama potrošnje, ali ne i o ponašanju sustava pri znatnom rastu količine prometa. Mjerenje na većem skupu ostavlja se kao smjernica za daljnji
+rad iako se može primjetiti trend gdje bi Elasticsearch bio puno bolja opcija.
+
+\section{Zaključak usporedbe}
+
+Za ciljanu primjenu ovog rada, nadzor lokalne mreže na potrošačkom sklopovlju ograničenih resursa, odlučujućom se pokazuje potrošnja radne memorije. Podsustav s InfluxDB-om zadržava se na 
+razini stotinjak megabajta, dok podsustav s Elasticsearchom troši višestruko više, ponajprije zbog donje granice koju nameće JVM gomila. Ta je granica neovisna o količini pohranjenih podataka, 
+pa Elasticsearch i pri zanemarivu opterećenju zauzima više memorije nego cijeli InfluxDB podsustav pod radnim opterećenjem; na domaćinu koji istovremeno obavlja uloge usmjernika, pristupne točke 
+i senzora upravo je taj fiksni prag presudan. Tu je granicu moguće spustiti preko argumenata no onda Elasticsearch gubi prednost koju trenutno ima.
+
+Na svim trima izmjerenim upitima Elasticsearch postiže niže kašnjenje \ref{tab:latency}. Apsolutne su vrijednosti obaju sustava 
+ipak reda nekoliko desetaka milisekundi i za osvježavanje nadzorne ploče u sekundnim razmacima zanemarive, pa ne mijenjaju odluku koju daje memorijski otisak. Zauzeće diska na izmjerenom je 
+skupu premaleno da bi samo po sebi bilo argumentom te se u ovom zaključku ne uzima kao odlučujuće.
+
+Stoga se za produkcijsku konfiguraciju, u skladu s najavom iz poglavlja arhitekture da se odabire jedan od dvaju podsustava, bira InfluxDB. Time se ujedno pokazuje da je usporedivu 
+temeljnu funkcionalnost moguće postići uz memorijski otisak reda veličine stotinjak megabajta, znatno ispod zahtjeva sveobuhvatnih rješenja poput Security Oniona navedenih u poglavlju o 
+teorijskim osnovama.
+
+Elasticsearch ostaje prikladan kad su potrebni pretraga po sadržaju polja (primjerice traženje domena u \texttt{dns.log}), niže kašnjenje složenijih agregacija i korelacija više vrsta 
+zapisa u jednom upitu. Te prednosti slijede iz modela podataka, no nisu zasebno izmjerene u ovom radu jer mjerenja obuhvaćaju samo \texttt{conn.log} te se njihova kvantifikacija ostavlja 
+kao smjernica za daljnji rad.

@@ -5,7 +5,7 @@ datasources:
     type: influxdb
     access: proxy
     url: http://influxdb:8086
-    # Koristi Flux query jezik (InfluxDB 2.x)
+    uid: P951FEA4DE68E13C5
     jsonData:
       version: Flux
       organization: ${INFLUXDB_ORG}

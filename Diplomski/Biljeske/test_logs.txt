@@ -1,0 +1,187 @@
+﻿Testovi
+
+
+Test 1 — skeniranje portova
+Napadač: Mobitel
+$ nmap -Pn -T4 10.0.1.1
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-06-14 22:06 +0200
+Nmap scan report for 10.0.1.1
+Host is up (0.0063s latency).
+Not shown: 999 filtered tcp ports (no-response)
+PORT     STATE SERVICE
+8086/tcp open  d-s-n
+
+
+Obrana/logovi:
+Notice.log
+{"ts":1781467564.943518,"note":"Custom_Port_Scan","msg":"Moguci port scan: 10.0.1.94 kontaktirao 50 razlicitih portova na 10.0.1.1","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+
+
+Nft diplomski prije:
+sudo nft list set ip diplomski denylist
+[sudo] password for ante: 
+table ip diplomski {
+        set denylist {
+                type ipv4_addr
+                timeout 30s
+        }
+}
+
+
+Nft diplomski poslije:
+sudo nft list set ip diplomski denylist
+table ip diplomski {
+        set denylist {
+                type ipv4_addr
+                timeout 30s
+                elements = { 10.0.1.94 expires 22s818ms }
+        }
+}
+
+Ispis auto_reaction.py:
+!] Detektiran Custom_Port_Scan.
+[!] Blokiran IP: 10.0.1.94
+[+] Istekla evidencija blokade: 10.0.1.94
+
+
+---
+Test 2 — pogađanje SSH lozinke
+Napadač: Mobitel
+$ for i in $(seq 1 40); do
+  sshpass -p "wrong$i" ssh \
+    -o PreferredAuthentications=password \
+    -o PubkeyAuthentication=no \
+    -o NumberOfPasswordPrompts=1 \
+    -o StrictHostKeyChecking=no \
+    -o ConnectTimeout=5 \
+    test@10.0.1.1 exit 2>/dev/null
+done
+
+
+Obrana/logovi:
+Notice.log
+{"ts":1781468972.322033,"note":"Custom_SSH_Bruteforce","msg":"Moguci SSH bruteforce: 10.0.1.94 otvorio 15 konekcija prema portu 22 na 10.0.1.1","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+{"ts":1781469003.721936,"note":"Custom_SSH_Bruteforce","msg":"Moguci SSH bruteforce: 10.0.1.94 otvorio 36 konekcija prema portu 22 na 10.0.1.1","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+
+
+
+
+Nft diplomski poslije:
+$ sudo nft list set ip diplomski denylist
+table ip diplomski {
+        set denylist {
+                type ipv4_addr
+                timeout 30s
+                elements = { 10.0.1.94 expires 24s493ms }
+        }
+}
+
+
+
+Ispis auto_reaction.py:
+[!] Detektiran Custom_SSH_Bruteforce.
+[!] Blokiran IP: 10.0.1.94
+[+] Istekla evidencija blokade: 10.0.1.94
+
+
+
+
+---
+
+
+Test 3 — pokazatelj kompromitacije (IoC)
+Napadač: Mobitel
+$ curl -m5 -k  https://172.66.147.243/
+curl: (35) TLS connect error: error:0A000410:SSL routines::ssl/tls alert handshake failure
+
+
+Obrana/logovi:
+Notice.log
+{"ts":1781471801.228362,"uid":"Cu1ca51DFEwUlIlih2","id.orig_h":"10.0.1.94","id.orig_p":47916,"id.resp_h":"172.66.147.243","id.resp_p":443,"proto":"tcp","note":"Intel::Notice","msg":"Intel hit on 172.66.147.243 at Conn::IN_RESP","sub":"172.66.147.243","src":"10.0.1.94","dst":"172.66.147.243","p":443,"actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":3600.0}
+
+
+Nft diplomski poslije:
+Nije napravljeno
+
+Ispis auto_reaction.py:
+[!] Detektiran Intel::Notice.
+[!] Blokiran IP: 10.0.1.94
+[+] Istekla evidencija blokade: 10.0.1.94
+
+
+---
+Test 4 — whitelist (zaštita povjerljivog uređaja)
+Napadač: Mobitel
+$ for i in $(seq 1 15); do
+  sshpass -p "wrong$i" ssh \
+    -o PreferredAuthentications=password \
+    -o PubkeyAuthentication=no \
+    -o NumberOfPasswordPrompts=1 \
+    -o StrictHostKeyChecking=no \
+    -o ConnectTimeout=5 \
+    test@10.0.1.1 exit 2>/dev/null
+done
+
+
+Obrana/logovi:
+Notice.log
+{"ts":1781472408.424726,"note":"Custom_SSH_Bruteforce","msg":"Moguci SSH bruteforce: 10.0.1.94 otvorio 15 konekcija prema portu 22 na 10.0.1.1","src":"10.0.1.94","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+
+
+Nft diplomski poslije:
+❯ sudo nft list set ip diplomski denylist
+[sudo] password for ante: 
+table ip diplomski {
+        set denylist {
+                type ipv4_addr
+                timeout 30s
+        }
+}
+
+
+
+Ispis auto_reaction.py:
+# WHITELIST = {"127.0.0.1", "10.0.1.1", "10.0.1.94"}
+❯ sudo python scripts/auto_reaction.py
+[sudo] password for ante: 
+[*] Nadzor pokrenut nad zeek-logs/notice.log
+Odnosno skripta nije reagirala
+
+
+---
+Test 5 — lažiranje izvorišne adrese (ograničenje)
+Napadač: Laptop
+❯ sudo hping3 -S --spoof 185.220.101.1 --scan 1-1000 10.0.1.94
+Scanning 10.0.1.94 (10.0.1.94), port 1-1000
+1000 ports to scan, use -V to see all the replies
++----+-----------+---------+---+-----+-----+-----+
+|port| serv name |  flags  |ttl| id  | win | len |
++----+-----------+---------+---+-----+-----+-----+
+All replies received. Done.
+Not responding ports: 
+
+
+Obrana/logovi:
+Notice.log
+{"ts":1781472746.42364,"note":"Custom_Port_Scan","msg":"Moguci port scan: 185.220.101.1 kontaktirao 50 razlicitih portova na 10.0.1.94","src":"185.220.101.1","actions":["Notice::ACTION_LOG"],"email_dest":[],"suppress_for":30.0}
+
+
+Nft diplomski poslije:
+$ sudo nft list set ip diplomski denylist
+table ip diplomski {
+        set denylist {
+                type ipv4_addr
+                timeout 30s
+                elements = { 185.220.101.1 expires 19s395ms }
+        }
+}
+
+Ispis auto_reaction.py:
+[!] Detektiran Custom_Port_Scan.
+[!] Blokiran IP: 185.220.101.1
+[+] Istekla evidencija blokade: 185.220.101.1
+
+
+
+
+---

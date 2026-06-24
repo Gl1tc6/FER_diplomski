@@ -32,11 +32,6 @@
 {Security Onion Solutions}, ``Security onion — intrusion detection, enterprise security monitoring, and log management'', 2025., pristupljeno: 20.5.2026. [Mre\v zno]. Adresa: \url{https://securityonionsolutions.com/software}
 \BIBentrySTDinterwordspacing
 
-\bibitem{totalassure_smallbusiness}
-\BIBentryALTinterwordspacing
-{Total Assure}, ``Cyber attacks on small businesses statistics 2026'', Total Assure, teh. izv., 2026., pristupljeno: 22.5.2026. [Mre\v zno]. Adresa: \url{https://www.totalassure.com/blog/cyber-attacks-on-small-businesses-statistics}
-\BIBentrySTDinterwordspacing
-
 \bibitem{bejtlich_nsm}
 R.~Bejtlich, \emph{The Practice of Network Security Monitoring}.\hskip 1em plus 0.5em minus 0.4em\relax No Starch Press, 2013.
 
@@ -52,7 +47,7 @@ S.~Kelley, ``dnsmasq — a lightweight dhcp and caching dns server'', 2024., pri
 
 \bibitem{security_onion_hwreq}
 \BIBentryALTinterwordspacing
-{Security Onion Solutions}, pristupljeno: 21.5.2026. [Mre\v zno]. Adresa: \url{https://docs.securityonion.net/en/2.4/hardware.html}
+{Security Onion Solutions}, ``Security onion - hardware requirements'', 2026., pristupljeno: 21.5.2026. [Mre\v zno]. Adresa: \url{https://docs.securityonion.net/en/2.4/hardware.html}
 \BIBentrySTDinterwordspacing
 
 \bibitem{docker_docs}
@@ -72,7 +67,7 @@ S.~Kelley, ``dnsmasq — a lightweight dhcp and caching dns server'', 2024., pri
 
 \bibitem{flux_basics_video}
 \BIBentryALTinterwordspacing
-------, ``Influxdb: Flux basics'', 2022., youTube. Pristupljeno: 12.4.2026. [Mre\v zno]. Adresa: \url{https://www.youtube.com/watch?v=LbQCYNGcWUU&t=1s}
+------, ``Flux query basics'', 2024., pristupljeno: 12.4.2026. [Mre\v zno]. Adresa: \url{https://docs.influxdata.com/flux/v0/get-started/query-basics/}
 \BIBentrySTDinterwordspacing
 
 \bibitem{flux_query_basics}
@@ -87,7 +82,7 @@ S.~Kelley, ``dnsmasq — a lightweight dhcp and caching dns server'', 2024., pri
 
 \bibitem{influxdb_telegraf_intro}
 \BIBentryALTinterwordspacing
-------, ``Influxdb: Intro to telegraf'', 2022., youTube. Pristupljeno: 12.4.2026. [Mre\v zno]. Adresa: \url{https://www.youtube.com/watch?v=sF2inT5tlTg}
+------, ``Get started with telegraf'', 2025., pristupljeno: 12.4.2026. [Mre\v zno]. Adresa: \url{https://docs.influxdata.com/telegraf/v1/get-started/}
 \BIBentrySTDinterwordspacing
 
 \bibitem{elasticsearch_docs}
@@ -103,6 +98,26 @@ S.~Kelley, ``dnsmasq — a lightweight dhcp and caching dns server'', 2024., pri
 \bibitem{grafana_docs}
 \BIBentryALTinterwordspacing
 {Grafana Labs}, ``Grafana documentation'', 2025., pristupljeno: 10.5.2026. [Mre\v zno]. Adresa: \url{https://grafana.com/docs/grafana/latest/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{rfc1918}
+\BIBentryALTinterwordspacing
+Y.~Rekhter, R.~G. Moskowitz, D.~Karrenberg, G.~J. de~Groot, i E.~Lear, ``Address allocation for private internets'', RFC 1918, Internet Engineering Task Force (IETF), 1996., pristupljeno: 12.6.2026. [Mre\v zno]. Adresa: \url{https://www.rfc-editor.org/rfc/rfc1918}
+\BIBentrySTDinterwordspacing
+
+\bibitem{zeek_docs}
+\BIBentryALTinterwordspacing
+{The Zeek Project}, ``Zeek documentation'', 2025., pristupljeno: 1.6.2026. [Mre\v zno]. Adresa: \url{https://docs.zeek.org}
+\BIBentrySTDinterwordspacing
+
+\bibitem{wikidevi_wn722n}
+\BIBentryALTinterwordspacing
+{DeviWiki}, ``Tp-link tl-wn722n v1.x'', 2018., pristupljeno: 4.6.2026. [Mre\v zno]. Adresa: \url{https://deviwiki.com/wiki/TP-LINK_TL-WN722N_v1.x}
+\BIBentrySTDinterwordspacing
+
+\bibitem{arch_softap}
+\BIBentryALTinterwordspacing
+{Arch Linux Wiki}, ``Software access point'', 2025., pristupljeno: 7.3.2026. [Mre\v zno]. Adresa: \url{https://wiki.archlinux.org/title/Software_access_point}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}

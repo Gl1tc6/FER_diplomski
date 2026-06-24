@@ -1,5 +1,6 @@
-\documentclass[utf8, diplomski]{fer}
-%\documentclass[utf8, diplomski, upload]{fer}
+%\documentclass[diplomskirad]{fer}
+\documentclass[diplomskirad, upload]{fer}
+\usepackage{tgtermes}
 \usepackage{booktabs}
 \usepackage{indentfirst}
 \usepackage{subcaption}
@@ -9,7 +10,7 @@
 \usepackage{url} % Za web adrese
 \usepackage{listings}
 \usepackage{caption}
-\usepackage{tabularx}
+\usepackage{xltabular}
 
 \usepackage{mathptmx} % Use Times New Roman font
 \usepackage{setspace} % For setting line spacing
@@ -60,43 +61,116 @@
 \maketitle
 \zadatak{hr_0036540817_94.pdf}
 \begin{zahvale}
-Zahvaljujem svojoj obitelji što je uvijek bila uz mene.
+  Zahvaljujem svojoj obitelji i svima ostalima koji su bili uz mene.
+
+  Mentoru na vodstvu i savjetima tokom pisanja rada.
 \end{zahvale}
 \newpage
+
+\begin{sazetak}
+  Mala poduzeća danas nemaju konkretan plan obrane od napada na svoju unutarnju mrežu, što uvelike ugrožava njihov opstanak i daljnji rad. Ovaj rad nudi mogućnost
+  malim poduzećima i fizičkim osobama da bez velikih financijskih troškova i skupog sklopovlja brane i nadziru svoju lokalnu mrežu kao i ponašanje uređaja u toj 
+  mreži. Sustav omogućuje nadzor i evidenciju mrežnog prometa, vizualizaciju toka podataka u mreži i odgovor na najčešće prijetnje. Najzahtjevniji dio, postavljanje sustava, sada
+  se provodi samo jednom te daljnji rad sustava ne predstavlja akumulirajući trošak, što uvelike pomaže onima kojima je potrebno jednostavno, samoodrživo i prenosivo
+  rješenje za sigurnost lokalne mreže. Rješenje je lako izmjenjivo, što znači da se rad može prilagoditi različitim okruženjima i potrebama korisnika te se time izdvaja
+  od već gotovih i poznatih rješenja.
+\end{sazetak}
+\begin{kljucnerijeci}
+  Lokalna mreža, Zeek, mrežni obrasci, Docker, IDS, InfluxDB, Elasticsearch
+\end{kljucnerijeci}
+\begin{abstract}
+  Small businesses today lack a concrete plan for defending against attacks on their internal network, which significantly threatens their survival and continued 
+  operation. This work offers small businesses and private individuals the ability to defend and monitor their local network, as well as the behavior of the 
+  devices within it, without large financial costs or expensive hardware. The system enables the monitoring and logging of network traffic, the visualization of 
+  data flow within the network, and a response to the most common threats. The most demanding part, setting up the system, is performed only once, so the system's 
+  ongoing operation does not constitute an accumulating cost — which greatly benefits those who need a simple, self-sustaining, and portable solution for local-network 
+  security. The solution is easily modifiable, meaning it can be adapted to different environments and user needs, thereby setting it apart from existing, 
+  well-known solutions.
+\end{abstract}
+\begin{keywords}
+  Local network, Zeek, network patterns, Docker, IDS, InfluxDB, Elasticsearch
+\end{keywords}
+
 \tableofcontents
 \newpage
 \mainmatter
 \setcounter{page}{1}
 \renewcommand\thepage{\arabic{page}}
-\include{uvod}
-\include{teorijska_osnova}
-\include{arhitektura}
-\include{implementacija}
-\include{evaluacija}
-\include{testiranje}
-\include{zakljucak}
+\include{1uvod}
+\include{2teorijska_osnova}
+\include{3arhitektura}
+\include{4implementacija}
+\include{5evaluacija}
+\include{6testiranje}
+\include{7zakljucak}
 \bibliography{literatura}
-
-
-\begin{sazetak}
-  None
-\end{sazetak}
-\begin{kljucnerijeci}
-  None
-\end{kljucnerijeci}
-\begin{abstract}
-  None
-\end{abstract}
-\begin{keywords}
-    None
-\end{keywords}
 
 \newpage
 \chapter*{Skraćenice}
 \addcontentsline{toc}{chapter}{Skraćenice}
-\renewcommand{\arraystretch}{2} % Increase the row spacing by 1.5 times
-\begin{tabularx}{\textwidth}{>{\bfseries}p{0.15\textwidth} >{\itshape}p{0.45\textwidth} p{0.4\textwidth}}
-\end{tabularx}
+% \renewcommand{\arraystretch}{2} % Increase the row spacing by 1.5 times
+\begin{xltabular}{\textwidth}{>{\bfseries}p{0.12\textwidth} >{\itshape}p{0.42\textwidth} X}
+  AP & Access Point & pristupna točka \\
+  CCMP & Counter Mode CBC-MAC Protocol & protokol šifriranja unutar WPA2 \\
+  CPU & Central Processing Unit & središnja procesorska jedinica \\
+  CSV & Comma-Separated Values & vrijednosti odvojene zarezom \\
+  DHCP & Dynamic Host Configuration Protocol & protokol za dinamičku dodjelu mrežnih postavki \\
+  DNS & Domain Name System & sustav imena domena \\
+  DoH & DNS over HTTPS & DNS preko HTTPS-a \\
+  DoT & DNS over TLS & DNS preko TLS-a \\
+  FTP & File Transfer Protocol & protokol za prijenos datoteka \\
+  HTTP & HyperText Transfer Protocol & protokol za prijenos hiperteksta \\
+  IEEE & Institute of Electrical and Electronics Engineers & Institut inženjera elektrotehnike i elektronike \\
+  ILM & Index Lifecycle Management & upravljanje životnim ciklusom indeksa (Elasticsearch) \\
+  IoC & Indicator of Compromise & pokazatelj kompromitacije \\
+  IoT & Internet of Things & internet stvari \\
+  IP & Internet Protocol & internetski protokol \\
+  ISP & Internet Service Provider & pružatelj internetskih usluga \\
+  JSON & JavaScript Object Notation & JavaScript objektna notacija \\
+  JVM & Java Virtual Machine & Java virtualni stroj \\
+  L2 / L3 & Layer 2 / Layer 3 & podatkovni / mrežni sloj (OSI model) \\
+  LAN & Local Area Network & lokalna mreža \\
+  MAC & Media Access Control (address) & adresa upravljanja pristupom mediju \\
+  NAT & Network Address Translation & prevođenje mrežnih adresa \\
+  NDJSON & Newline Delimited JSON & JSON sa zapisima odvojenima novim retkom \\
+  NSM & Network Security Monitoring & sigurnosni nadzor mreže \\
+  PSK & Pre-Shared Key & unaprijed dijeljeni ključ \\
+  QUIC & Quick UDP Internet Connections & brze UDP internetske veze \\
+  RADIUS & Remote Authentication Dial-In User Service & usluga udaljene autentifikacije korisnika \\
+  RAM & Random Access Memory & radna memorija \\
+  RFC & Request for Comments & niz dokumenata internetskih standarda \\
+  SOC & Security Operations Center & sigurnosno-operativni centar \\
+  SQL & Structured Query Language & strukturirani upitni jezik \\
+  SSH & Secure Shell & protokol za sigurnu udaljenu ljusku \\
+  SSID & Service Set Identifier & identifikator bežične mreže \\
+  SSL & Secure Sockets Layer & sloj sigurnih utičnica \\
+  TCP & Transmission Control Protocol & protokol za upravljanje prijenosom \\
+  TLS & Transport Layer Security & sigurnost transportnog sloja \\
+  UDP & User Datagram Protocol & korisnički datagramski protokol \\
+  ufw & Uncomplicated Firewall & vatrozid na Linuxu \\
+  YAML & YAML Ain't Markup Language & jezik za serijalizaciju (konfiguracijske datoteke) \\
+\end{xltabular}
+
+\izjavaoUI{}
+Prilikom izrade rada korišten je Anthropicov model Claude Sonnet 4.6. Model je korišten za ispravljanje bugova u konfiguracijskim datotekama, generiranje testnih
+skripti i refaktoriranje alata kroz razvojni proces kako se rad gradio i kompleksnost povećavala.
+
+Model nije dolazio do zaključaka niti su mu pruženi rezultati testova već kodovi greške s opisom prilikom implementacije i konfiguracije alata odnosno kontejnera.
+Također UI nije donosila izvršne zaključke rada niti je definirala tok kojim će se rad razvijati već su to radili autor ovog rada i njegov mentor.
+
+\textbf{Osvrt na korištenje umjetne inteligencije} \\
+Umjetna inteligencija uvelike pomaže pri "dosadnim" zadatcima koji su prije bili nužni a sada se daju automatizirati - naravno do neke mjere. UI je uvelike pomogla
+pri pisanju konfiguracijskih datoteka koje su same po sebi suhoparne sa mnoštvom argumenata koje je potrebno razumijeti jako dobro kako bi sustav funkcionirao.
+Čak i pri pisanju kofiguracijskih datoteka potrebno je provjeriti izlaz modela jer to početno ponašanje sustava kasnije može diktirati tempo razvoja rada, takozvani
+tehnički dug.
+Osim konfiguracijskih skripti, model je pomagao pri pisanju postavljačkih shell skripti kako bi ispis bio bolji i kao provjeru razumnosti autoru.
+Sve te male stvari uštedjele su mnogo vremena te je osobno mišljenje autora da se umjetnoj inteligenciji treba pristupiti kao alatu koji sposobnim ljudima
+uvelike povećava efikasnost, a ne služi kao nešto čemu se slijepo vjeruje i na što se treba u potpunosti osloniti.
+
+
+\textbf{Izjava o korištenju umjetne inteligencije} \\
+Potvrđujem da sam tijekom izrade ovog diplomskog rada koristio umjetnu inteligenciju u skladu s Politikom primjerenog korištenja umjetne inteligencije na 
+Fakultetu elektrotehnike i računarstva, te da umjetna inteligencija nije zamijenila moje kritičko razmišljanje niti moj doprinos.
 
 \end{document}
 
@@ -138,6 +212,4 @@ Zahvaljujem svojoj obitelji što je uvijek bila uz mene.
 %            if not line:
 %                time.sleep(0.2)
 %                continue
-% \caption{Naslov}
-% \label{lst:primjer-koda}
 % \end{lstlisting}

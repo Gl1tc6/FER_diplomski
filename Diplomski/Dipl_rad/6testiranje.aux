@@ -1,0 +1,75 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6.}Testiranje detekcije i automatske reakcije}{30}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1.}Testno okruženje i metodologija}{30}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.2.}Provjera toka podataka}{31}{section.6.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.\spacefactor \@m {}1.}{\ignorespaces Prikaz podataka na nadzornoj ploči: broj veza u minuti, raspodjela protokola te najčešći izvori i odredišta; u promatranom razdoblju nema upozorenja (osnovno stanje prometa)}}{31}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:dashboard-start}{{6.\spacefactor \@m {}1.}{31}{Prikaz podataka na nadzornoj ploči: broj veza u minuti, raspodjela protokola te najčešći izvori i odredišta; u promatranom razdoblju nema upozorenja (osnovno stanje prometa)}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3.}Testiranje detekcije}{32}{section.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.\spacefactor \@m {}2.}{\ignorespaces Vremenska crta upozorenja: \texttt  {Custom\_Port\_Scan} (\texttt  {185.220.101.1}) te \texttt  {Custom\_SSH\_Bruteforce} i \texttt  {Intel::Notice} (oba \texttt  {10.0.1.94})}}{32}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:timeline}{{6.\spacefactor \@m {}2.}{32}{Vremenska crta upozorenja: \texttt {Custom\_Port\_Scan} (\texttt {185.220.101.1}) te \texttt {Custom\_SSH\_Bruteforce} i \texttt {Intel::Notice} (oba \texttt {10.0.1.94})}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1.}Skeniranje portova}{32}{subsection.6.3.1}\protected@file@percent }
+\newlabel{lst:notice-portscan}{{6.1}{32}{Upozorenje o skeniranju portova (\texttt {notice.log})}{lstlisting.6.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.1}{\ignorespaces Upozorenje o skeniranju portova (\texttt  {notice.log})}}{32}{lstlisting.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2.}Bruteforce SSH prijave}{32}{subsection.6.3.2}\protected@file@percent }
+\newlabel{lst:notice-ssh}{{6.2}{32}{Dvije obavijesti o SSH bruteforceu tijekom istog niza pokušaja (\texttt {notice.log})}{lstlisting.6.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.2}{\ignorespaces Dvije obavijesti o SSH bruteforceu tijekom istog niza pokušaja (\texttt  {notice.log})}}{32}{lstlisting.6.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.\spacefactor \@m {}3.}{\ignorespaces Upozorenja o SSH bruteforceu na nadzornoj ploči (izvor \texttt  {10.0.1.94})}}{33}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:ssh-grafana}{{6.\spacefactor \@m {}3.}{33}{Upozorenja o SSH bruteforceu na nadzornoj ploči (izvor \texttt {10.0.1.94})}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3.}Podudaranje s pokazateljem kompromitacije}{33}{subsection.6.3.3}\protected@file@percent }
+\newlabel{lst:notice-ioc}{{6.3}{33}{Upozorenje o podudaranju s pokazateljem kompromitacije (\texttt {notice.log})}{lstlisting.6.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.3}{\ignorespaces Upozorenje o podudaranju s pokazateljem kompromitacije (\texttt  {notice.log})}}{33}{lstlisting.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.4.}Testiranje automatske reakcije}{34}{section.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1.}Blokiranje izvora i istek blokade}{34}{subsection.6.4.1}\protected@file@percent }
+\newlabel{lst:nft-block}{{6.4}{34}{Skup \texttt {denylist} prije i tijekom blokade}{lstlisting.6.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.4}{\ignorespaces Skup \texttt  {denylist} prije i tijekom blokade}}{34}{lstlisting.6.4}\protected@file@percent }
+\newlabel{lst:reaction-portscan}{{6.5}{34}{Ispis skripte \texttt {auto\_reaction.py}}{lstlisting.6.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.5}{\ignorespaces Ispis skripte \texttt  {auto\_reaction.py}}}{34}{lstlisting.6.5}\protected@file@percent }
+\newlabel{lst:nft-ioc}{{6.6}{34}{Skup \texttt {denylist} nakon podudaranja s pokazateljem kompromitacije}{lstlisting.6.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.6}{\ignorespaces Skup \texttt  {denylist} nakon podudaranja s pokazateljem kompromitacije}}{34}{lstlisting.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2.}Zaštita vlastite infrastrukture popisom dopuštenih adresa}{35}{subsection.6.4.2}\protected@file@percent }
+\newlabel{lst:whitelist}{{6.7}{35}{Detekcija bez reakcije za adresu na popisu dopuštenih}{lstlisting.6.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.7}{\ignorespaces Detekcija bez reakcije za adresu na popisu dopuštenih}}{35}{lstlisting.6.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.5.}Ograničenja uočena testiranjem}{35}{section.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1.}Lažiranje izvorišne adrese}{35}{subsection.6.5.1}\protected@file@percent }
+\newlabel{lst:spoof}{{6.8}{35}{Ispis denylist}{lstlisting.6.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6.8}{\ignorespaces Ispis denylist}}{35}{lstlisting.6.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2.}Otpornost na nasilni prekid skripte}{36}{subsection.6.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.3.}Izloženost nadzornih servisa}{36}{subsection.6.5.3}\protected@file@percent }
+\@setckpt{6testiranje}{
+\setcounter{page}{37}
+\setcounter{equation}{0}
+\setcounter{enumi}{0}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{0}
+\setcounter{mpfootnote}{0}
+\setcounter{part}{0}
+\setcounter{chapter}{6}
+\setcounter{section}{5}
+\setcounter{subsection}{3}
+\setcounter{subsubsection}{0}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{3}
+\setcounter{table}{0}
+\setcounter{AM@survey}{0}
+\setcounter{caption@flags}{2}
+\setcounter{continuedfloat}{0}
+\setcounter{parentequation}{0}
+\setcounter{section@level}{0}
+\setcounter{Item}{0}
+\setcounter{Hfootnote}{0}
+\setcounter{bookmark@seq@number}{43}
+\setcounter{streamvline}{0}
+\setcounter{subfigure}{0}
+\setcounter{subtable}{0}
+\setcounter{float@type}{8}
+\setcounter{lstnumber}{9}
+\setcounter{LT@tables}{0}
+\setcounter{LT@chunks}{0}
+\setcounter{lstlisting}{8}
+}

@@ -1,0 +1,18 @@
+\chapter{Uvod}
+
+
+Velik broj današnjih uređaja povezan je u neku mrežu, a velika većina njih pripada lokalnim mrežama - kućnima, poslovnima ili vojnima. Lokalne su mreže time 
+postale sveprisutne, no njihova sigurnost nije pratila brzinu razvoja i pristupačnosti tih istih mreža. Tek nakon niza sigurnosnih incidenata počinje rasti svijest 
+poslovnih i privatnih korisnika o potrebi za zaštitom.
+
+Kako bi se incidenti, a posljedično i troškovi za poslovne korisnike, smanjili, na tržištu se pojavilo mnoštvo programskih rješenja 
+\cite{splunk_docs}\cite{security_onion}, pa i zasebnih zanimanja poput analitičara u sigurnosno-operativnom centru (SOC). Takva su rješenja dostupna 
+prije svega onima koji ih mogu platiti. Za neprekidan nadzor većim je organizacijama isplativo zaposliti tim analitičara raspoređenih u smjene. Postoje i 
+automatizirana rješenja niže razine zaštite, no zajednički im je nedostatak cijena odnosno manjak resursa.
+
+Cilj je ovog rada ponuditi programsko rješenje namijenjeno privatnim korisnicima i manjim tvrtkama, kojima visoki troškovi profesionalnih sustava predstavljaju 
+prepreku koju veće organizacije lakše preskoče. U radu su razrađena i ispitana dva moguća rješenja navedenog problema. Kao temeljni alat za prikupljanje podataka 
+korišten je Zeek, dok je analiza prikupljenih podataka provedena nad dvama podsustavima za pohranu - baza InfluxDB uz agenta Telegraf te baza Elasticsearch uz agenta Filebeat. 
+U oba se slučaja prikupljeni podatci vizualiziraju u alatu Grafana.
+
+Nakon opisa rješenja i postupka čitatelju se predstavljaju mogući smjerovi razvoja ovoga implementacijskog rješenja te daljnji koraci predviđeni za nastavak rada.

@@ -5,6 +5,7 @@ datasources:
     type: elasticsearch
     access: proxy
     url: http://elasticsearch:9200
+    uid: bfn9sb6wbr5kwc
     database: "zeek-*"
     isDefault: true
     jsonData:

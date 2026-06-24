@@ -51,7 +51,7 @@ if [ "$1" == "start" ]; then
     echo ""
     echo "Logovi: docker compose logs -f"
     echo "SSID: Dipl_test_FORBIDDEN  |  pass: ZaDipl_1248"
-    firefox http://localhost:3000 | firefox http://localhost:8080 &
+    firefox http://localhost:3000 http://localhost:8086 &
 # ------------------------------------------------------
 
 elif [ "$1" == "stop" ]; then
@@ -106,7 +106,8 @@ elif [ "$1" == "restart" ]; then
     echo "  InfluxDB: http://localhost:8086"
     echo ""
     echo "Logovi: docker compose logs -f"
-    echo "SSID: Dipl_test_FORBIDDEN  |  pass: ZaDipl_1248"   
+    echo "SSID: Dipl_test_FORBIDDEN  |  pass: ZaDipl_1248"
+    firefox http://localhost:3000 http://localhost:8086 &
 # ------------------------------------------------------
 
 elif [ "$1" == "status" ]; then

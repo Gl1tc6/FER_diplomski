@@ -1,0 +1,117 @@
+\chapter{Teorijska podloga i tehnološki stog}
+
+Sigurnosni nadzor mreže \engl{Network Security Monitoring - NSM} predstavlja metodologiju prikupljanja, analize i eskalacije indikatora koji ukazuju na maliciozne aktivnosti unutar nekog mrežnog okruženja. 
+Tradicionalni mehanizmi zaštite poput vatrozida i antivirusa se fokusiraju na prevenciju napada izgradnjom barijera tj. statičke obrane. Usprkos tome, kako ističe 
+Bejtlich \cite{bejtlich_nsm}, svaka obrana s vremenom zakaže zato što napadači stalno traže nove načine za zaobilaženje tih obrana - vječna igra mačke i miša.
+NSM se zato ne oslanja isključivo na spriječavanje i statičku obranu nego i na dubinsku vidljivost mrežnog prometa koja omogućava pravovremenu detekciju i reakciju odnosno aktivnu obranu za incidente.
+
+Kako bi se uspostavio funkcionalan NSM sustav, potrebno je integrirati nekoliko različitih klasa alata: od mrežnih senzora za ekstrakciju metapodataka, preko optimiziranih baza podataka za 
+pohranu vremenskih nizova, do grafičkih sučelja za vizualizaciju anomalija. 
+U nastavku ovog poglavlja bit će opisane teorijske osnove tehnologija koje su odabrane kao temelj za izgradnju takvog rješenja.
+
+\section{Mrežna infrastruktura i pristupne točke}
+
+AP \engl{Access Point} još znano i kao pristupna točka je uređaj koji se ponaša kao most \engl{bridge} i time dopušta bežičnim uređajima poput laptopa, mobitela, IoT senzora 
+da se povežu sa žičanom lokalnom mrežom (LAN). Za razliku od bežičnih rutera koji u sebi kombiniraju preusmjeravanje, vatrozid i WiFi funkcionalnosti pristupne točke se fokusiraju u potpunosti 
+na bežično povezivanja (iako se danas ta granica između pristupne točke i rutera sve manje primjećuje).
+
+\texttt{hostapd} je alat na Linuxu s kojim se može izabrano bežično mrežno sučelje sustava pretvoriti u pristupnu točku \cite{hostapd_docs} pod uvjetom da postoji još jedno mrežno sučelje (žičano ili mrežno) 
+koje će služiti kao izlaz na Internet. Između ostalog \texttt{hostapd} nudi mogućnosti:
+\begin{itemize}
+    \item nadzora pristupne točke preko IEEE 802.11 standarda
+    \item autentifikacijske protokole poput IEEE 802.1X, WPA, WPA2, i WPA3
+    \item može funkcionirati kao RADIUS Server/Klijent što je posebno bitno firmama i državnim ustanovama
+\end{itemize}
+
+Kako bi uređaji povezani na pristupnu točku mogli funkcionalno komunicirati, potrebno je osigurati mrežnu konfiguraciju i razlučivanje naziva. Ulogu pružanja tih servisa u sustavima s ograničenim 
+resursima često preuzima alat \texttt{dnsmasq} \cite{dnsmasq_docs}. Potrebno je naglasiti da \texttt{dnsmasq} ne obavlja izolaciju ili usmjeravanje mrežnog prometa (što je primarni zadatak vatrozida), 
+već isključivo objedinjuje funkcionalnosti DNS prosljeđivača \engl{DNS forwarder} i DHCP poslužitelja. Prihvaća lokalne DNS upite te ih prosljeđuje vanjskim DNS poslužiteljima kako bi se imena 
+(domene) prevela u odgovarajuće IP adrese. DHCP \engl{Dynamic Host Configuration Protocol} poslužitelj se brine da se svakom uređaju koji pristupa mreži dinamički dodijeli jedinstvena IP adresa, 
+podmrežna maska i adresa zadanog usmjernika, čime se omogućava neometana komunikacija i izbjegavaju mrežne kolizije.
+
+\section{Sustavi za detekciju upada i analizu prometa}
+
+Zeek je platforma otvorenog koda namijenjena dubinskoj analizi mrežnog prometa. Za razliku od pristupa koji bilježe sirove pakete (Wireshark), Zeek za svaku promatranu vezu generira strukturirani transakcijski
+zapis \engl{transaction log} s metapodatcima poput trajanja veze, broja prenesenih okteta i korištenog protokola. Format izlaznih zapisa moguće je prilagoditi, a analiza se
+provodi neovisno o veličini mreže.
+
+Zeek posjeduje vlastiti skriptni jezik kojim se definiraju pravila detekcije i određuje koji se metapodatci izdvajaju iz prometa. Time se logika detekcije prilagođava
+specifičnostima nadzirane mreže bez izmjene jezgre sustava.
+
+Zeek razvrstava zapise prema protokolu i vrsti zabilježene aktivnosti (\texttt{conn.log}, \texttt{dhcp.log}, \texttt{http.log}, \texttt{files.log}, \texttt{dns.log} i drugi).
+Uz zapise vezane uz pojedini protokol, okvir za obavijesti \engl{notice} bilježi posebne događaje u \texttt{notice.log}; u toj se datoteci nalaze specifični obrasci povezivanja 
+ili ponašanja uređaja koje smo opisali skriptnim jezikom kako bi ih Zeek prepoznao.
+
+Alternative poput Suricate primarno su orijentirane na detekciju temeljenu na potpisima \engl{signature-based detection}. Sveobuhvatna rješenja poput 
+Security Oniona, iako funkcionalna, zahtijevaju značajno više resursa tj. minimalno 12 GB RAM-a za minimalnu instalaciju \cite{security_onion}\cite{security_onion_hwreq} — što ih čini 
+neprikladnima za upogonjavanje na potrošačkom hardveru. Prednost Zeeka je u olakšanoj ekstrakciji metapodataka i svestranom skriptnom jeziku koji 
+omogućava izradu vlastite detekcijske logike uz minimalni memorijski otisak.
+
+\section{Kontejnerizacija mrežnih servisa}
+Docker je platforma za razvoj, dijeljenje i pokretanje aplikacija. Omogućava odvajanje aplikacija od infrastrukture \cite{docker_docs}. Kako bi to efikasno napravio, Docker koristi kontejnere.
+
+Kontejneri su mala okruženja koja se pokreću na računalu domaćinu te su izolirana od ostalih procesa korištenjem \textit{namespaceova} i \textit{cgroups} tj. kontrolnih grupa. Kontejneri su 
+pokretljive instance slika \engl{images} koje se mogu izraditi, pokrenuti, zaustaviti, premjestiti ili izbrisati pomoću Docker alata. Također su portabilni te se mogu pokrenuti lokalno,
+u virutalnim strojevima i u oblaku. 
+
+Docker se pobrinuo da kontejneri imaju minimalan utjecaj na domaćina te za pokretanje kontejnera nije potrebna instalacija dodatnih ovisnosti na sustavu domaćina. Svaki se kontejner pokreće u 
+izoliranom okruženju te može komunicirati sa ostalim kontejnerima tek ako mu se to eksplicitno dozvoli.
+
+Za orkestraciju više kontejnera koji zajedno čine jednu aplikaciju Docker nudi alat Docker Compose. Konfiguracija cijelog skupa servisa definira se u jednoj 
+\textit{docker-compose.yml} datoteci koja opisuje svaki servis, njegove ovisnosti, volumene i mrežne postavke. Pokretanje cijelog sustava svodi se na jednu naredbu 
+\texttt{docker compose up -d}, što znatno pojednostavljuje upogonjavanje i reproducibilnost okruženja te je glavni razlog zašto je upravo Docker korišten u ovom radu.
+
+\section{Pohrana vremenskih nizova i vizualizacija}
+InfluxDB je baza podataka temeljena na modelu vremenskih nizova \engl{time-series}, optimizirana za pohranu, indeksiranje i upite nad podatcima kod kojih je vrijeme glavna
+organizacijska dimenzija \cite{influxdb_docs}. Glavne karakteristike:
+\begin{itemize}
+    \item indeksiranje temeljeno na vremenu
+    \item pretežno \textit{append}-orijentirana pohrana (optimizirana za velik broj sekvencijalnih upisa; uklanjanje podataka provodi se politikama zadržavanja \engl{retention policy}, a ne pojedinačnim izmjenama)
+    \item kompresija i smanjenje uzorkovanja \engl{downsampling} radi manjeg zauzeća prostora
+    \item ugrađene agregacijske funkcije nad vremenskim intervalima (pomični prosjeci, percentili, sažetci)
+\end{itemize}
+InfluxDB 2.7 podržava dva jezika upita, Flux i InfluxQL. U ovom je radu korišten Flux. Flux je funkcionalni skriptni jezik otvorenog koda za upite, analizu i obradu podataka
+vremenskih nizova te je izvorni jezik upita za InfluxDB 2.x \cite{flux_getstarted}\cite{flux_basics_video}. Za razliku od InfluxQL-a, sintaksno bliskog SQL-u, Flux je
+kompozibilan i uz InfluxDB podržava i druge izvore podataka (primjerice PostgreSQL i BigQuery) te formate poput CSV-a i JSON-a.
+
+Primjer Flux upita prikazan je u ispisu \ref{lst:basic_flux_query} \cite{flux_query_basics}.
+\begin{lstlisting}[caption={Primjer Flux upita}, label={lst:basic_flux_query}]
+import "influxdata/influxdb/v1"
+
+option v = {bucket: "my-bucket", org: "my-org"}
+
+from(bucket: v.bucket)
+    |> range(start: -1h)
+    |> filter(fn: (r) => r._measurement == "cpu")
+    |> mean()
+\end{lstlisting}
+Upit \ref{lst:basic_flux_query} definira "kantu" informacija te se iz tog \textit{bucketa} redom povlači informacije na sljedeći način: svi logovi iz prethodnih sat vremena (\texttt{start: -1h}),
+koji u sebi sadrže informaciju o CPU-u (\texttt{filter(fn: (r) => r.\_measurement == "cpu")}) te potom iz tih informacija izvlači srednja vrijednost (\texttt{mean()}). Drugim riječima ovaj upit će
+prikupiti informacije o CPU-u u zadnjih sat vremena te će prikazati njihovu srednju vrijednost.
+
+Telegraf je agent za prikupljanje podataka otvorenog koda koji razvija InfluxData, a koji prikuplja, obrađuje i agregira metrike, logove i druge podatke iz različitih izvora. 
+Služi kao primarni sloj za unos podataka za InfluxDB, bazu podataka vremenskih serija, koristeći arhitekturu temeljenu na dodacima s preko 300 ulaznih i izlaznih dodataka za prikupljanje 
+podataka iz sustava, senzora i aplikacija te njihov izravan zapis u InfluxDB.\cite{telegraf_docs}\cite{influxdb_telegraf_intro}
+Neke od karakteristika Telegrafa su:
+\begin{itemize}
+    \item Arhitektura temeljena na dodacima (\textit{pluginovi}) (korisnik konfigurira ulaze i izlaze u \texttt{telegraf.conf} što omogućuje fleksibilno upravljanje tokom podataka bez konkretnog znanja programiranja)
+    \item Napisan u jeziku GO (jedna binarna datoteka s mogućnošću obrade ogromne količine podataka s više uređaja)
+    \item Pretprocesiranje podataka (može očistiti, filtrirati i transformirati podatke prije nego što stignu do baze podataka)
+\end{itemize}
+
+Uz InfluxDB i Telegraf, kao alternativa ispitan je i Elasticsearch uz Filebeat kao agentom za prikupljanje podataka.
+
+Elasticsearch je distribuirani sustav za pretraživanje i analizu podataka otvorenog koda temeljen na Apache Lucene biblioteci.\cite{elasticsearch_docs} Za razliku od 
+InfluxDB-a koji optimizira pohranu vremenskih serija, Elasticsearch tretira svaki zapis kao JSON dokument koji se indeksira kroz invertirani indeks  
+\engl{inverted} index — struktura podataka koja omogućava brzu pretragu po sadržaju polja. Ta arhitektura čini Elasticsearch pogodnim za 
+pretraživanje punim tekstom i korelaciju podataka iz heterogenih izvora, no dolazi s većim memorijskim i prostornim otiskom u usporedbi s InfluxDB-om što će biti detaljnije 
+prikazano u poglavlju evaluacije.
+
+Kao što Telegraf služi kao agent za unos podataka u InfluxDB, Filebeat preuzima analognu ulogu u Elasticsearch ekosustavu.\cite{filebeat_docs} Filebeat je lagani 
+agent koji prati zadane datoteke zapisnika i prosljeđuje nove zapise u Elasticsearch. U kontekstu ovog rada, Filebeat čita Zeekove JSON logove iz dijeljenog volumena i 
+indeksira ih u Elasticsearch bez transformacije podataka.
+
+Grafana je platforma otvorenog koda za vizualizaciju i analizu podataka koja podržava više od pedeset izvora podataka, uključujući InfluxDB i 
+Elasticsearch.\cite{grafana_docs} Dashboardi se konfiguriraju kroz grafičko sučelje i mogu se izvesti kao JSON datoteke te pohraniti u repozitorij, što 
+omogućava automatsko učitavanje pri pokretanju sustava \engl{provisioning}. U ovom radu Grafana služi kao jedinstveno vizualizacijsko sučelje za oba ispitana 
+backend rješenja.

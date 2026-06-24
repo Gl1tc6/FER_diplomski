@@ -9,15 +9,20 @@
 % bachelorthesis - pisanje završnog rada na engleskom jeziku
 % authoryear - stil citiranja autor-godina (kojeg treba zabraniti)
 % upload - za izbacivanje naslovnice i teksta zadatka iz generiranog dokumenta
-%
+% 
 % Materijali korišteni za pripremu su razni predlošci za ispite i nastavne materijale
 % te predložak za diplomske i završne radove kojeg su pripremili studenti na početku
 % FER2 programa.
-%
+% 
 % 2020-06-10 Tomislav Petković (tomislav.petkovic.jr@fer.hr)
+% 
+% Izmjene:
+% 2025-12-12 Dodana naredba \frontmatter.
+% 2026-05-25 Dodane naredbe \izjavaoUI i \statementonAI za dodavanje naslova izjave o korištenju umjetne inteligencije.
+% 2026-06-08 Dodane okoline izjavaoui i statementonai, te ispravljena greška u \statementonAI naredbi.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{fer}[2021/06/10 FER3]
+\ProvidesClass{fer}[2026/06/08 FER3]
 
 % Za definiranje što se događa pri pojedinoj opciji koristimo zastavice.
 % Standardni predložak je za diplomski rad na hrvatskom jeziku pa nam za
@@ -86,9 +91,9 @@
 % Bilješka: u slučaju dodavanja ostalih stranih jezika, npr. njemačkog, potrebno
 % je definirati posebne zastavice za svaki od dodatnih podržanih stranih jezika.
 \if@hrvatski
-\RequirePackage[main=croatian,english]{babel}
+  \RequirePackage[main=croatian,english]{babel}
 \else
-\RequirePackage[main=english,croatian]{babel}
+  \RequirePackage[main=english,croatian]{babel}
 \fi
 \addto\captionscroatian{\def\bibname{Literatura}\def\appendixname{Privitak}}
 \addto\captionsenglish{\def\bibname{References}}
@@ -115,26 +120,26 @@
 % a za citiranje autor-godina modificiranu plainnat klasu.
 % Sve .bst klase nisu univerzalne obzirom na jezik pa zato trebamo i HR i EN varijante.
 \if@citeauthoryear
-\RequirePackage[authoryear, round]{natbib}
-\let\old@cite\cite
-\renewcommand{\cite}[1]{\citep{#1}}
-\if@hrvatski
-\bibliographystyle{fer_plainnat_HR}
+  \RequirePackage[authoryear, round]{natbib}
+  \let\old@cite\cite
+  \renewcommand{\cite}[1]{\citep{#1}}
+  \if@hrvatski
+    \bibliographystyle{fer_plainnat_HR}
+  \else
+    \bibliographystyle{fer_plainnat_EN}
+  \fi
 \else
-\bibliographystyle{fer_plainnat_EN}
-\fi
-\else
-\let\old@bibliography\bibliography
-\def\bibliography#1{%
-  \bgroup%
-  \rightskip=0pt plus 1fil\relax%
-  \old@bibliography{#1}
-  \egroup}%
-\if@hrvatski
-\bibliographystyle{fer_IEEEtran_HR}
-\else
-\bibliographystyle{fer_IEEEtran_EN}
-\fi
+  \let\old@bibliography\bibliography
+  \def\bibliography#1{%
+    \bgroup%
+    \rightskip=0pt plus 1fil\relax%
+    \old@bibliography{#1}
+    \egroup}%
+  \if@hrvatski
+    \bibliographystyle{fer_IEEEtran_HR}
+  \else
+    \bibliographystyle{fer_IEEEtran_EN}
+  \fi
 \fi
 
 % Potrebno za redefiniranje oznaka slika i tablica
@@ -193,9 +198,9 @@
 \def\brojrada#1{\gdef\@brojrada{#1}}
 \def\mentor#1{\gdef\@mentor{#1}}
 \if@hrvatski
-\gdef\@naslov{\@title}
+  \gdef\@naslov{\@title}
 \else
-\gdef\@naslov{\@latex@warning@no@line{Naslov nije naveden. Koristi \noexpand\naslov za definiranje.}}
+  \gdef\@naslov{\@latex@warning@no@line{Naslov nije naveden. Koristi \noexpand\naslov za definiranje.}}
 \fi
 \gdef\@autor{\@author}
 \gdef\@datum{\@date}
@@ -204,9 +209,9 @@
 
 % Za seminar nema broja rada
 \if@seminar
-\brojrada{\relax}
-\oznakabrojaHR{\relax}
-\oznakabrojaEN{\relax}
+  \brojrada{\relax}
+  \oznakabrojaHR{\relax}
+  \oznakabrojaEN{\relax}
 \fi
 
 % Naslovnica i nazivi poglavlja sukladno FER-ovom predlošku pripremljenom u Microsoftovom Wordu
@@ -231,9 +236,9 @@
 \newenvironment{naslovnica}[1]
 {%
   \if@twocolumn
-  \@restonecoltrue\onecolumn
+    \@restonecoltrue\onecolumn
   \else
-  \@restonecolfalse\newpage
+    \@restonecolfalse\newpage
   \fi
   \thispagestyle{empty}%
   \setcounter{page}{#1}
@@ -304,11 +309,11 @@
 % Definiraj naslovnicu.
 \renewcommand\maketitle{%
   \if@upload\relax\else
-  \setstretch{1.0}%
-  \if@hrvatski\maketitleHR{1}%
-  \else\maketitleEN{1}\maketitleHR{2}%
-  \fi%
-  \setstretch{1.5}%
+    \setstretch{1.0}%
+    \if@hrvatski\maketitleHR{1}%
+    \else\maketitleEN{1}\maketitleHR{2}%
+    \fi%
+    \setstretch{1.5}%
   \fi%
   \global\let\maketitle\relax
   \global\let\and\relax
@@ -321,35 +326,35 @@
 % za zadatak na hrvatskom.
 \newcommand{\zadatak}[1]{%
   \if@seminar\relax\else
-  \if@upload\relax\else
-  \openin15={#1}%
-  \ifeof15
-  \bgroup
-  \centering
-  \if@hrvatski
-  \clearpage
-  \thispagestyle{empty}%
-  \vspace*{\fill}%
-  Ovdje dolazi tekst zadatka \if@zavrsni zavr\v{s}nog rada\else diplomskog rada\fi\ na hrvatskom jeziku.\par%  
-  \vspace*{\fill}%
-  \else
-  \clearpage
-  \thispagestyle{empty}%
-  \vspace*{\fill}%
-  The \if@zavrsni bachelor\else master\fi\ thesis assignment text in English goes here.\par%
-  \vspace*{\fill}%
-  \newpage
-  \thispagestyle{empty}%
-  \vspace*{\fill}%
-  Ovdje dolazi tekst zadatka \if@zavrsni zavr\v{s}nog rada\else diplomskog rada\fi\ na hrvatskom jeziku.\par%
-  \vspace*{\fill}%
+    \if@upload\relax\else
+      \openin15={#1}%
+      \ifeof15
+      \bgroup
+      \centering
+      \if@hrvatski
+        \clearpage
+        \if@frontmatter\thispagestyle{plain}\else\thispagestyle{empty}\fi%
+        \vspace*{\fill}%
+        Ovdje dolazi tekst zadatka \if@zavrsni zavr\v{s}nog rada\else diplomskog rada\fi\ na hrvatskom jeziku.\par%  
+        \vspace*{\fill}%
+      \else
+        \clearpage
+        \if@frontmatter\thispagestyle{plain}\else\thispagestyle{empty}\fi%
+        \vspace*{\fill}%
+        The \if@zavrsni bachelor\else master\fi\ thesis assignment text in English goes here.\par%
+        \vspace*{\fill}%
+        \newpage
+        \if@frontmatter\thispagestyle{plain}\else\thispagestyle{empty}\fi%
+        \vspace*{\fill}%
+        Ovdje dolazi tekst zadatka \if@zavrsni zavr\v{s}nog rada\else diplomskog rada\fi\ na hrvatskom jeziku.\par%
+        \vspace*{\fill}%
+      \fi
+      \egroup
+    \else\closein15
+      \if@frontmatter\includepdf[pages=-,pagecommand={\thispagestyle{plain}}]{#1}\else\includepdf[pages=-]{#1}\fi%
+    \fi
   \fi
-  \egroup
-  \else\closein15
-  \includepdf[pages=-]{#1}%
-  \fi
-  \fi
-  \fi
+\fi
 }
 
 % Okolina za zahvale postavlja tekst nadesno tako da iznad teksta ima otprlike 70%
@@ -358,7 +363,7 @@
 \newenvironment{zahvale}
 {%
   \clearpage
-  \thispagestyle{empty}%
+  \if@frontmatter\thispagestyle{plain}\else\thispagestyle{empty}\fi%
   \raggedleft
   \null\vskip 0pt plus 0.7fill\null\vskip 0pt\sl\null
 }%
@@ -460,11 +465,11 @@
 % vizualno nije potrebna dvotočka za razdvajanje nego je dovoljan razmak.
 % U engleskom ostavljamo dvotočku koja je zadana pa ništa ne treba mijenjati.
 \if@hrvatski
-\captionsetup[table]{labelsep=space,font=small}
-\captionsetup[figure]{labelfont=bf,labelsep=space,font=small}
+  \captionsetup[table]{labelsep=space,font=small}
+  \captionsetup[figure]{labelfont=bf,labelsep=space,font=small}
 \else
-\captionsetup[table]{font=small}
-\captionsetup[figure]{labelfont=bf,font=small}
+  \captionsetup[table]{font=small}
+  \captionsetup[figure]{labelfont=bf,font=small}
 \fi
 
 % Brojevi stranica su na vanjskoj margini dolje
@@ -475,15 +480,16 @@
   \def\@evenfoot{\thepage\hfil}}
 \pagestyle{plain}
 
-% Numeriranje stranica počinje od sadržaja. Da bi to postigli slično kao u klasi book
-% definiramo mainmatter i backmatter naredbe koje redefiniraju numeriranje poglavlja
-% i stranica. Numeriranje stranica započinje od mjesta u dokumentu na kojem zadamo
-% \mainmatter, a riječ Privitak/Appendix se dodaje imenima poglavlja nakon mjesta u
-% dokumentu na kojem zadamo \backmatter.
+% Numeriranje stranica uobičajeno počinje od sadržaja. Da bi to postigli slično kao
+% u klasi book definiramo mainmatter i backmatter naredbe koje redefiniraju numeriranje
+% poglavlja i stranica. Numeriranje stranica započinje od mjesta u dokumentu na kojem
+% zadamo \mainmatter, a riječ Privitak/Appendix se dodaje imenima poglavlja nakon
+% mjesta u dokumentu na kojem zadamo \backmatter.
 \newif\if@appendix\@appendixfalse
 \newcommand\mainmatter{%
   \pagestyle{plain}%
   \cleardoublepage
+  \@frontmatterfalse  
   \@appendixfalse
   \pagenumbering{arabic}%
   \setcounter{page}{1}%
@@ -495,11 +501,28 @@
   \else
     \clearpage
   \fi
+  \@frontmatterfalse
   \@appendixtrue
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
   \gdef\@chapapp{\appendixname}%
   \gdef\thechapter{\@Alph\c@chapter}%
+}
+% Stare upute i predložak u Wordu za diplomski rad koriste rimske brojeve za numeriranje
+% početnih stranica rada gdje se nalaze tekst zadatka, zahvala i sadržaj, a tek od prve
+% stranice teksta nakon sadržaka započinje numeriranje arapskim brojevima od 1.
+% U ovom predlošku se preporuča korištenje \mainmatter nakon zahvale i prije sadržaja,
+% no alternativmo se može koristiti \frontmatter na početku rada za uključivanje rimskih
+% brojeva na stranice u početnom dijelu te \mainmatter nakon sadržaja za uobičajeno
+% numeriranje arapskim brojevima.
+\newif\if@frontmatter\@frontmatterfalse
+\newcommand\frontmatter{%
+  \pagestyle{plain}%
+  \cleardoublepage
+  \@frontmattertrue
+  \@appendixfalse
+  \pagenumbering{roman}%
+  \setcounter{page}{1}%
 }
 
 % Poglavlja su numerirana brojčano u tijelu rada te slovima u privitku.
@@ -543,21 +566,21 @@
   {\arialpodpoddio}%
 }
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
-  \refstepcounter{chapter}%
-  \typeout{\@chapapp\space\thechapter.}%
-  \addcontentsline{toc}{chapter}%
-  {\protect\numberline{\thechapter\if@appendix:\fi}#1}%
+    \refstepcounter{chapter}%
+    \typeout{\@chapapp\space\thechapter.}%
+    \addcontentsline{toc}{chapter}%
+    {\protect\numberline{\thechapter\if@appendix:\fi}#1}%
   \else
-  \addcontentsline{toc}{chapter}{#1}%
+    \addcontentsline{toc}{chapter}{#1}%
   \fi
   \chaptermark{#1}%
   \addtocontents{lof}{\protect\addvspace{10\p@}}%
   \addtocontents{lot}{\protect\addvspace{10\p@}}%
   \if@twocolumn
-  \@topnewpage[\@makechapterhead{#2}]%
+    \@topnewpage[\@makechapterhead{#2}]%
   \else
-  \@makechapterhead{#2}%
-  \@afterheading
+    \@makechapterhead{#2}%
+    \@afterheading
   \fi}
 
 % Naredbe za slaganje sažetka i ključnih riječi na hrvatskom i na engleskom
@@ -607,25 +630,54 @@
 }
 {\endotherlanguage}
 
+% Naredbe za izjavu o korištenju umjetne inteligencije
+\def\uiizjava#1{\gdef\@uiizjava{#1}}
+\uiizjava{Izjava o korištenju umjetne inteligencije}
+\newcommand{\izjavaoUI}[1]{%
+  \ifstrempty{#1}{}{\uiizjava{#1}}%
+  \chapter*{\@uiizjava}%
+  \addcontentsline{toc}{chapter}{\@uiizjava}%
+}
+
+\newenvironment{izjavaoui}[1][]{%
+  \otherlanguage{croatian}%
+  \izjavaoUI{#1}%
+}
+{\endotherlanguage}
+
+\def\aistatement#1{\gdef\@aistatement{#1}}
+\aistatement{Statement on the Use of Artificial Intelligence}
+\newcommand{\statementonAI}[1]{%
+  \ifstrempty{#1}{}{\aistatement{#1}}%
+  \chapter*{\@aistatement}%
+  \addcontentsline{toc}{chapter}{\@aistatement}%
+}
+
+\newenvironment{statementonai}[1][]{%
+  \otherlanguage{english}%
+  \statementonAI{#1}%
+}
+{\endotherlanguage}
+
 % U sadržaju je ime poglavlja povezano točkicama s brojem poglavlja.
 \renewcommand*\l@chapter[2]{%
   \ifnum \c@tocdepth >\m@ne
-  \addpenalty{-\@highpenalty}%
-  \vskip 1.0em \@plus\p@
-  \setlength\@tempdima{1.5em}%
-  \begingroup
-  \parindent \z@ \rightskip \@pnumwidth
-  \parfillskip -\@pnumwidth
-  \leavevmode \bfseries
-  \advance\leftskip\@tempdima
-  \hskip -\leftskip
-  #1\nobreak\leaders\hbox{$\m@th
-    \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
-    mu$}\hfil
-  \nobreak\hb@xt@\@pnumwidth{\hss #2%
-    \kern-\p@\kern\p@}\par
-  \penalty\@highpenalty
-  \endgroup
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+    \parindent \z@ \rightskip \@pnumwidth
+    \parfillskip -\@pnumwidth
+    \leavevmode \bfseries
+    \advance\leftskip\@tempdima
+    \hskip -\leftskip
+    #1\nobreak\leaders\hbox{$\m@th
+      \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+      mu$}\hfil
+    \nobreak\hb@xt@\@pnumwidth{\hss #2%
+      \kern-\p@\kern\p@}\par
+    \penalty\@highpenalty
+    \endgroup
   \fi
 }
 
@@ -644,22 +696,22 @@
 \gdef\@PDFLanguage{\if@hrvatski hr-HR\else en-US\fi}
 \gdef\@PDFSubject{}
 \gdef\@PDFKeywords{}
-  
+
 \if@upload%
-\usepackage{newfile}
-\usepackage{colorprofiles}
-\usepackage[a-2b,mathxmp,latxmp]{pdfx}
-\def\writeoutPDFmetadata{
-  \newoutputstream{PDFmetadata}
-  \openoutputfile{\jobname.xmpdata}{PDFmetadata}
-  \addtostream{PDFmetadata}{\protect\Title{\@PDFTitle}}%
-  \addtostream{PDFmetadata}{\protect\Author{\@PDFAuthor}}%
-  \addtostream{PDFmetadata}{\protect\Language{\@PDFLanguage}}%
-  \addtostream{PDFmetadata}{\protect\Subject{\@PDFSubject}}%
-  \addtostream{PDFmetadata}{\protect\Keywords{\@PDFKeywords}}%
-  \closeoutputstream{PDFmetadata}
-}
-\AtEndDocument{\writeoutPDFmetadata}
+  \usepackage{newfile}
+  \usepackage{colorprofiles}
+  \usepackage[a-2b,mathxmp,latxmp]{pdfx}
+  \def\writeoutPDFmetadata{
+    \newoutputstream{PDFmetadata}
+    \openoutputfile{\jobname.xmpdata}{PDFmetadata}
+    \addtostream{PDFmetadata}{\protect\Title{\@PDFTitle}}%
+    \addtostream{PDFmetadata}{\protect\Author{\@PDFAuthor}}%
+    \addtostream{PDFmetadata}{\protect\Language{\@PDFLanguage}}%
+    \addtostream{PDFmetadata}{\protect\Subject{\@PDFSubject}}%
+    \addtostream{PDFmetadata}{\protect\Keywords{\@PDFKeywords}}%
+    \closeoutputstream{PDFmetadata}
+  }
+  \AtEndDocument{\writeoutPDFmetadata}
 \fi
 
 % Ispiši u .log datoteku sve učitane pakete i to redom koji se učitavaju.
@@ -671,20 +723,20 @@
 % da moramo ispraviti numeriranje poglavlja, slika i tablica.
 \if@hrvatski
 
-% Brojevi poglavlja/dijelova/paragrafa imaju točku na kraju.
-\renewcommand\thechapter{\@arabic\c@chapter.}
-\renewcommand\thesection{\thechapter\@arabic\c@section.}
-\renewcommand\thesubsection{\thesection\@arabic\c@subsection.}
-\renewcommand\thesubsubsection{\thesubsection\@arabic\c@subsubsection.}
-\renewcommand\theparagraph{\thesubsubsection\@arabic\c@paragraph.}
-\renewcommand\thesubparagraph{\theparagraph\@arabic\c@subparagraph.}
+  % Brojevi poglavlja/dijelova/paragrafa imaju točku na kraju.
+  \renewcommand\thechapter{\@arabic\c@chapter.}
+  \renewcommand\thesection{\thechapter\@arabic\c@section.}
+  \renewcommand\thesubsection{\thesection\@arabic\c@subsection.}
+  \renewcommand\thesubsubsection{\thesubsection\@arabic\c@subsubsection.}
+  \renewcommand\theparagraph{\thesubsubsection\@arabic\c@paragraph.}
+  \renewcommand\thesubparagraph{\theparagraph\@arabic\c@subparagraph.}
 
-% Dodane točke treba ukloniti na drugim mjestima gdje korisitmo brojeve poglavlja.
-% Osim toga numeracija slika i tablica završava točkom.
-% Brojevi jednadžbi su standardno u zagradama pa ne dodajemo završnu točku.
-\renewcommand\theequation{\ifnum \c@chapter>\z@ \thechapter\@\fi \@arabic\c@equation}
-\renewcommand\thefigure{\ifnum \c@chapter>\z@ \thechapter\@\fi \@arabic\c@figure.}
-\renewcommand\thetable{\ifnum \c@chapter>\z@ \thechapter\@\fi \@arabic\c@table.}
+  % Dodane točke treba ukloniti na drugim mjestima gdje korisitmo brojeve poglavlja.
+  % Osim toga numeracija slika i tablica završava točkom.
+  % Brojevi jednadžbi su standardno u zagradama pa ne dodajemo završnu točku.
+  \renewcommand\theequation{\ifnum \c@chapter>\z@ \thechapter\@\fi \@arabic\c@equation}
+  \renewcommand\thefigure{\ifnum \c@chapter>\z@ \thechapter\@\fi \@arabic\c@figure.}
+  \renewcommand\thetable{\ifnum \c@chapter>\z@ \thechapter\@\fi \@arabic\c@table.}
 
 \fi
 
@@ -714,16 +766,16 @@
 % 2) u ostalim slučajevima ne diramo referencu.
 % Zbog ostalih paketa koji se učitavaju ovaj niz naredbi dodajemo u listu naredbi
 % koje se izvršavaju tek prilikom poziva \begin{document}.
-% Stara \ref naredba je snimljena kao \old@ref.
+%   Stara \ref naredba je snimljena kao \old@ref.
 \if@hrvatski
-\AfterEndPreamble{
-  % Spremi staru ref naredbu
-  \LetLtxMacro{\old@ref}{\ref}%
-  % Redefiniraj ref naredbu
-  \renewcommand{\ref}[1]{%
-    \removeifnextchar{.}% Ukloni točku ako slijedi
-    {\old@ref{#1}}% Našli smo i uklonili točku pa ide referenca sa točkom
-    {\old@ref{#1}\@}% Za sve ostale slučajeve ide normalna referenca, \@ je potreban radi korekcije razmaka
-  }%
-}
+  \AfterEndPreamble{
+    % Spremi staru ref naredbu
+    \LetLtxMacro{\old@ref}{\ref}%
+    % Redefiniraj ref naredbu
+    \renewcommand{\ref}[1]{%
+      \removeifnextchar{.}% Ukloni točku ako slijedi
+      {\old@ref{#1}}% Našli smo i uklonili točku pa ide referenca sa točkom
+      {\old@ref{#1}\@}% Za sve ostale slučajeve ide normalna referenca, \@ je potreban radi korekcije razmaka
+    }%
+  }
 \fi

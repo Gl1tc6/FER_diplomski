@@ -8,61 +8,56 @@
 @load policy/protocols/ssh/detect-bruteforcing
 @load policy/protocols/smtp/detect-suspicious-orig
 
-# Učitavanje Zeek Intel Frameworka
+# Intel framework: detekcija pokazatelja kompromitacije (IoC) iz intel.dat.
+# IoC se ucitavaju ISKLJUCIVO iz datoteke -- bez tvrdo kodiranih adresa u skripti.
 @load policy/frameworks/intel/seen
 @load policy/frameworks/intel/do_notice
 
-global port_scan_tracker: table[addr] of set[port] &create_expire=5min;
+redef Intel::read_files += { "/usr/local/zeek/share/zeek/site/intel.dat" };
 
-# Uklonjen "CustomScan::" namespace
-redef enum Notice::Type += { Custom_Port_Scan };
+# Prilagodjeni tipovi obavijesti (dosljedno ravno imenovanje, bez namespacea).
+redef enum Notice::Type += { Custom_Port_Scan, Custom_SSH_Bruteforce };
 
-zeekglobal ssh_tracker: table[addr] of count &create_expire=10min &default=0;
-redef enum Notice::Type += { CustomSSH::Bruteforce };
+# Pratitelji stanja s automatskim istekom (klizni vremenski prozor).
+# Port scan se prati po PARU (izvor, odrediste) -- pravi sken je vise portova na jednom cilju.
+global port_scan_tracker: table[addr, addr] of set[port] &create_expire=5min;
+global ssh_tracker: table[addr] of count &create_expire=10min &default=0;
 
 event new_connection(c: connection)
-{   
-    # Primjer IoC detekcije
-    local ioc_ips: set[addr] = { 93.184.215.14 };
+{
+    local src    = c$id$orig_h;
+    local dest   = c$id$resp_h;
+    local dest_p = c$id$resp_p;
 
-    if (c$id$resp_h in ioc_ips || c$id$orig_h in ioc_ips)
+    # --- Detekcija skeniranja portova ---
+    # Obrazac: broj razlicitih portova na istom cilju unutar vremenskog prozora.
+    if ([src, dest] !in port_scan_tracker)
+        port_scan_tracker[src, dest] = set();
+
+    add port_scan_tracker[src, dest][dest_p];
+
+    if (|port_scan_tracker[src, dest]| >= 50)
     {
-        NOTICE([$note=Intel::Notice,
-                $conn=c,
-                $msg=fmt("IoC detektiran: veza prema poznatom malicioznom IP-u %s",
-                         c$id$resp_h),
-                $identifier=cat(c$id$resp_h),
-                $suppress_for=30sec]);
-    }
-
-    local src = c$id$orig_h;
-    if (src !in port_scan_tracker)
-        port_scan_tracker[src] = set();
-
-    # Primjer detekcije skeniranja
-    add port_scan_tracker[src][c$id$resp_p];
-
-    if (|port_scan_tracker[src]| == 50)
-    {
-        # Ime prilagođeno ovdje
         NOTICE([$note=Custom_Port_Scan,
                 $src=src,
-                $msg=fmt("Mogući port scan: %s kontaktirao %d različitih portova",
-                         src, |port_scan_tracker[src]|),
-                $identifier=cat(src),
+                $msg=fmt("Moguci port scan: %s kontaktirao %d razlicitih portova na %s",
+                         src, |port_scan_tracker[src, dest]|, dest),
+                $identifier=cat(src, dest),
                 $suppress_for=30sec]);
     }
 
-    # SSH bruteforce — po učestalosti konekcija, ne po auth ishodu
-    if (c$id$resp_p == 22/tcp && c$id$resp_h == 10.0.1.1)
+    # --- Detekcija SSH bruteforcea ---
+    # Obrazac: ucestalost konekcija prema portu 22 (neovisno o ishodu autentifikacije).
+    # Komplementaran Zeekovom SSH::Password_Guessing koji radi na ishodu autentifikacije.
+    if (dest_p == 22/tcp && dest == 10.0.1.1)
     {
-        ssh_tracker[c$id$orig_h] += 1;
-        if (ssh_tracker[c$id$orig_h] == 15)
-            NOTICE([$note=CustomSSH::Bruteforce,
-                    $src=c$id$orig_h,
-                    $msg=fmt("Mogući SSH bruteforce: %s otvorio %d konekcija prema portu 22",
-                             c$id$orig_h, ssh_tracker[c$id$orig_h]),
-                    $identifier=cat(c$id$orig_h),
+        ssh_tracker[src] += 1;
+        if (ssh_tracker[src] >= 15)
+            NOTICE([$note=Custom_SSH_Bruteforce,
+                    $src=src,
+                    $msg=fmt("Moguci SSH bruteforce: %s otvorio %d konekcija prema portu 22 na %s",
+                             src, ssh_tracker[src], dest),
+                    $identifier=cat(src),
                     $suppress_for=30sec]);
     }
 }
