@@ -1,20 +1,19 @@
-\chapter{Arhitektura}
-U ovom se poglavlju opisuje arhitektura predloženog (kasnije i implementiranog) sustava. Opisuje se način na koji je lokalna mreža usmjerena
+\chapter{Arhitektura središnje pristupne točke}
+U ovom se poglavlju opisuje arhitektura sustava. Opisuje se način na koji je lokalna mreža usmjerena
 kroz pristupnu točku, gdje se i kako prikuplja mrežni promet te kako se prikupljeni podatci pohranjuju, vizualiziraju te u konačnici kako se s tim podatcima 
 rukuje kako bi se postigla automatska detekcija. Naglasak je na odlukama o dizajnu i njihovim opravdanjima, dok se konkretna implementacija obrađuje kasnije.
 
 \section{Pregled sustava}
-Sustav je zamišljen da pretvori uređaj s mrežnim mogućnostima u jedinstvenu točku kroz koju prolazi sav promet lokalne mreže, čime se ostvaruje potpuna 
-vidljivost komunikacije između lokalnih uređaja i vanjskih odredišta. Taj uređaj istovremeno obavlja funkciju usmjernika \engl{gateway}, pristupne točke, 
-mrežnog senzora i vatrozida. Ovakvom tipu posla najviše odgovara uređaj koji na sebi ima instaliran Linux, te iako su mogući i drugi načini oni se kroz rad
+Sustav je zamišljen da pretvori računalo s odgovarajućim sklopovljem u jedinstvenu točku kroz koju prolazi sav promet lokalne mreže, čime se ostvaruje potpuna 
+vidljivost komunikacije između lokalnih uređaja i vanjskih odredišta. Računalo istovremeno obavlja funkciju usmjernika \engl{router}, pristupne točke, 
+mrežnog senzora i vatrozida. Ovakvom tipu posla najviše odgovara računalo koje na sebi ima instaliran Linux, te iako su mogući i drugi načini oni se kroz rad
 ne istražuju.
 
-Slika \ref{fig:tok-podataka} prikazuje tok podataka kroz sustav. Sav mrežni promet prolazi kroz pristupnu točku gdje ga Zeek pasivno analizira i pohranjuje 
-u obliku strukturiranih JSON zapisa u dijeljeni direktorij.
-Tom direktoriju dva različita podsustava imaju pristup, no ne istovremeno. Prvi podsustav čini vremenski orijentirana baza InfluxDB posredstvom 
-podatkovnog agregatora Telegrafa. Drugi podsustav čini dokumentno orijentirana baza Elasticsearch posredstvom agenta zvanog Filebeat. 
-Oba podsustava kao zajedničko vizualizacijsko sučelje koriste Grafanu. Implementacija dvaju podsustava ne predstavlja produkcijsku konfiguraciju, već
-služi za njihovu usporedbu opisanu u kasnijim poglavljima. U stvarnoj bi se primjeni odabrao jedan od njih ovisno o potrebama i mogućnostima.
+Slika \ref{fig:tok-podataka} prikazuje tok podataka kroz sustav. Sav mrežni promet prolazi kroz Zeek koji ga analizira i pohranjuje u obliku strukturiranih JSON zapisa 
+u direktorij dijeljen s ostalim servisima. Tom direktoriju pristupaju dva različita podsustava za pohranu, no ne istovremeno. Prvi podsustav čini vremenski orijentirana 
+baza InfluxDB, u koju podatke unosi agent Telegraf. Drugi čini dokumentno orijentirana baza Elasticsearch, u koju podatke unosi agent Filebeat. Oba podsustava kao zajedničko 
+vizualizacijsko sučelje koriste Grafanu. Postojanje dvaju podsustava ne predstavlja produkcijsku konfiguraciju, nego služi njihovoj usporedbi provedenoj u poglavlju o 
+evaluaciji. U produkcijskom bi se okruženju odabrao jedan od njih, ovisno o potrebama korisnika i mogućnostima dostupnog sklopovlja.
 
 \begin{figure}[ht]
   \centering
@@ -24,10 +23,10 @@ služi za njihovu usporedbu opisanu u kasnijim poglavljima. U stvarnoj bi se pri
 \end{figure}
 
 Svi navedeni servisi izvode se u Docker kontejnerima, čime se postiže ponovljivost i prenosivost okruženja te jednostavnost pri postavljanju \cite{docker_docs}. 
-Jedina je iznimka skripta za automatsku reakciju, koja se izvodi izravno na domaćinu iz kasnije objašnjenih razloga.
+Jedina je iznimka skripta za automatsku reakciju, koja se izvodi izravno na računalu domaćinu jer mijenja njegova vatrozidna pravila, o čemu je više riječi u kasnijem odjeljku.
 
 \section{Usmjeravanje, NAT i pristupna točka}
-Mrežna topologija sustava može se iščitati sa slike \ref{fig:topologija}. 
+Mrežna topologija sustava prikazana je na slici \ref{fig:topologija}. 
 
 \begin{figure}[h]
   \centering
@@ -35,115 +34,95 @@ Mrežna topologija sustava može se iščitati sa slike \ref{fig:topologija}.
   \caption{Mrežna topologija}
   \label{fig:topologija}
 \end{figure}
-Uređaj (u ovom slučaju prijenosno računalo) koji objedinjuje uloge prikazane na slici \ref{fig:topologija} također mora posjedovati barem dva mrežna sučelja 
-različitih namjena. \textit{Ethernet} sučelje \texttt{enp2s0} povezano je na usmjernik odnosno infrastrukturu pružatelja internetskih usluga \engl{Internet Service Provider - ISP} 
-i predstavlja izlaz za komunikaciju van lokalne mreže, odnosno predstavlja izlaz prema internetu. Moguće je iskoristiti i bežično umjesto žičanog sučelja, no ono je u pravilu nestabilnije.
-Bežično sučelje \texttt{wlan1} konfigurirano je kao pristupna točka pomoću alata \texttt{hostapd}, dok se razlučivanje imena \engl{name resolution} i postavljanje mrežnih 
-parametara rješava uz pomoć \texttt{dnsmasq}. Bežični klijenti, odnosno ostali uređaji u mreži, pridružuju se mreži \texttt{10.0.1.0/24} u kojoj prethodno spomenuti uređaj s ulogom usmjernika ima adresu \texttt{10.0.1.1} 
-što je inače konvencija pri postavljanju lokalnih mreža \cite{rfc1918}. Kako bi se izbjegli sukobi pri upravljanju bežičnim sučeljem, ono se mora prije 
-konfiguracije pristupne točke izuzeti iz nadzora domaćinskog servisa \texttt{NetworkManager} koji inače upravlja mrežnim sučeljima na Linuxu.
+Računalo koje objedinjuje uloge prikazane na slici \ref{fig:topologija} mora posjedovati barem dva mrežna sučelja. Jedno je žično sučelje povezano prema 
+pružatelju internetskih usluga \engl{Internet Service Provider, ISP} i služi kao izlaz prema internetu. Drugo je bežično sučelje u ulozi pristupne točke, na 
+koje se povezuju ostali uređaji lokalne mreže. Bežično se povezivanje moglo iskoristiti i za izlaz prema internetu, no žična je veza u pravilu stabilnija. Konkretni 
+nazivi sučelja i pripadna konfiguracija iznose se u poglavlju o implementaciji.
 
-Kako klijenti vanjskim mrežama pristupaju isključivo preko jedne točke, sav promet između unutarnjih uređaja i vanjskih izvorišta i odredišta nužno mora proći kroz 
-uređaj čime se ostvaruje potpuna vidljivost prometa što je nužan preduvjet za analizu komunikacijskih obrazaca. Prosljeđivanje paketa omogućeno je postavljanjem 
-sistemskog parametra \newline\texttt{sysctl -w net.ipv4.ip\_forward=1}, a prevođenje adresa \engl{NAT} ostvareno je pravilom maskiranja odlaznog prometa na žičanom
-sučelju prikazanim u ispisu \ref{lst:nat}.
+Lokalni uređaji dobivaju adrese iz privatnog adresnog raspona \texttt{10.0.1.0/24}, u kojem računalo s ulogom usmjernika ima adresu \texttt{10.0.1.1}, u skladu s rasponima 
+rezerviranima za privatne mreže \cite{rfc1918}. Bežično sučelje u ulogu pristupne točke postavlja alat \texttt{hostapd}, dok mrežne parametre klijentima dodjeljuje 
+alat \texttt{dnsmasq} u ulozi DHCP poslužitelja.
 
-\begin{lstlisting}[language=bash, caption={Maskiranje odlaznog prometa u nftables tablici}, label={lst:nat}]
-nft add table ip diplomski
-nft add chain ip diplomski postrouting \
-    { type nat hook postrouting priority 100 \; }
-nft add rule ip diplomski postrouting ip saddr 10.0.1.0/24 oifname enp2s0 masquerade
-\end{lstlisting}
+Budući da lokalni uređaji vanjskim mrežama pristupaju isključivo preko ovog računala, sav promet između njih i vanjskih odredišta nužno prolazi kroz jednu točku, čime se 
+ostvaruje potpuna vidljivost prometa nužna za analizu komunikacijskih obrazaca. Kako lokalni uređaji dijele jednu javnu adresu domaćina, na izlaznom se sučelju provodi 
+prevođenje mrežnih adresa \engl{Network Address Translation, NAT}.
 
-Upravljanje vatrozidom na uređaju temelji se na dva alata: \texttt{nftables} i \texttt{ufw}. Oba djeluju nad istom pozadinskom implementacijom.
+Upravljanje vatrozidom na računalu temelji se na dva alata, \texttt{nftables} i \texttt{ufw}. Oba djeluju nad istom pozadinskom implementacijom.
 Na suvremenim se distribucijama i \texttt{ufw} izvodi kroz \texttt{nftables}, a starije \texttt{iptables} naredbe prevode se posredstvom sloja
 \texttt{iptables-nft}. \texttt{nftables} je zapravo jedini pozadinski mehanizam koji se koristi, dok se naredbe ostalih alata prevode kroz \texttt{nft}.
 
-Vatrozid \texttt{ufw} \engl{Uncomplicated Firewall} provodi sigurnosne politike tj. pravila izravno na uređaju. Zadana postavljena politika vatrozida za 
-\texttt{INPUT} i \texttt{FORWARD} lance je odbacivanje svog prometa, zbog čega se rad pristupne točke mora iznimno dopustiti. Dozvole za normalan rad
-pristupne točke provode se pravilima za DHCP promet na \texttt{wlan1} sučelju te pravilom za usmjeravanje prometa između prethodno spomenutih sučelja (bežično i žičano).
-Posljedica je takve politike i to da neželjeni dolazni internetski promet domaćin odbacuje već na temelju zadane politike, neovisno o ostalim slojevima. 
-Pravilo prevođenja adresa izdvojeno je u zasebnu \texttt{nftables} tablicu kako bi se cjelokupna konfiguracija usmjeravanja mogla ukloniti jednom naredbom, 
-bez utjecaja na ostatak sustava.
+Vatrozid \texttt{ufw} \engl{Uncomplicated Firewall} provodi pravila filtriranja izravno na domaćinu. Zadana je politika odbacivanje svog prometa, pa se 
+rad pristupne točke mora izrijekom dopustiti minimalnim skupom pravila. Posljedica je da domaćin neželjeni dolazni internetski promet odbacuje već na temelju zadane 
+politike, neovisno o ostalim slojevima. Konkretna se pravila iznose u poglavlju o implementaciji.
 
-\section{Pasivni nadzor i zapisivanje prometa Zeekom}
-Nadzorni sloj čini samo Zeek kojem je preko \texttt{docker-compose} datoteka dozvoljen pasivan pristup odnosno nadzor nad \texttt{wlan1} sučeljem.
-Za razliku od ostalih servisa, Zeek se ne izvodi u izoliranoj kontejnerskoj mreži, već koristi mrežu domaćina \engl{host network mode}. Razlog je taj 
-što senzor mora imati izravan pristup fizičkom sučelju \texttt{wlan1} radi osluškivanja prometa. Iz istog se razloga kontejneru dodjeljuju ovlasti 
-\texttt{NET\_ADMIN} i \texttt{NET\_RAW}, koje mu omogućuju otvaranje "sirovih spojnih točaka" \engl{raw sockets} i hvatanje paketa na razini sučelja.
-Ovdje je bitno objasniti da se pod spojne točke misli na mrežne spojne točke koje omogućavaju Zeeku čitanje podatkovnog i mrežnog sloja (L2 i L3 slojevi).
+\section{Praćenje i zapisivanje prometa Zeekom}
+Nadzorni sloj čini Zeek, kojem je omogućen pristup bežičnom sučelju radi praćenja prometa. Za razliku od ostalih servisa, Zeek se ne izvodi u izoliranoj kontejnerskoj 
+mreži, nego koristi mrežu domaćina \engl{host network mode}, jer mora izravno pristupiti fizičkom sučelju radi osluškivanja prometa. Iako mu dodijeljene ovlasti tehnički 
+dopuštaju i slanje paketa, Zeek po svojoj namjeni promet isključivo čita i ne generira ga, pa je njegova uloga u praćenju pasivna. Pojedinosti o ovlastima i načinu izvođenja 
+iznose se u poglavlju o implementaciji.
 
-Nadalje, odabir sučelja \texttt{wlan1} kao mjesta nadzora nije proizvoljan. Snimanjem na \texttt{wlan1}, prije maskiranja, izvorišne i odredišne 
-adrese ostaju nepromijenjene (primjerice \texttt{10.0.1.43}), čime se zadržava atribucija po uređaju što je nužno za pravilnu analizu.
-Nije isto ako stolno računalo ili pametni hladnjak pokreću SSH i FTP veze.
+Nadalje, odabir bežičnog sučelja kao mjesta praćenja nije proizvoljan. Praćenjem prije prevođenja adresa izvorišne i odredišne adrese ostaju nepromijenjene, čime se zadržava 
+atribucija prometa po pojedinom uređaju, što je nužno za smislenu analizu. Nije isto ako stolno računalo ili pametni hladnjak pokreću SSH i FTP veze.
 
 Zeek prepoznaje i prati mnoštvo mrežnih protokola te o njihovoj aktivnosti vodi strukturirane zapise koje razvrstava u zasebne datoteke prema vrsti zabilježene
-aktivnosti i pohranjuje u direktorij \texttt{zeek-logs}. Među njima su, primjerice, \texttt{conn.log, dns.log, dhcp.log, http.log, ssh.log, files.log, quic.log i notice.log}. 
-Većina je zapisa vezana uz pojedini protokol, dok pojedini bilježe izvedene događaje neovisno o protokolu. Najvažniji je takav zapis \texttt{notice.log}, u koji Zeek upisuje 
-upozorenja na temelju kojih se pokreće automatska reakcija opisana kasnije u ovom poglavlju. Sljedeći važan zapis je \texttt{conn.log} koji u sebi nosi sav ostali promet (TCP, UDP...).
-Kratki opis ostalih zapisa:
-\begin{itemize}
-    \item \texttt{dns.log} - zapisuje sve DNS upite
-    \item \texttt{dhcp.log} - zapisuje klijente te informacije o njihovim IP adresama, MAC-ovima, nazivima\dots
-    \item \texttt{http.log} - zapisuje sve HTTP zahtjeve zato što su nešifrirani i bogati metapodatcima
-    \item \texttt{ssh.log} - zapisuje sve SSH veze
-    \item \texttt{files.log} - sve datoteke koje su izlazile prema vanjskom i ulazile na unutarnje sučelje
-    \item \texttt{quic.log} - zapis o brzim UDP vezama \engl{Quick UDP Internet Connections}
-\end{itemize}
+aktivnosti i pohranjuje te zapise u direktorij \texttt{zeek-logs}. Među njima su, primjerice, \texttt{conn.log, dns.log, dhcp.log, http.log, ssh.log, files.log, quic.log i notice.log}. 
+Većina je datoteka vezana uz pojedini protokol, dok pojedini zapisi bilježe izvedene događaje neovisno o protokolu. Najvažnija takva datoteka je \texttt{notice.log}, u koju Zeek upisuje 
+upozorenja na temelju kojih se pokreće automatska reakcija opisana kasnije u ovom poglavlju. Sljedeći važan zapis je \texttt{conn.log} u kojem se nalazi zapis preostalog prometa poput TCP, UDP, ICMP.
+Kratki opis ostalih zapisa nalazi se u tablici \ref{tab:tablica-datoteka}.
 
-Zapisi se generiraju u JSON formatu, čime se omogućuje njihovo izravno strojno čitanje bez dodatne pretvorbe. Time direktorij \texttt{zeek-logs} postaje
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{l|p{12cm}}
+      \hline
+      Naziv datoteke & Opis \\
+      \hline
+      \texttt{dns.log} & zapisuje sve DNS upite \\
+      \texttt{dhcp.log} & zapisuje klijente te informacije o njihovim IP adresama, MAC-ovima, nazivima \\
+      \texttt{http.log} & zapisuje sve HTTP zahtjeve zato što su nešifrirani i bogati metapodatcima za razliku od HTTPS zahtjeva \\
+      \texttt{ssh.log} & zapisuje sve SSH veze \\
+      \texttt{files.log} & sve datoteke koje su prenesene kroz nadzirano sučelje \\
+      \texttt{quic.log} & zapis o brzim UDP vezama \engl{Quick UDP Internet Connections} \\
+      \hline
+  \end{tabular}
+  \caption{Nazivi i opisi datoteka u \texttt{zeek-logs}.}
+  \label{tab:tablica-datoteka}
+\end{table}
+
+Zapisi se generiraju u JSON formatu, čime se omogućuje njihovo izravno strojno čitanje. Time direktorij \texttt{zeek-logs} postaje
 jedinstvena predajna točka prema podsustavima za pohranu, opisanima u nastavku.
 
 
 \section{Tok podataka i pohrana}
-Zeekovi zapisi iz direktorija \texttt{zeek-logs} su ulazna točka za pohranu, kako je prikazano na slici \ref{fig:tok-podataka}. Taj je direktorij u kontejneru
-senzora montiran s pravom pisanja, a u agente za prikupljanje isključivo s pravom čitanja. Time se prikupljanje odvaja od pohrane.
+Zeekovi zapisi iz direktorija \texttt{zeek-logs} su ulazna točka za pohranu, kako je prikazano na slici \ref{fig:tok-podataka}. Taj je direktorij u Zeekovom
+kontejneru montiran s pravom pisanja, a u agente za prikupljanje isključivo s pravom čitanja. Time se prikupljanje odvaja od pohrane.
 
 Nad istim se zapisima ispituju dva podsustava za pohranu. Prvi čini agent Telegraf, koji Zeekove JSON zapise upisuje u vremenski orijentiranu bazu
 InfluxDB. Drugi čini agent Filebeat, koji iste zapise prosljeđuje u dokumentno orijentiranu bazu Elasticsearch. Uloge i svojstva pojedinih alata podrobnije su
 opisani u prethodnom poglavlju o teorijskim osnovama.
 
-Ta dva podsustava nisu predviđena za istovremeni rad. Definirani su u zasebnim \texttt{docker-compose} datotekama, pri čemu svaka konfiguracija sadrži vlastiti
-senzor i vlastitu instancu Grafane, pa se u danom trenutku izvodi isključivo jedna. Razdvajanje ima dva cilja. Prvo, izolacija sprječava da trošenje resursa
-jednog podsustava iskrivi mjerenja drugoga, što je preduvjet poštene usporedbe provedene u poglavlju evaluacije. Drugo, budući da obje konfiguracije kao ulaz
-koriste isti skup Zeekovih zapisa istoga formata, razlike u rezultatima moguće je pripisati isključivo pozadinskoj bazi, a ne ulaznim podatcima.
-
-Obje konfiguracije koriste Grafanu kao vizualizacijsko sučelje, čime se uklanja i utjecaj načina prikaza na rezultate. Postojanje obiju konfiguracija stoga ne
-predstavlja produkcijsko rješenje, već isključivo sredstvo njihove usporedbe. U stvarnoj bi se primjeni odabrala jedna, ovisno o potrebama i mogućnostima.
+Ta dva podsustava nisu predviđena za istovremeni rad. Definirani su u zasebnim konfiguracijama, od kojih svaka sadrži vlastiti senzor i vlastitu instancu Grafane, 
+pa se u danom trenutku izvodi isključivo jedan. Razdvajanje ima dva cilja. Prvo, izolacija sprječava da trošenje resursa jednog podsustava iskrivi mjerenja drugoga, 
+što je preduvjet poštene usporedbe provedene u poglavlju o evaluaciji. Drugo, budući da obje konfiguracije kao ulaz koriste isti skup Zeekovih zapisa istoga formata, 
+razlike u rezultatima moguće je pripisati isključivo pozadinskoj bazi, a ne ulaznim podatcima.
 
 \section{Prepoznavanje i automatska reakcija}
-Prepoznavanje i automatska reakcija događa se u dva koraka. Najprije Zeek uočava problem odnosno prepoznaje kada je neka veza sumnjiva. Podrazumijevano, Zeek ne
-prepoznaje maliciozne veze, no dolazi sa povećim brojem već gotovih "skenera", protokola i okvira koji je moguće konfigurirati kroz \texttt{local.zeek} datoteku. 
-Primjer njihovog učitavanja prikazan je u ispisu \ref{lst:zeekload}.
+Prepoznavanje i automatska reakcija odvijaju se u dva koraka. Najprije Zeek prepoznaje kada je neka veza sumnjiva. Podrazumijevano Zeek ne prepoznaje maliciozne veze, 
+no dolazi s većim brojem gotovih detektora i okvira koje je moguće uključiti i prilagoditi. Uz njih se detekcijska logika proširuje i vlastitim pravilima opisanima 
+Zeekovim skriptnim jezikom, kao i indikatorima kompromitacije \engl{Indicators of Compromise, IoC} koji se zadaju kao popis adresa neovisan o samoj logici. Kada Zeek 
+prepozna takav događaj, upisuje upozorenje u \texttt{notice.log}.
 
-\begin{lstlisting}[caption={Primjer učitavanja dodataka u \textsl{local.zeek}}, label={lst:zeekload}]
-@load base/protocols/conn
-@load base/protocols/dns
-@load base/protocols/http
-@load base/protocols/ssl
-@load base/frameworks/notice
-\end{lstlisting}
+Na to se nadovezuje drugi korak, skripta za automatsku reakciju \texttt{auto\_reaction.py}. Ona prati novoupisana upozorenja i na temelju njih blokira izvorišne adrese. 
+Skripta se izvodi s administratorskim ovlastima jer mijenja vatrozidna pravila računala domaćina.
 
-Učitavanje dodataka omogućava Zeeku da prati više toga što omogućava veći izvor informacija. Osim toga unutar \texttt{intel.dat} datoteke 
-(ali i kroz Zeekov skriptni jezik direktno u local.zeek) moguće je definirati pokazatelje kompromisa \engl{Indicators of Compromise (IoC)}. Format \texttt{intel.dat}
-datoteke je osjetljiv na tabove i zato je dobro za bitne obavijesti imati i skriptu napisanu u \texttt{local.zeek}\cite{zeek_docs}.
-Kao što je prije spomenuto te obavijesti se spremaju u \texttt{notice.log}.
+Blokiranje je izvedeno preko skupa \engl{set} koji sadrži blokirane adrese, a zasebni lanci vatrozida odbacuju sav promet čija se izvorišna adresa nalazi u tom skupu. 
+Ti su lanci postavljeni na viši prioritet od zadanih \texttt{ufw} lanaca, pa odbacivanje stupa na snagu prije nego što ostala pravila propuste vezu. Adrese usmjernika i 
+lokalnog domaćina izuzete su popisom dopuštenih adresa \engl{whitelist} kako bi se spriječilo blokiranje vlastite infrastrukture.
 
-Skripta za automatsku reakciju \texttt{auto\_reaction.py} napisana je u Pythonu i ne zahtijeva preuzimanje dodatnih paketa. Ona cijelo vrijeme gleda zadnji redak 
-\texttt{notice.log} datoteke te na temelju njega provodi blokiranje izvorišnih adresa. Pokreće se s administratorskim ovlastima jer mijenja vatrozidna pravila domaćina.
-
-Blokiranje je izvedeno preko skupa \engl{set} \texttt{denylist} unutar \texttt{nftables} tablice \texttt{diplomski}. Skripta detektirane adrese
-dodaje kao elemente tog skupa, dok zasebni lanci na \texttt{forward} i \texttt{input} kukama \engl{hooks} odbacuju sav promet čija se izvorišna adresa nalazi u
-skupu. Ti su lanci na nižem brojevnom prioritetu (višem hijerarhijskom) od \texttt{ufw}-ovih, čime odbacivanje stupa na snagu prije nego što ostala pravila propuste vezu. 
-Adrese usmjernika i lokalnog domaćina izuzete su popisom dopuštenih adresa \engl{whitelist} kako bi se spriječilo blokiranje vlastite infrastrukture.
-
-Nadalje, valja istaknuti i ograničenje samog pristupa, odnosno reakcija se temelji na izvorišnoj adresi iz zapisa upozorenja. U slučaju lažiranja izvorišne adrese
+Nadalje, potrebno je istaknuti i ograničenje autorovog rješenja, odnosno reakcija se temelji na izvorišnoj adresi iz zapisa upozorenja. U slučaju lažiranja izvorišne adrese
 \engl{spoofing} skripta blokira adresu navedenu u zapisu, koja ne mora odgovarati stvarnom napadaču. To znači da napadač može lažirati adresu
 legitimnog korisnika odnosno uređaja. Kako bi se to izbjeglo predlaže se stalno ažuriranje popisa dopuštenih adresa uređajima kojima se vjeruje kao i dodjela 
-statičkih adresa uređajima od povjerenja. Naravno bitno je za naglasiti da to i dalje ne sprječava napadača u potpunosti, no bolji pristupi se neće ovdje 
-razmatrati jer to nije cilj ovog rada.
+statičkih adresa uređajima od povjerenja.
 
 Svaki element prethodno navedenog skupa nosi vremensko ograničenje \engl{timeout} kojim upravlja jezgra operacijskog sustava, pa se pravilo uklanja automatski 
 nakon isteka, bez ikakve intervencije korisnika ili skripte. Time se izbjegava slabost izvedbe zasnovane na izravnim pravilima. Ukratko to znači da nasilni 
-prekid skripte (signalom \texttt{SIGKILL}, nedostatkom memorije ili gubitkom napajanja) ne ostavlja zaostala pravila jer ona ionako isteknu sama, a 
-cjelokupno se stanje uklanja jednom naredbom brisanja tablice.
+prekid skripte (signalom \texttt{SIGKILL}, nedostatkom memorije ili gubitkom napajanja) ne ostavlja zaostala pravila jer ona ionako isteknu sama.

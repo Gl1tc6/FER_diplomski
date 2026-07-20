@@ -45,6 +45,16 @@ J.~Malinen, ``hostapd: Ieee 802.11 ap, ieee 802.1x/wpa/wpa2/eap/radius authentic
 S.~Kelley, ``dnsmasq — a lightweight dhcp and caching dns server'', 2024., pristupljeno: 13.3.2026. [Mre\v zno]. Adresa: \url{https://dnsmasq.org}
 \BIBentrySTDinterwordspacing
 
+\bibitem{zeek_docs}
+\BIBentryALTinterwordspacing
+{The Zeek Project}, ``Zeek documentation'', 2025., pristupljeno: 1.6.2026. [Mre\v zno]. Adresa: \url{https://docs.zeek.org}
+\BIBentrySTDinterwordspacing
+
+\bibitem{suricata_docs}
+\BIBentryALTinterwordspacing
+T.~O. I. S.~F. (OISF), ``Suricata: Doxygen documentation'', 2023., pristupljeno: 10.7.2026. [Mre\v zno]. Adresa: \url{https://doxygen.openinfosecfoundation.org/index.html}
+\BIBentrySTDinterwordspacing
+
 \bibitem{security_onion_hwreq}
 \BIBentryALTinterwordspacing
 {Security Onion Solutions}, ``Security onion - hardware requirements'', 2026., pristupljeno: 21.5.2026. [Mre\v zno]. Adresa: \url{https://docs.securityonion.net/en/2.4/hardware.html}
@@ -103,11 +113,6 @@ S.~Kelley, ``dnsmasq — a lightweight dhcp and caching dns server'', 2024., pri
 \bibitem{rfc1918}
 \BIBentryALTinterwordspacing
 Y.~Rekhter, R.~G. Moskowitz, D.~Karrenberg, G.~J. de~Groot, i E.~Lear, ``Address allocation for private internets'', RFC 1918, Internet Engineering Task Force (IETF), 1996., pristupljeno: 12.6.2026. [Mre\v zno]. Adresa: \url{https://www.rfc-editor.org/rfc/rfc1918}
-\BIBentrySTDinterwordspacing
-
-\bibitem{zeek_docs}
-\BIBentryALTinterwordspacing
-{The Zeek Project}, ``Zeek documentation'', 2025., pristupljeno: 1.6.2026. [Mre\v zno]. Adresa: \url{https://docs.zeek.org}
 \BIBentrySTDinterwordspacing
 
 \bibitem{wikidevi_wn722n}

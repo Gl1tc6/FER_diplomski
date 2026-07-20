@@ -1,7 +1,7 @@
 \chapter{Uvod}
 
 
-Velik broj današnjih uređaja povezan je u neku mrežu, a velika većina njih pripada lokalnim mrežama - kućnima, poslovnima ili vojnima. Lokalne su mreže time 
+Velik broj današnjih uređaja povezan je u neku mrežu, a velika većina njih pripada lokalnim mrežama. Lokalne mreže su time 
 postale sveprisutne, no njihova sigurnost nije pratila brzinu razvoja i pristupačnosti tih istih mreža. Tek nakon niza sigurnosnih incidenata počinje rasti svijest 
 poslovnih i privatnih korisnika o potrebi za zaštitom.
 
@@ -15,4 +15,9 @@ prepreku koju veće organizacije lakše preskoče. U radu su razrađena i ispita
 korišten je Zeek, dok je analiza prikupljenih podataka provedena nad dvama podsustavima za pohranu - baza InfluxDB uz agenta Telegraf te baza Elasticsearch uz agenta Filebeat. 
 U oba se slučaja prikupljeni podatci vizualiziraju u alatu Grafana.
 
-Nakon opisa rješenja i postupka čitatelju se predstavljaju mogući smjerovi razvoja ovoga implementacijskog rješenja te daljnji koraci predviđeni za nastavak rada.
+Ostatak rada organiziran je na sljedeći način. U drugom poglavlju opisuju se odabrane tehnologije - pristupna točka i usmjeravanje na Linuxu, Zeek kao mrežni 
+senzor, baze InfluxDB i Elasticsearch s pripadnim agentima te Grafana kao vizualizacijsko sučelje. U trećem poglavlju iznosi se arhitektura sustava: usmjeravanje 
+prometa kroz pristupnu točku, mjesto i način praćenja Zeekom te tok podataka prema dvama podsustavima za pohranu. U četvrtom poglavlju opisuje se implementacija 
+svih komponenata u Docker okruženju, konfiguracija mreže i Zeek senzora te skripta za automatsku reakciju. U petom poglavlju uspoređuju se dva podsustava za 
+pohranu prema zauzeću diska, potrošnji radne memorije i kašnjenju upita. Unutar šestog poglavlja funkcionalno se provjeravaju detekcija sumnjivog prometa i 
+automatska reakcija. U posljednjem, sedmom poglavlju, iznose se zaključci i smjernice za daljnji rad.

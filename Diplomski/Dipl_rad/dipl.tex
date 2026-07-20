@@ -1,5 +1,5 @@
-%\documentclass[diplomskirad]{fer}
-\documentclass[diplomskirad, upload]{fer}
+\documentclass[diplomskirad]{fer}
+%\documentclass[diplomskirad, upload]{fer}
 \usepackage{tgtermes}
 \usepackage{booktabs}
 \usepackage{indentfirst}
@@ -18,7 +18,8 @@
 
 \captionsetup[lstlisting]{labelfont=bf,labelsep=period,font=small}
 
-% Tvoj postojeći kod ostaje isti
+
+\usepackage{float}
 \lstset{
     basicstyle=\ttfamily\small,
     breaklines=true,
@@ -30,6 +31,7 @@
     captionpos=b,
     lineskip=-1.5pt
 }
+\lstset{float}
 
 \renewcommand{\lstlistingname}{Kod}
 
@@ -61,7 +63,7 @@
 \maketitle
 \zadatak{hr_0036540817_94.pdf}
 \begin{zahvale}
-  Zahvaljujem svojoj obitelji i svima ostalima koji su bili uz mene.
+  Zahvaljujem svojoj obitelji i svima ostalima koji su bili samnom do kraja ovog putovanja.
 
   Mentoru na vodstvu i savjetima tokom pisanja rada.
 \end{zahvale}
@@ -122,7 +124,7 @@
   HTTP & HyperText Transfer Protocol & protokol za prijenos hiperteksta \\
   IEEE & Institute of Electrical and Electronics Engineers & Institut inženjera elektrotehnike i elektronike \\
   ILM & Index Lifecycle Management & upravljanje životnim ciklusom indeksa (Elasticsearch) \\
-  IoC & Indicator of Compromise & pokazatelj kompromitacije \\
+  IoC & Indicator of Compromise & indikatori kompromitacije \\
   IoT & Internet of Things & internet stvari \\
   IP & Internet Protocol & internetski protokol \\
   ISP & Internet Service Provider & pružatelj internetskih usluga \\

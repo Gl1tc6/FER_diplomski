@@ -372,7 +372,7 @@
 }
 
 % Dodatne naredbe od interesa
-\newcommand{\engl}[1]{(engl.\@ \emph{#1})}
+\newcommand{\engl}[1]{(engl. \@ \emph{#1})}
 \newcommand{\itd}{itd.\@}
 \newcommand{\npr}{npr.\@}
 \newcommand{\hrv}[1]{(hrv.\@ \emph{#1})}
@@ -587,7 +587,7 @@
 \renewenvironment{abstract}{%
   \otherlanguage{english}%
   \if@seminar\relax\else\chapter*{\abstractname}\fi%
-  \addcontentsline{toc}{chapter}{\abstractname}%
+  %\addcontentsline{toc}{chapter}{\abstractname}%
   \begin{center}%
     {\arialbold{14}{15} \@title}\par
     \vskip 6pt plus 2pt minus 2pt%
@@ -610,7 +610,7 @@
 \newenvironment{sazetak}{%
   \otherlanguage{croatian}%
   \if@seminar\relax\else\chapter*{\abstractname}\fi%
-  \addcontentsline{toc}{chapter}{\abstractname}%
+  %\addcontentsline{toc}{chapter}{\abstractname}%
   \begin{center}%
     {\arialbold{14}{15} \@naslov}\par
     \vskip 6pt plus 2pt minus 2pt%

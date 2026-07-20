@@ -1,16 +1,21 @@
-\chapter{Implementacija}
+\chapter{Implementacija sustava u \mbox{Docker} okruženju}
+
+U ovom se poglavlju opisuje konkretna izvedba sustava čija je arhitektura iznesena u prethodnom poglavlju. Redom se prikazuju postavljanje Docker okruženja i način na koji se servisi 
+pokreću jednom skriptom, konfiguracija mreže s pristupnom točkom, prevođenjem adresa i pravilima vatrozida te postavljanje Zeek senzora s vlastitim detektorima. Nakon toga opisuju se dva 
+podsustava za pohranu, Telegraf s InfluxDB-om i Filebeat s Elasticsearchom, te njihova zajednička vizualizacija u Grafani. Poglavlje završava skriptom za automatsku reakciju i pregledom 
+najznačajnijih problema na koje se nailazilo tijekom implementacije.
 
 \section{Postavljanje Docker okruženja}
 
-Svi servisi sustava, osim skripte za automatsku reakciju, izvode se u Docker kontejnerima \cite{docker_docs}. Napisane su dvije \texttt{docker-compose} datoteke, jedna za svaki
+Svi servisi sustava, osim skripte za automatsku reakciju, izvode se u Docker kontejnerima \cite{docker_docs}. Kreirane su dvije \texttt{docker-compose} datoteke, jedna za svaki
 od dvaju ispitana podsustava. \texttt{docker-compose.yml} opisuje podsustav s bazom InfluxDB i agentom Telegraf, dok \texttt{docker-compose-elk.yml} opisuje podustav s bazom
 Elasticsearch i agentom Filebeat. Obje konfiguracije dijele isti Zeek senzor i istu inačicu Grafane. Budući da oba podsustava koriste kontejner istog imena (\texttt{zeek-ids}) i isti
-ulaz (\texttt{3000} za Grafanu), istovremeno pokretanje nije moguće, odnosno u bilo kojem danom trenutku se može izvoditi samo jedan podsustav, što je ujedno i preduvjet za poštenu usporedbu
+port (\texttt{3000} za Grafanu), istovremeno pokretanje nije moguće, odnosno u bilo kojem danom trenutku se može izvoditi samo jedan podsustav, što je ujedno i preduvjet za poštenu usporedbu
 u kasnijem poglavlju evaluacije.
 
-Osjetljivi parametri poput korisničkih imena, lozinki, pristupnih tokena te naziva organizacije i spremnika \engl{bucket} — izdvojeni su iz \texttt{docker-compose} datoteka u zasebnu
-\texttt{.env} datoteku okruženja, čime se konfiguracija odvaja od tajni što je standardna praksa. Struktura datoteke \texttt{.env} prikazana je u ispisu \ref{lst:env}.
-
+Osjetljivi parametri poput korisničkih imena, lozinki, pristupnih tokena te naziva organizacije i spremnika \engl{bucket} - izdvojeni su iz \texttt{docker-compose} datoteka u zasebnu
+\texttt{.env} datoteku okruženja, čime se osjetljivi i okruženju specifični parametri drže odvojeno od konfiguracije, što je standardna praksa. Struktura datoteke \texttt{.env} prikazana je u ispisu \ref{lst:env}.
+\newpage
 \begin{lstlisting}[caption={Struktura \texttt{.env} datoteke (lozinke i pristupni tokeni skriveni)}, label={lst:env}]
 INFLUXDB_USER=admin
 INFLUXDB_PASSWORD=<lozinka>
@@ -22,9 +27,9 @@ GRAFANA_USER=admin
 GRAFANA_PASSWORD=<lozinka>
 \end{lstlisting}
 
-Pri prvom pokretanju InfluxDB se inicijalizira automatski putem varijabli \texttt{DOCKER\_INFLUXDB\_INIT\_*} u \texttt{setup} načinu rada \ref{lst:influx-init}, što
-omogućuje da se bez ručne intervencije stvaraju korisnik, organizacija, spremnik i administratorski token. Time se izbjegava ručno postavljanje baze nakon svakog ponovnog pokretanja, 
-što je veoma bitno za ponovljivost i održivost okruženja.
+Pri prvom pokretanju InfluxDB se inicijalizira automatski putem varijabli \texttt{DOCKER\_INFLUXDB\_INIT\_*} u \texttt{setup} načinu rada, prikazanog u ispisu \ref{lst:influx-init}, što
+omogućuje da se bez ručne intervencije stvaraju korisnik, organizacija, spremnik i administratorski token. Postupak se izvodi samo pri prvom pokretanju, dok se pri kasnijima 
+postojeći podatci zadržavaju. Time se izbjegava ručno postavljanje baze prilikom prvog pokretanja,  što je veoma bitno za ponovljivost i održivost okruženja.
 
 \begin{lstlisting}[caption={Automatska inicijalizacija InfluxDB okruženja iz \texttt{docker-compose.yml}}, label={lst:influx-init}]
 environment:
@@ -36,7 +41,7 @@ environment:
   - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
 \end{lstlisting}
 
-Isti se token prosljeđuje Grafani kroz okolišnu varijablu kako bi se izvor podataka konfigurirao automatski pri pokretanju \engl{provisioning}, bez ručnog unosa pristupnih podataka
+Isti se token prosljeđuje Grafani kroz varijablu okoline kako bi se izvor podataka konfigurirao automatski pri pokretanju \engl{provisioning}, bez ručnog unosa pristupnih podataka
 u sučelju kao što je vidljivo u ispisu \ref{lst:grafana-init}
 
 \begin{lstlisting}[caption={Automatska inicijalizacija Grafane okruženja iz \texttt{docker-compose.yml}}, label={lst:grafana-init}]
@@ -51,7 +56,7 @@ environment:
 \end{lstlisting}
 
 Cjelokupno pokretanje, zaustavljanje i nadzor okruženja centralizira skripta \texttt{dipl.sh}, koja povezuje postavljanje pristupne točke i pokretanje kontejnera u jednu cjelinu. Postavljanje se
-provodi korak po korak. Ako pokretanje kontejnera ne uspije, prethodno postavljena mrežna konfiguracija automatski se poništava \ref{lst:dipl-start}, čime se izbjegava
+provodi korak po korak. Ako pokretanje kontejnera ne uspije, prethodno postavljena mrežna konfiguracija automatski se poništava, što je vidljivo u ispisu \ref{lst:dipl-start}, čime se izbjegava
 ostavljanje sustava u polupostavljenom stanju u kojem je pristupna točka aktivna, a nadzor nije.
 
 \begin{lstlisting}[language=bash, caption={Atomarno pokretanje u \texttt{dipl.sh} (naredba \texttt{start})}, label={lst:dipl-start}]
@@ -74,23 +79,23 @@ fi
 \end{lstlisting}
 
 Naredbe \texttt{stop}, \texttt{restart} i \texttt{status} upravljaju gašenjem, ponovnim pokretanjem i prikazom stanja servisa na sljedeći način: \texttt{sudo ./dipl.sh <naredba>}.
-
+U ispisu su \lstinline|$NET_SCRIPT| putanja do mrežne skripte, a \lstinline|${NC}|, \lstinline|${RED}| i slično oznake boja terminala radi preglednijeg ispisa.
 \section{Konfiguracija mreže, NAT-a i pristupne točke}
 
-Potrebna mrežna konfiguracija postavlja se skriptom \texttt{net\_setReset\_rules.sh}, koja prima argument \texttt{set} ili \texttt{reset}. Uređaj raspolaže dvama sučeljima - žičanim
+Potrebna mrežna konfiguracija postavlja se skriptom \texttt{net\_setReset\_rules.sh}, koja prima argument \texttt{set} ili \texttt{reset}. Računalo raspolaže dvama sučeljima - žičanim
 \texttt{enp2s0} prema pružatelju internetskih usluga i bežičnim \texttt{wlan1} u ulozi pristupne točke s adresom \texttt{10.0.1.1}. Bežično sučelje u ulozi pristupne točke ostvareno je 
 USB bežičnim mrežnim prilagodnikom TP-Link TL-WN722N inačica v1.
 
-Za rad u načinu pristupne točke prilagodnik mora zadovoljiti dva uvjeta. Njegov \textit{chipset} mora podržavati \engl{master} (AP) način rada, a pripadni upravljački
-program mora biti dostupan kroz \texttt{nl80211} sučelje kojim \texttt{hostapd} upravlja prilagodnikom. Poželjno je i da je upravljački program dio jezgre čime se izbjegava
+Za rad u načinu pristupne točke prilagodnik mora zadovoljiti dva uvjeta. Njegov \textit{chipset} mora podržavati način rada pristupne točke \engl{master/AP mode}, a pripadni upravljački
+program mora biti dostupan kroz \texttt{nl80211} sučelje jezgre kojim \texttt{hostapd} upravlja prilagodnikom. Poželjno je i da je upravljački program dio jezgre čime se izbjegava
 oslanjanje na vanjske, neslužbene upravljačke programe.
 
 Inačica v1 zadovoljava sve navedeno. Temelji se na \textit{chipsetu} Atheros AR9271 s upravljačkim programom \texttt{ath9k\_htc}, koji je dio jezgre i izvorno podržava način
-pristupne točke \cite{wikidevi_wn722n}. Kasnije inačice (v2 i v3) koriste \textit{chipset} Realtek RTL8188EUS, za koji podrška za način pristupne točke nije pouzdano dostupna kroz
-jezgru, već zahtijeva ručno postavljanje neslužbenih upravljačkih programa. Stoga je upravo inačica v1 prikladna za ovu primjenu bez dodatnih zahvata.
+pristupne točke \cite{wikidevi_wn722n}. Kasnije inačice (v2 i v3) koriste \textit{chipset} Realtek RTL8188EUS, za koji podrška za način pristupne točke nije uključena u standardnu jezgru, 
+već zahtijeva ručno postavljanje neslužbenih upravljačkih programa. Stoga je upravo inačica v1 prikladna za ovu primjenu bez dodatnih zahvata.
 
 Sučelje \texttt{wlan1} najprije se izuzima iz nadzora servisa \texttt{NetworkManager}, nakon čega mu se ručno dodjeljuje adresa i omogućuje prosljeđivanje paketa kao što je vidljivo
-\ref{lst:nm-forward}. Izuzimanje je nužno jer bi \texttt{NetworkManager} inače pokušao samostalno upravljati sučeljem i ulazio u sukob s \texttt{hostapd}-om koji isto sučelje
+u ispisu \ref{lst:nm-forward}. Izuzimanje je nužno jer bi \texttt{NetworkManager} inače pokušao samostalno upravljati sučeljem i ulazio u sukob s \texttt{hostapd}-om koji isto sučelje
 postavlja u način rada pristupne točke.
 
 \begin{lstlisting}[language=bash, caption={Izuzimanje sučelja i omogućavanje usmjeravanja}, label={lst:nm-forward}]
@@ -101,13 +106,12 @@ ip addr add 10.0.1.1/24 dev wlan1
 sysctl -w net.ipv4.ip_forward=1
 \end{lstlisting}
 
-Konfiguracija vatrozida i prevođenja adresa smještena su u zasebnu \texttt{nftables} tablicu \texttt{diplomski}, što omogućuje uklanjanje postavki jednom naredbom
-bez utjecaja na ostatak sustava. Tablica sadrži pravilo maskiranja \engl{NAT} odlaznog prometa podmreže \texttt{10.0.1.0/24} na sučelju \texttt{enp2s0}, prikazano u ranijem
-ispisu \ref{lst:nat}.
+Konfiguracija vatrozida i prevođenja adresa smješteni su u zasebnu \texttt{nftables} tablicu \texttt{diplomski}, što omogućuje uklanjanje postavki jednom naredbom
+bez utjecaja na ostatak sustava. Tablica sadrži pravilo maskiranja \engl{NAT} odlaznog prometa podmreže \texttt{10.0.1.0/24} na sučelju \texttt{enp2s0}.
 
-Uz pravilo maskiranja, ista tablica unaprijed priprema infrastrukturu za automatsku reakciju pomoću skupa \texttt{denylist} s vremenskim ograničenjem trajanja članova te dva lanca
-koja odbacuju promet izvorišnih adresa iz tog skupa na \texttt{forward} i \texttt{input} kukama \engl{hooks} ref{lst:denylist}. Lanci su postavljeni na prioritet
-\texttt{-10}, niži (a time hijerarhijski viši) od zadanih \texttt{ufw} lanaca, pa odbacivanje stupa na snagu prije ostalih pravila. Struktura blokade
+Uz pravilo maskiranja, ista tablica unaprijed priprema infrastrukturu za automatsku reakciju pomoću skupa \texttt{denylist} s vremenskim ograničenjem trajanja elemenata te dva lanca
+koja odbacuju promet izvorišnih adresa iz tog skupa na \texttt{forward} i \texttt{input} kukama \engl{hooks} \ref{lst:denylist}. Lanci su postavljeni na prioritet -10. U nftables niži 
+broj prioriteta znači ranije izvođenje, pa se ova pravila primjenjuju prije zadanih ufw lanaca, čime odbacivanje stupa na snagu prije nego što ostala pravila propuste vezu. Struktura blokade
 definira se ovdje, jednom, dok skripta za reakciju opisana u kasnijoj sekciji samo dodaje adrese u postojeći skup.
 
 \begin{lstlisting}[language=bash, caption={\texttt{denylist} i lanci za odbacivanje prometa}, label={lst:denylist}]
@@ -120,7 +124,7 @@ nft add rule  ip diplomski drop_in  ip saddr @denylist drop
 \end{lstlisting}
 
 Originalna politika vatrozida \texttt{ufw} odbacuje sav promet, pa se rad pristupne točke iznimkom dopušta najmanjim potrebnim skupom pravila \ref{lst:ufw} odnosno DHCP promet na
-ulazima \texttt{67} i \texttt{68} te usmjeravanje s \texttt{wlan1} na \texttt{enp2s0}. Posljedica te je politike da će se dolazni neželjeni internetski promet odbaciti neovisno o ostalim slojevima.
+portovima \texttt{67} i \texttt{68} te usmjeravanje s \texttt{wlan1} na \texttt{enp2s0}. Posljedica te je politike da će se dolazni neželjeni internetski promet odbaciti neovisno o ostalim slojevima.
 
 \begin{lstlisting}[language=bash, caption={Dopuštenja \texttt{ufw} za rad pristupne točke}, label={lst:ufw}]
 ufw allow in on wlan1 to any port 67 proto udp
@@ -128,9 +132,9 @@ ufw allow in on wlan1 to any port 68 proto udp
 ufw route allow in on wlan1 out on enp2s0
 \end{lstlisting}
 
-Bežična pristupna točka realizirana je alatom \texttt{hostapd} \cite{hostapd_docs} na sučelju \texttt{wlan1}, uz zaštitu WPA2-PSK sa CCMP protokolom \ref{lst:hostapd}. Ključna
+Bežična pristupna točka realizirana je alatom \texttt{hostapd} \cite{hostapd_docs} na sučelju \texttt{wlan1}, uz zaštitu WPA2-PSK sa CCMP protokolom, u ispisu \ref{lst:hostapd}. Ključna
 je postavka \texttt{ap\_isolate=0} kojom se onemogućuje izolacija klijenata. Pristupne točke uobičajeno izoliraju klijente kako međusobno ne bi komunicirali, no tada njihov
-međusobni promet ne bi prolazio kroz točku nadzora; isključivanjem izolacije Zeek dobiva vidljivost i nad istok-zapad prometom unutar lokalne mreže.
+međusobni promet ne bi prolazio kroz točku nadzora; isključivanjem izolacije Zeek dobiva vidljivost i nad istok-zapad prometom (promet između uređaja) unutar lokalne mreže.
 
 \begin{lstlisting}[caption={Bitne postavke \texttt{hostapd} konfiguracije}, label={lst:hostapd}]
 interface=wlan1
@@ -144,7 +148,7 @@ wpa_passphrase=<lozinka>
 ap_isolate=0
 \end{lstlisting}
 
-Mrežne parametre postavlja \texttt{dnsmasq} \cite{dnsmasq_docs} \ref{lst:dnsmasq} tako da klijentima na sučelju \texttt{wlan1} dodjeljuje adrese iz raspona
+Mrežne parametre postavlja \texttt{dnsmasq} \cite{dnsmasq_docs} prema ispisu \ref{lst:dnsmasq} tako da klijentima na sučelju \texttt{wlan1} dodjeljuje adrese iz raspona
 \texttt{10.0.1.10}--\texttt{10.0.1.100}, zadaje usmjernik \texttt{10.0.1.1} te adrese vanjskih DNS poslužitelja \texttt{8.8.8.8} i \texttt{1.1.1.1}. U ovoj konfiguraciji
 \texttt{dnsmasq} djeluje isključivo kao DHCP poslužitelj, dok se prevođenje adresa povjerava izravno vanjskim poslužiteljima, bez lokalnog prosljeđivanja. Time se ne gubi
 nadzor nad DNS prometom, unatoč tome da su odredišni DNS poslužitelji izvan lokalne mreže, upiti svejedno prolaze kroz usmjernik i sučelje \texttt{wlan1}, gdje ih Zeek bilježi i pridodaje
@@ -164,8 +168,8 @@ uklanjaju se \texttt{ufw} iznimke, vraća se \texttt{ip\_forward} na 0 te se su�
 
 \section{Konfiguracija Zeek senzora}
 
-Senzor je definiran kao servis \texttt{zeek} u obje \texttt{docker-compose} datoteke \ref{lst:zeekcmd}. Za razliku od ostalih servisa koji koriste izoliranu
-\texttt{bridge} mrežu, Zeek se izvodi u načinu mreže domaćina \engl{host network mode} jer mora izravno pristupiti fizičkom sučelju \texttt{wlan1} dok u izoliranoj mreži kontejner
+Zeek se pokreće kao servis u obje \texttt{docker-compose} datoteke, prema ispisu \ref{lst:zeekcmd}. Za razliku od ostalih servisa koji koriste izoliranu
+\texttt{bridge} mrežu, Zeek koristi mrežu domaćina (\texttt{network\_mode: host}), pa mu je fizičko sučelje \texttt{wlan1} izravno dostupno bez zasebnog mapiranja; u izoliranoj mreži kontejner
 ne bi vidio promet domaćinskog sučelja. Zbog toga se njegovom kontejneru dodjeljuju ovlasti \texttt{NET\_ADMIN} i \texttt{NET\_RAW}, koje omogućuju otvaranje sirovih spojnih
 točaka \engl{raw sockets} i hvatanje paketa na razini sučelja.
 
@@ -181,13 +185,25 @@ zeek:
   command: zeek -C -i wlan1 local
 \end{lstlisting}
 
-Servis se pokreće naredbom \texttt{zeek -C -i wlan1 local}. Argument \texttt{-C} isključuje provjeru kontrolnih zbrojeva \engl{checksum} paketa (nužno jer mrežne kartice često
-računaju zbrojeve sklopovski, pa ih jezgra Zeeku predaje kao naizgled neispravne), \texttt{-i wlan1} određuje sučelje za nadzor, a argument \texttt{local} učitava skriptu
-\texttt{site/local.zeek}. Volumeni razdvajaju pisanje od čitanja tako što je \texttt{zeek-logs} montiran je s pravom pisanja kako bi senzor u njega zapisivao, dok su \texttt{local.zeek}
+Servis se pokreće naredbom \texttt{zeek -C -i wlan1 local}. Argument \texttt{-C} isključuje provjeru kontrolnih zbrojeva \engl{checksum} paketa što je nužno jer mrežne kartice često
+računaju zbrojeve sklopovski, pa ih jezgra Zeeku predaje kao naizgled neispravne. \texttt{-i wlan1} određuje sučelje za nadzor, a argument \texttt{local} učitava skriptu
+\texttt{site/local.zeek}. Volumeni razdvajaju pisanje od čitanja tako što je \texttt{zeek-logs} montiran s pravom pisanja kako bi senzor u njega zapisivao, dok su \texttt{local.zeek}
 i \texttt{intel.dat} montirani isključivo za čitanje što je vidljivo iz dodatka \texttt{:ro} što znači \textit{read-only}.
 
 Skripta \texttt{local.zeek} učitava bazne skenere protokola, okvir za obavijesti i proširenje \texttt{json-logs} pomoću kojega se zapisi pišu u JSON formatu prikladnom za izravno
-strojno čitanje agenata. Uz Zeekov ugrađeni SSH \engl{bruteforce} detektor, u skripti su definirani i vlastite detektori. Ispis \ref{lst:zeek-detect} prikazuje detekciju skeniranja
+strojno čitanje agenata. 
+Učitavanje se u datoteci \texttt{local.zeek} provodi direktivom \texttt{@load}, kojom se uključuju Zeekovi ugrađeni okviri i skeneri pojedinih protokola. Ispis \ref{lst:zeekload} prikazuje učitavanje baznih skenera za promatrane protokole te okvira za obavijesti, čime se određuje koje protokole Zeek raščlanjuje i o kojima vodi zapise.
+
+\begin{lstlisting}[caption={Učitavanje ugrađenih dodataka u \texttt{local.zeek}}, label={lst:zeekload}]
+@load base/protocols/conn
+@load base/protocols/dns
+@load base/protocols/http
+@load base/protocols/ssl
+@load base/frameworks/notice
+\end{lstlisting}
+
+Bez učitanih dodataka Zeek promatra manji skup protokola, pa je učitavanjem moguće proširiti opseg praćenja prema potrebama nadzirane mreže.
+Uz Zeekov ugrađeni SSH \engl{bruteforce} detektor, u skripti su definirani i vlastite detektori. Ispis \ref{lst:zeek-detect} prikazuje detekciju skeniranja
 portova. 
 
 \begin{lstlisting}[caption={Detekcija skeniranja portova u \texttt{local.zeek}}, label={lst:zeek-detect}]
@@ -215,8 +231,10 @@ Najprije nastaje tablica za praćenje ulaza koja se indeksira s parom [izvorišn
 Ukoliko je unutar pet minuta kontaktirano 50 ili više portova sa istim parom adresa, podiže se obavijest u \texttt{notice.log} i taj tip obavijesti se utišava na 30 sekundi kako upozorenja
 ne bi zagušavala njihov zapisnik. Portovi se brišu iz skupa nakon pet minuta kako bi se očistila memorija. Analognim se pristupom prati i učestalost SSH konekcija prema usmjerniku.
 
-Pokazatelji kompromitacije \engl{Indicators of Compromise} učitavaju se iz datoteke \texttt{intel.dat} putem Zeekovog Intel okvira \cite{zeek_docs}. Adrese se navode u datoteci, a
-ne u skripti, čime se popis prijetnji može mijenjati bez izmjene detekcijske logike. Svi se zapisi razvrstavaju prema vrsti aktivnosti (\texttt{conn.log}, \texttt{dns.log},
+Indikatori kompromitacije \engl{Indicators of Compromise} učitavaju se iz datoteke \texttt{intel.dat} putem Zeekovog Intel okvira \cite{zeek_docs}. Adrese se navode u datoteci, a
+ne u skripti, čime se popis prijetnji može mijenjati bez izmjene detekcijske logike. 
+
+Svi se zapisi razvrstavaju prema vrsti aktivnosti (\texttt{conn.log}, \texttt{dns.log},
 \texttt{http.log}, \texttt{notice.log} i drugi) i pohranjuju u dijeljeni direktorij \texttt{zeek-logs}, kojem pristupaju podsustavi za pohranu opisani u nastavku.
 
 \section{Telegraf/InfluxDB i Filebeat/Elasticsearch}
@@ -226,15 +244,15 @@ Podsustavi za pohranu kao ulaz koriste isti skup Zeekovih zapisa iz dijeljenog d
 evaluacije. Razlike u rezultatu ovise jedino o pozadinskoj bazi i njenom agentu, a ne ulaznim podatcima.
 
 U podsustavu s InfluxDB-om unos podataka obavlja Telegraf \cite{telegraf_docs}. Ulazni dodatak \texttt{inputs.tail} prati \texttt{conn.log} i \texttt{notice.log}, raščlanjuje svaki
-redak kao JSON (format \texttt{json\_v2}) i upisuje ga u InfluxDB putem izlaza \texttt{influxdb\_v2}, kojem se pristupni token, organizacija i spremnik predaju putem varijabli okoliša.
+redak kao JSON (format \texttt{json\_v2}) i upisuje ga u InfluxDB putem izlaza \texttt{influxdb\_v2}, kojem se pristupni token, organizacija i spremnik predaju putem varijabli okoline.
 Praćenje datoteka koristi metodu \texttt{poll} jer se zapisi nalaze na povezanom volumenu, gdje obavještavanje jezgre o promjenama datoteke (\texttt{inotify}) nije pouzdano.
 
 Pri raščlanjivanju razdvajaju se oznake \engl{tags} od polja \engl{fields}. Oznake predstavljaju izvorišna i odredišna adresa, protokol, servis i stanje veze. InfluxDB ih indeksira, pa služe za
-filtriranje i grupiranje u Grafani. Vrijednosti visoke ili jedinstvene raznolikosti, poput portova, količine prenesenih okteta i identifikatora veze \texttt{uid}, pohranjuju se kao
+filtriranje i grupiranje u Grafani. Vrijednosti s velikim brojem različitih pojavnosti, poput portova, količine prenesenih okteta i identifikatora veze \texttt{uid}, pohranjuju se kao
 polja kako se ne bi nepotrebno umnažao broj vremenskih serija. Posebno specifično je raščlanjivanje Zeekovih ključeva oblika \texttt{id.orig\_h} s obzirom da \texttt{json\_v2} točku
-tumači kao razdjelnik putanje, a u zapisu je ona dio samog naziva ključa, točka se u putanji mora izuzeti \ref{lst:telegraf-schema}.
-
-\begin{lstlisting}[caption={Izuzimanje točke u nazivu ključa te podjela na oznaku i polje (\texttt{telegraf.conf})}, label={lst:telegraf-schema}]
+tumači kao razdjelnik putanje, a u zapisu je ona dio samog naziva ključa, točka se u putanji mora izuzeti, u ispisu \ref{lst:telegraf-schema}.
+\newpage
+\begin{lstlisting}[caption={Izuzimanje točke u nazivu ključa (\texttt{telegraf.conf})}, label={lst:telegraf-schema}]
 [[inputs.tail.json_v2.tag]]
   path   = "id\\.orig_h"   # tocka je dio naziva kljuca, ne razdjelnik
   rename = "src_ip"
@@ -247,7 +265,7 @@ tumači kao razdjelnik putanje, a u zapisu je ona dio samog naziva ključa, toč
 
 U podsustavu s Elasticsearchom ulogu agenta preuzima Filebeat \cite{filebeat_docs}. Svaki se Zeekov zapis prati zasebnim ulazom tipa \texttt{filestream} koji retke raščlanjuje kao
 NDJSON, a pripadnu vrstu zapisa označava poljem \texttt{zeek\_type}. Procesor za vremenske oznake pretvara Zeekov \texttt{ts} (Unix vrijeme s decimalama) u standardno polje
-\texttt{@timestamp}. Zapisi se potom šalju u Elasticsearch i pohranjuju u indeks nazvan prema vrsti i datumu, primjerice \texttt{zeek-conn-2026.05.29} \ref{lst:filebeat-input}.
+\texttt{@timestamp}. Zapisi se potom šalju u Elasticsearch i pohranjuju u indeks nazvan prema vrsti i datumu, primjerice \texttt{zeek-conn-2026.05.29}, vidljivo u ispisu \ref{lst:filebeat-input}.
 
 \begin{lstlisting}[caption={Ulaz i odredišni indeks u \texttt{filebeat.yml}}, label={lst:filebeat-input}]
 filebeat.inputs:
@@ -265,13 +283,13 @@ output.elasticsearch:
 
 Ostali tipovi zapisa (\texttt{dns.log, http.log, ssl.log, dhcp.log}) u konfiguraciji su pripremljeni, ali namjerno isključeni, kako bi oba podsustava
 unosila istovjetan skup zapisa. Upravljanje predloškom indeksa i politikom životnog ciklusa indeksa \engl{Index Lifecycle Management, ILM} isključeno je, pa Elasticsearch
-mapiranje polja stvara dinamički. Posljedice takvog mapiranja na zauzeće prostora razmatrati će se u poglavlju evaluacije.
+mapiranje polja stvara dinamički. Posljedice takvog mapiranja na zauzeće prostora razmatrat će se u poglavlju evaluacije.
 
 \section{Grafana nadzorne ploče i usluživanje}
 
 Grafana je za podsustave spremanja zajedničko vizualizacijsko sučelje \cite{grafana_docs}, čime se uklanja utjecaj načina prikaza na usporedbu pozadinskih baza. Izvor podataka ne
 konfigurira se ručno, nego se učitava automatski pri pokretanju \engl{provisioning} iz datoteke opisa izvora, čime se izbjegava ručni unos pristupnih podataka i osigurava
-ponovljivost. Za podsustav s InfluxDB-om opisuje se izvor tipa \texttt{influxdb} s Flux jezikom upita, kojem se organizacija, spremnik i token predaju okolišnim varijablama
+ponovljivost. Za podsustav s InfluxDB-om opisuje se izvor tipa \texttt{influxdb} s Flux jezikom upita, kojem se organizacija, spremnik i token predaju varijablama okoline, u ispisu
 \ref{lst:grafana-ds}, a za podsustav s Elasticsearchom opisuje se istovjetan izvor tipa \texttt{elasticsearch} nad uzorkom indeksa \texttt{zeek-*}. Budući da se podsustavi pokreću
 zasebno, svaka instanca Grafane učitava isključivo svoj izvor podataka.
 
@@ -294,7 +312,8 @@ Nadzorna ploča organizirana je u dvije skupine prikaza pregled prometa i sigurn
 \texttt{conn.log} i \texttt{notice.log} te pripadnim oznakama i poljima unutar tih zapisa.
 
 Pregled prometa čine prikaz broja veza po minuti (koji broji zapise veza u kliznim jednominutnim prozorima), raspodjela protokola (kružni prikaz dobiven grupiranjem po oznaci
-\texttt{proto}) te ljestvice najčešćih izvorišnih i odredišnih adresa. Primjer Flux upita, za prikaz broja veza po minuti, dan je u ispisu \ref{lst:flux-panel}; oznake se prije
+\texttt{proto}) te ljestvice najčešćih izvorišnih i odredišnih adresa. Primjer Flux upita, za prikaz broja veza po minuti, dan je u ispisu \ref{lst:flux-panel} gdje postavljamo 
+period vremena, filter po polju (grupiranje), izbacivanje nepotrebnih stupaca, učestalost uzorkovanja i naziv povratnog upita; oznake se prije
 zbrajanja uklanjaju kako bi se pojedinačne vremenske serije sažele u jednu vrijednost.
 
 \begin{lstlisting}[caption={Flux upit prikaza broja veza po minuti}, label={lst:flux-panel}]
@@ -311,25 +330,25 @@ Posebno je vrijedan prikaz najčešćih izvorišnih adresa. Budući da Zeek prom
 uređaja u lokalnoj mreži (primjerice \texttt{10.0.1.94}), pa ih je u prikazu moguće i imenovati. Time prikaz izravno potvrđuje vrijednost odluke o mjestu nadzora iz poglavlja
 arhitekture. Kada bi se hvatanje provodilo nakon prevođenja adresa, svi bi se izvorišni uređaji stopili u jednu adresu usmjernika i atribucija po uređaju bila bi izgubljena.
 
-Sigurnosni pregled čine tablica upozorenja (najnovija upozorenja iz \texttt{zeek\_notice} s tipom i izvorišnom adresom), vremenski prikaz učestalosti upozorenja te tablica
-sumnjivih veza. Potonja izdvaja veze čije stanje (\texttt{conn\_state}) odstupa od urednog dovršetka (\texttt{SF}) i grupira ih po stanju i izvorišnoj adresi, čime se ističu obrasci
-poput velikog broja neuspjelih ili odbijenih veza s jednog izvora.
+Sigurnosni pregled čine tablica upozorenja iz \texttt{zeek\_notice} s tipom i izvorišnom adresom, vremenski prikaz učestalosti upozorenja te tablica
+sumnjivih veza. Potonja izdvaja veze čije stanje (\texttt{conn\_state}) odstupa od urednog dovršetka (\texttt{SF} - normalno uspostavljanje i raskid veze) i grupira ih po stanju i 
+izvorišnoj adresi, čime se ističu obrasci poput velikog broja neuspjelih ili odbijenih veza s jednog izvora.
 
 Istovjetna nadzorna ploča izrađena je i za podsustav s Elasticsearchom, s istim prikazima, ali s upitima prilagođenima Elasticsearch jeziku upita. Budući da se prikazi i njihov
 raspored podudaraju, usporedba dvaju podsustava ne ovisi o načinu vizualizacije.
 
 \section{Automatska reakcija: auto\_reaction.py i nftables}
 
-Za razliku od ostalih komponenata, skripta za automatsku reakciju \texttt{auto\_reaction.py} izvodi se izravno na domaćinu, a ne u kontejneru, jer mijenja vatrozidna pravila domaćina
+Za razliku od ostalih komponenata, skripta za automatsku reakciju \texttt{auto\_reaction.py} izvodi se izravno na računalu domaćinu, a ne u kontejneru, jer mijenja njegova vatrozidna pravila
 i za to zahtijeva administratorske ovlasti. Skripta povezuje detekciju, odnosno Zeekova upozorenja \cite{zeek_docs}, s odgovorom, tj. blokiranjem putem \texttt{nftables} kroz denylist.
 
 Skripta prati najnovije retke datoteke \texttt{notice.log} naredbom \texttt{tail -F -n 0} gdje zastavica \texttt{-n 0} osigurava da se pri pokretanju zanemare postojeći zapisi, pa se
 reagira isključivo na nova upozorenja, a ne na povijest zapisanu prije pokretanja.
 
 Za svako novo upozorenje skripta čita njegov tip (\texttt{note}) i izvorišnu adresu. Izvorišna se adresa preuzima iz polja \texttt{src}, a ako ono ne postoji, iz polja
-\texttt{id.orig\_h} \ref{lst:reaction-core}. Razlog je tomu što vlastiti detektori postavljaju \texttt{\$src} bez pridružene veze, dok upozorenja vezana uz konkretnu vezu
+\texttt{id.orig\_h} prema ispisu \ref{lst:reaction-core}. Razlog je što vlastiti detektori postavljaju \texttt{\$src} bez pridružene veze, dok upozorenja vezana uz konkretnu vezu
 nose \texttt{id.orig\_h}.
-
+\newpage
 \begin{lstlisting}[language=python, caption={Srž odlučivanja u \texttt{auto\_reaction.py}}, label={lst:reaction-core}]
 note   = entry.get("note", "")
 src_ip = entry.get("src") or entry.get("id.orig_h", "")
@@ -339,45 +358,46 @@ if note in TARGET_NOTICES and src_ip and src_ip not in WHITELIST:
         block(src_ip)   # nft add element ip diplomski denylist { src_ip }
 \end{lstlisting}
 
-Odgovor se pokreće isključivo za unaprijed određen skup upozorenja (\texttt{TARGET\_NOTICES}) kao pokušaji skeniranja portova, pogađanje SSH lozinke te podudaranja s pokazateljima
-kompromitacije. Na taj način operator može smanjiti (ili povećati) broj upozorenja ovisno o situaciji i potrebama. Adresa usmjernika i adresa domaćina se nalaze u listi dozvoljenih 
-(\texttt{WHITELIST = {"127.0.0.1", "10.0.1.1"}}) kako se ne bi mogla blokirati vlastita infrastruktura.
+Odgovor se pokreće isključivo za unaprijed određen skup upozorenja (\texttt{TARGET\_NOTICES}) kao pokušaji skeniranja portova, pogađanje SSH lozinke te podudaranja s indikatorima
+kompromitacije. Na taj način operator može smanjiti (ili povećati) broj upozorenja ovisno o situaciji i potrebama. Adresa usmjernika i adresa domaćina 
+u redovnom radu nalaze se u listi dopuštenih adresa (\texttt{WHITELIST = {"127.0.0.1", "10.0.1.1"}}) kako se ne bi mogla blokirati vlastita infrastruktura.
 
 Blokada se provodi dodavanjem izvorišne adrese u skup \texttt{denylist} unutar tablice \texttt{diplomski}. Sam skup i lanci koji odbacuju promet definirani su ranije,
-pri postavljanju mreže \ref{lst:denylist}. Skripta mijenja isključivo članstvo skupa, ne lance ni pravila. Zbog toga bilo kakav nenadani pad skripte ne ostavlja vatrozidna
-pravila ne nadzirana već se jezgra brine o tome da se pobrišu nakon zadanog vremena.
+pri postavljanju mreže, u ispisu \ref{lst:denylist}. Skripta mijenja isključivo elemente skupa, ne lance ni pravila. Zbog toga bilo kakav nenadani pad skripte ne ostavlja vatrozidna pravila bez nadzora, 
+već se jezgra brine o tome da se pobrišu nakon zadanog vremena.
 
 Trajanje blokiranja ne određuje skripta, nego se očitava iz trenutne \engl{live} konfiguracije samog skupa (funkcija \texttt{read\_timeout}) kao jedinstvenog izvora istine. Istek pojedinog
 elementa potom obavlja jezgra operacijskog sustava na temelju vremenskog ograničenja skupa, neovisno o skripti. Posljedica je otpornost na nasilni prekid. Prekine li se skripta
-signalom \texttt{SIGKILL}, ponestankom memorije ili gubitkom napajanja, elementi svejedno isteknu sami, a cjelokupno se stanje uklanja brisanjem tablice. Skripta uz to vodi
+signalom \texttt{SIGKILL} ili  ponestankom memorije, elementi svejedno isteknu sami, a cjelokupno se stanje uklanja brisanjem tablice. Skripta uz to vodi
 vlastitu evidenciju blokiranih adresa isključivo radi izbjegavanja ponovnog dodavanja iste adrese, dok zasebna dretva uklanja istekle zapise iz te evidencije. Blokada se bilježi
-tek ako je naredba \texttt{nft} uspješno izvršena, čime se izbjegava halucinirana evidencija nepostojeće blokade.
-
+tek ako je naredba \texttt{nft} uspješno izvršena, čime se izbjegava pogrešna evidencija nepostojeće blokade.
+\newpage
 \section{Izazovi pri implementaciji}
 
 Izgradnja sustava nije tekla bez zastoja. U nastavku se opisuju najznačajniji problemi uočeni tijekom implementacije i način na koji su riješeni, redom kako su se javljali kroz
 slojeve sustava.
 
 Već pri postavljanju kontejnerâ utvrđeno je da ranije korištena slika \texttt{zeekurity/zeek} više nije dostupna, pa je zamijenjena službenom slikom \texttt{zeek/zeek:8.0.6}.
+Verzija slike namjerno je fiksirana radi ponovljivosti; u produkcijskoj bi je primjeni trebalo redovito ažurirati na novija izdanja sa sigurnosnim zakrpama.
 
 Na mrežnom sloju prvi je izazov bio sukob oko upravljanja sučeljem. \texttt{NetworkManager} preuzimao je sučelje \texttt{wlan1} i gasio pristupnu točku koju podiže \texttt{hostapd}.
 Problem je riješen izuzimanjem sučelja iz njegova nadzora naredbom \texttt{nmcli device set wlan1 managed no} prije konfiguracije pristupne točke \cite{arch_softap}.
 
 Nakon što su \texttt{hostapd} i \texttt{dnsmasq} bili aktivni, a \texttt{wlan1} ispravno konfiguriran, klijenti i dalje nisu dobivali adresu. Pregledom \texttt{nft list ruleset}
-utvrđeno je da \texttt{ufw} presreće DHCP pakete (ulaz \texttt{67/UDP}) i odbacuje ih prije nego dospiju do \texttt{dnsmasq}-a. Problem je otklonjen izrijekom dopuštenim DHCP prometom i
+utvrđeno je da \texttt{ufw} presreće DHCP pakete (port \texttt{67/UDP}) i odbacuje ih prije nego dospiju do \texttt{dnsmasq}-a. Problem je otklonjen iznimkom dopuštanja DHCP prometa i
 usmjeravanjem na sučelju \texttt{wlan1}, pravilima koja su potom ugrađena u skriptu \texttt{net\_setReset\_rules.sh} radi ponovljivosti.
 
-Pokretanje \texttt{dnsmasq}-a isprva nije uspijevalo zbog zauzetosti ulaza \texttt{53} (\texttt{Address already in use}), koji je na povratnim adresama držao sistemski razlučivač
+Pokretanje \texttt{dnsmasq}-a isprva nije uspijevalo zbog zauzetosti porta \texttt{53} (\texttt{Address already in use}), koji je na povratnim adresama držao sistemski razlučivač
 \texttt{systemd-resolved}. Budući da \texttt{dnsmasq} ionako treba slušati samo na \texttt{wlan1}, sukob je otklonjen direktivom \texttt{bind-interfaces} kojom \texttt{dnsmasq} sluša
 isključivo na navedenom sučelju umjesto na svim adresama, bez gašenja sistemskog razlučivača. Uz to, prva inačica naziva mreže sadržavala je zagrade i razmake, koje \texttt{hostapd}
 odbija kao nevaljane znakove u SSID-u, pa je naziv prilagođen.
 
-Na sloju ingestije zapisi pri prvom pokretanju Telegrafa nisu dospijevali u InfluxDB. Uzrok je bilo pogrešno raščlanjivanje Zeekovih ključeva. Format \texttt{json\_v2} točku tumači
+Na sloju ulaza zapisi pri prvom pokretanju Telegrafa nisu dospijevali u InfluxDB. Uzrok je bilo pogrešno raščlanjivanje Zeekovih ključeva. Format \texttt{json\_v2} točku tumači
 kao razdjelnik putanje, dok je u nazivima poput \texttt{id.orig\_h} ona dio samog ključa. Tek nakon izuzimanja točke u konfiguraciji (\texttt{id\textbackslash.orig\_h}) podatci su
 ispravno raščlanjeni i upisani. Dodatno, datoteka \texttt{conn.log} ne nastaje pri pokretanju Zeeka nego tek pri prvoj zabilježenoj vezi, pa je Telegraf u međuvremenu prijavljivao
 njezino nepostojanje; problem se rješava sam čim kroz mrežu prođe promet.
 
-U pogledu detekcije isprva je za skeniranje portova učitana ugrađena politika \texttt{policy/misc/scan}. U korištenoj je inačici Zeeka ta politika zastarjela i prestala je
+U pogledu detekcije isprva je za skeniranje portova učitana ugrađena politika \texttt{policy/misc/scan}. U korištenoj inačici Zeeka je ta politika zastarjela i prestala je
 raditi, a prikladna zamjena uključena u Zeek instalaciju nije pronađena. Stoga je detekcija skeniranja preseljena u vlastiti detektor opisan ranije, čime je uklonjena ovisnost o
 zastarjeloj i nepodržanoj politici.
 

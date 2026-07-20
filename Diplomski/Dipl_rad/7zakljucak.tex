@@ -2,19 +2,19 @@
 
 U radu je osmišljen i implementiran središnji sustav za nadzor i vizualizaciju komunikacijskih obrazaca lokalne mreže.
 Sustav pretvara uređaj s operacijskim sustavom Linux u jedinstveni operacijski centar koji istovremeno obavlja uloge usmjernika, 
-bežične pristupne točke, mrežnog senzora i vatrozida, čime se sav promet lokalne mreže usmjerava kroz jednu točku i time postiže potpuna 
-transparentnost komunikacije. Promet se pasivno analizira Zeekom na sučelju prije prevođenja adresa, pohranjuje u jedan od dvaju ispitanih 
+bežične pristupne točke, mrežnog senzora i vatrozida. Sav se promet lokalne mreže usmjerava kroz jednu točku i time postiže potpuna 
+vidljivost komunikacije. Promet se analizira Zeekom na sučelju prije prevođenja adresa, pohranjuje u jedan od dvaju ispitanih 
 podsustava i vizualizira u Grafani, dok se na temelju Zeekovih upozorenja provodi automatsko blokiranje izvorišnih adresa.
 
-Glavnu ulogu u prilagodljivosti sustava ima Zeekov skriptni jezik. Detekcijska logika nije ograničena na konačnom skupu potpisa, nego se definira
+Glavnu ulogu u prilagodljivosti sustava ima Zeekov skriptni jezik. Detekcijska logika nije ograničena na konačan skup potpisa, nego se definira
 u datoteci \texttt{local.zeek} bez izmjene jezgre sustava, pa se pragovi, vremenski prozori i suzbijanje obavijesti prilagođavaju specifičnostima 
-nadzirane mreže. Uz pomoć skriptnog jezika su napisani vlastiti detektori skeniranja portova i učestalosti SSH veza, dok su se pokazatelji kompromitacije
+nadzirane mreže. Uz pomoć skriptnog jezika su napisani vlastiti detektori skeniranja portova i učestalosti SSH veza, dok su se indikatori kompromitacije
 priključili koristeći Intel okvir koji funkcionira neovisno o detekcijskoj logici. Upravo skriptni jezik, a ne pojedini ugrađeni mehanizam, čini sustav 
 proširivim i prenosivim na druge obrasce prijetnji.
 
-Naglasak rada nije na minimalnosti sklopovlja (iako se pokazalo kao nezaobilazna prepreka autoru) na kojem se rad izvodi, nego na cjelovitosti i automatiziranosti
+Naglasak rada nije na minimalnosti sklopovlja na kojem se rad izvodi, nego na cjelovitosti i automatiziranosti
 lanca detekcije i reakcije. Zabilježen je i opisan put od opažanja sumnjivih obrazaca ponašanja, evidencije tih obrazaca kroz \texttt{notice.log} zapis i reakcije
-kroz \texttt{auto\_reaction.py} do izmjene članova u skupu \texttt{denylist} unutar \texttt{nftables} tablice koje se događa bez intervencije operatora. 
+kroz \texttt{auto\_reaction.py} do izmjene elemenata u skupu \texttt{denylist} unutar \texttt{nftables} tablice koje se događa bez intervencije operatora. 
 Dodatno, budući da trajanje blokade nameće vremensko ograničenje skupa kojim upravlja jezgra, a ne sama skripta, sustav je otporan na neplanirani prekid.
 Kontejnerizacija servisa i razdvajanje prikupljanja od pohrane montiranjem dijeljenog direktorija isključivo za čitanje čine arhitekturu prenosivom i neovisnom o 
 konkretnom domaćinu. Demonstracija na potrošačkom prijenosnom računalu stoga pokazuje donju granicu zahtjeva sustava, a ne gornju granicu njegove 

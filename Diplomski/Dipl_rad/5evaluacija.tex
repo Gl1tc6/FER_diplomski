@@ -1,4 +1,4 @@
-\chapter{Evaluacija podsustava za pohranu}
+\chapter{Evaluacija podsustava za \mbox{pohranu}}
 
 Cilj ovog poglavlja jest usporediti dva ispitana podsustava za pohranu opisana u poglavljima arhitekture i implementacije. Vremenski orijentiranu bazu InfluxDB
 s agentom Telegraf te dokumentno orijentiranu bazu Elasticsearch s agentom Filebeat. Usporedba se provodi nad istovjetnim ulaznim podatcima kako bi se
@@ -11,7 +11,7 @@ Mjerenja su provedena na domaćinu temeljenom na jezgri \texttt{7.0.1 cachyos} (
 Korištene su inačice InfluxDB 2.7, Elasticsearch 8.17 i Grafana 11.4, dok je veličina JVM gomile Elasticsearcha ograničena postavkom
 \texttt{ES\_JAVA\_OPTS=-Xms512m} odnosno 512 MB.
 
-Za razliku od produkcijske konfiguracije, u kojoj se zbog sukoba na ulazu 3000 (Grafana) i istovjetnog naziva senzorskog kontejnera izvodi isključivo jedan
+Za razliku od produkcijske konfiguracije, u kojoj se zbog sukoba na portu 3000 (Grafana) i istovjetnog naziva senzorskog kontejnera izvodi isključivo jedan
 podsustav, mjerenja su provedena uz istovremeno podignute obje baze i pripadne agente, no bez Grafane i bez senzora. Time se obje baze izlažu istom opterećenju
 domaćina u istom trenutku, pa su mjerenja međusobno usporediva pod identičnim uvjetima. Kao ulaz korišten je jedan zamrznuti zapis \texttt{conn.log} veličine
 4.7 MB s 14027 zapisa veza, koji oba agenta čitaju iz istoga dijeljenog direktorija.
@@ -90,8 +90,7 @@ Razlika u potrošnji memorije najizraženija je i najpostojanija od svih mjereni
 oko 146 MB, dok podsustav s Elasticsearchom (baza i agent) troši oko 660 MB, odnosno približno četiri i pol puta više. Bitno je da ta razlika nije posljedica
 količine podataka, nego donje granice koju nameće Java virtualni stroj. Potrošnja Elasticsearcha određena je prije svega zadanom veličinom JVM gomile
 (ovdje 512 MB), koja predstavlja donju granicu neovisnu o broju pohranjenih zapisa. Uz veću gomilu otisak bi bio i veći. Za ciljanu primjenu na sklopovlju
-ograničenih resursa ta je donja granica presudna i razmatra se u zaključku. Također je bitno za napomenuti da je ta granica pomična no naravno što se više memorije
-udijeli to su pretraživanja brža.
+ograničenih resursa ta je donja granica presudna i razmatra se u zaključku. Valja napomenuti da je ta granica pomična: što se više memorije dodijeli, pretraživanja su brža.
 
 \section{Kašnjenje upita}
 
@@ -129,26 +128,26 @@ izvora, ali po cijeni većega prostornog otiska i, presudno, donje granice radne
 nizove pa mu je vrijeme glavna organizacijska dimenzija. Također primjenjuje kompresiju i politike zadržavanja, a memorijski otisak ostaje malen. Iz istoga modela slijedi 
 i opažena razlika u broju zapisa iz tablice \ref{tab:verify}. Budući da InfluxDB točku određuje skupom oznaka i vremenskom oznakom, veze koje dijele te vrijednosti
 stapaju se u jednu točku, pa je broj točaka manji od broja ulaznih redaka. Stapanje pogađa isključivo agregatni broj zapisa veza (otprilike 4\%) i posljedica je svjesne odluke da se 
-identifikator veze \texttt{uid} drži poljem, a ne oznakom - držanje oznakom očuvalo bi svaki redak, ali bi količina vremenskih serija naraslo na broj veza i poništilo memorijsku prednost 
+identifikator veze \texttt{uid} drži poljem, a ne oznakom - držanje oznakom očuvalo bi svaki redak, ali bi količina vremenskih serija narasla na broj veza i poništila memorijsku prednost 
 zbog koje se InfluxDB i odabire. Zapisi \texttt{notice} nisu zahvaćeni. Za primjenu usmjerenu na vizualizaciju obrazaca i dojavu, a ne na forenzičku rekonstrukciju pojedine veze, riječ je o 
 prihvatljivom kompromisu. Unutar Elasticsearcha, gdje je svaki redak zaseban dokument, takvoga stapanja nema.
 
 Posljedica je očita specijalizacija alata. InfluxDB je bolji izbor kada su upiti temeljeni na vremenu i kad su računalni resursi domaćina oskudni. Kad su
 potrebni pretraga po sadržaju polja (primjerice traženje domena u \texttt{dns.log}), niže kašnjenje složenijih agregacija i korelacija više vrsta
-zapisa u jednom upitu Elasticsearch se ističe kao očiti odabit. InfluxDB ne podržava prirodno te mogućnosti te zahtijeva agregaciju na strani klijenta.
+zapisa u jednom upitu Elasticsearch se ističe kao očiti odabir. InfluxDB ne podržava prirodno te mogućnosti te zahtijeva agregaciju na strani klijenta.
 
 Naposljetku valja istaknuti glavno ograničenje cijele evaluacije. Mjerenja su provedena na malenom skupu podataka, pa pouzdano govore o fiksnim zapisima i
 donjim granicama potrošnje, ali ne i o ponašanju sustava pri znatnom rastu količine prometa. Mjerenje na većem skupu ostavlja se kao smjernica za daljnji
-rad iako se može primjetiti trend gdje bi Elasticsearch bio puno bolja opcija.
+rad iako se može primijetiti trend gdje bi Elasticsearch bio puno bolja opcija.
 
 \section{Zaključak usporedbe}
 
 Za ciljanu primjenu ovog rada, nadzor lokalne mreže na potrošačkom sklopovlju ograničenih resursa, odlučujućom se pokazuje potrošnja radne memorije. Podsustav s InfluxDB-om zadržava se na 
 razini stotinjak megabajta, dok podsustav s Elasticsearchom troši višestruko više, ponajprije zbog donje granice koju nameće JVM gomila. Ta je granica neovisna o količini pohranjenih podataka, 
 pa Elasticsearch i pri zanemarivu opterećenju zauzima više memorije nego cijeli InfluxDB podsustav pod radnim opterećenjem; na domaćinu koji istovremeno obavlja uloge usmjernika, pristupne točke 
-i senzora upravo je taj fiksni prag presudan. Tu je granicu moguće spustiti preko argumenata no onda Elasticsearch gubi prednost koju trenutno ima.
+i senzora upravo je taj fiksni prag presudan. Tu je granicu moguće sniziti postavkom veličine JVM gomile, no na uštrb brzine i stabilnosti pretraživanja pri većim opterećenjima, čime slabi upravo prednost zbog koje bi se Elasticsearch inače odabrao.
 
-Na svim trima izmjerenim upitima Elasticsearch postiže niže kašnjenje \ref{tab:latency}. Apsolutne su vrijednosti obaju sustava 
+Na svim trima izmjerenim upitima Elasticsearch postiže niže kašnjenje, kako prikazuje tablica \ref{tab:latency}. Apsolutne su vrijednosti obaju sustava 
 ipak reda nekoliko desetaka milisekundi i za osvježavanje nadzorne ploče u sekundnim razmacima zanemarive, pa ne mijenjaju odluku koju daje memorijski otisak. Zauzeće diska na izmjerenom je 
 skupu premaleno da bi samo po sebi bilo argumentom te se u ovom zaključku ne uzima kao odlučujuće.
 

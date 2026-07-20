@@ -1,9 +1,9 @@
-\chapter{Testiranje detekcije i automatske reakcije}
+\chapter{Testiranje detekcije i \mbox{automatske} reakcije}
 
 Cilj je ovog poglavlja funkcionalno provjeriti dvije sposobnosti sustava koje nisu obuhvaćene usporedbom podsustava za pohranu iz prethodnog poglavlja.
 Sposobnost prepoznavanja sumnjivog ponašanja u prometu te sposobnost automatskog odgovora na prepoznatu prijetnju. Provjera se provodi kao niz
 nadziranih testova u kojima se s poznatog klijenta izaziva određeni obrazac prometa, a potom se promatra cijeli lanac od Zeekova upozorenja u
-\texttt{notice.log}, preko skripte \texttt{auto\_reaction.py}, do izmjene članstva skupa \texttt{denylist} u tablici \texttt{nftables}. Svaki se test
+\texttt{notice.log}, preko skripte \texttt{auto\_reaction.py}, do izmjene elemenata skupa \texttt{denylist} u tablici \texttt{diplomski}. Svaki se test
 prati po izvorišnoj adresi, čime se uspostavlja jednoznačna veza između izazvanog događaja, zabilježenog upozorenja i poduzete reakcije. Navode se
 isključivo stvarno izmjereni zapisi.
 
@@ -26,20 +26,20 @@ je činjenica ključna jer omogućuje pripisivanje upozorenja pojedinom uređaju
 
 Za izazivanje pojedinih obrazaca prometa korišteni su sljedeći alati: \texttt{nmap} za skeniranje portova, \texttt{sshpass} za automatske ponavljane pokušaje
 prijave putem \texttt{SSH}, \texttt{curl} za uspostavljanje veze alatom prema adresi iz datoteke \texttt{intel.dat} za podudaranje
-s pokazateljem kompromitacije te \texttt{hping3} za lažiranje izvorišne adrese pri ispitivanju ograničenja.
+s indikatorom kompromitacije te \texttt{hping3} za lažiranje izvorišne adrese pri ispitivanju ograničenja.
 
 Reakcija se temelji na sljedećem ponašanju skripte: po prepoznavanju obavijesti izvorišna adresa (\texttt{src}) dodaje se kao element skupa \texttt{denylist} s
 vremenskim ograničenjem od 30 sekundi, osim ako se nalazi na popisu dopuštenih adresa. U redovnom radu popis dopuštenih adresa sadrži \texttt{127.0.0.1} i
 \texttt{10.0.1.1}; adresa \texttt{10.0.1.94} dodana je na taj popis isključivo za potrebe testiranja.
 
 Radi provjere lažno pozitivnih odziva kroz pristupnu je točku propušten uobičajen promet (pregledavanje weba, dohvaćanje datoteka, ažuriranja sustava) 
-tijekom \emph{3 sata 38 minuta 41 sekunde}. Nijedan obrazac nije premašio pragove definirane u \texttt{local.zeek} (50 različitih portova u pet minuta odnosno 
+tijekom 3 sata 38 minuta 41 sekunde. Nijedan obrazac nije premašio pragove definirane u \texttt{local.zeek} (50 različitih portova u pet minuta odnosno 
 15 SSH veza), pa skup \texttt{denylist} nije popunjen niti je jedan legitiman uređaj blokiran.
 \section{Provjera toka podataka}
 
 Prije ispitivanja detekcije potvrđuje se da podatci prolaze cijelim lancem obrade. Na klijentu se uspostavi veza, nakon čega se utvrđuje da je nastao
 zapis u \texttt{conn.log}, da ga je preuzeo agent (Telegraf odnosno Filebeat), da je pohranjen u pripadnoj bazi te da je vidljiv na odgovarajućem prikazu u
-Grafani. Na nadzornoj ploči \ref{fig:dashboard-start} izravno se očitava da podatci pristižu - prikazani su broj veza u minuti, raspodjela protokola
+Grafani. Na nadzornoj ploči, na slici \ref{fig:dashboard-start}, izravno se očitava da podatci pristižu - prikazani su broj veza u minuti, raspodjela protokola
 te ljestvice najčešćih izvorišnih i odredišnih adresa, u kojima se pojavljuju stvarne adrese klijenata iz lokalne podmreže. Time je potvrđeno da je tok
 podataka cjelovit i da se izvorišne adrese očuvane na sučelju \texttt{wlan1} ispravno prenose do prikaza.
 
@@ -54,9 +54,9 @@ podataka cjelovit i da se izvorišne adrese očuvane na sučelju \texttt{wlan1} 
 
 \section{Testiranje detekcije}
 
-Provedena su tri testa detekcije: skeniranje portova, bruteforce SSH prijave i podudaranje s pokazateljem kompromitacije. Svi su izvedeni s klijenta
+Provedena su tri testa detekcije: skeniranje portova, bruteforce SSH prijave i podudaranje s indikatorom kompromitacije. Svi su izvedeni s klijenta
 \texttt{10.0.1.94}, osim lažiranog skeniranja iz odjeljka o ograničenjima. Sva tri tipa upozorenja vidljiva su na vremenskoj crti nadzorne ploče
-\ref{fig:timeline}, s pripadnim izvorišnim adresama.
+na slici \ref{fig:timeline}, s pripadnim izvorišnim adresama.
 
 \begin{figure}[h]
     \centering
@@ -71,7 +71,7 @@ Provedena su tri testa detekcije: skeniranje portova, bruteforce SSH prijave i p
 
 Skeniranje je izazvano s klijenta \texttt{10.0.1.94} naredbom \texttt{nmap -Pn -T4 10.0.1.1}. Prekoračenjem praga od 50 različitih
 kontaktiranih portova prema istom cilju, Zeek je zabilježio upozorenje tipa \texttt{Custom\_Port\_Scan} sa stvarnom izvorišnom adresom
-\texttt{10.0.1.94} \ref{lst:notice-portscan}. Detektor djeluje na događaju \texttt{new\_connection}, pa reagira na pokušaj veze i ne ovisi o
+\texttt{10.0.1.94} u ispisu \ref{lst:notice-portscan}. Detektor djeluje na događaju \texttt{new\_connection}, pa reagira na pokušaj veze i ne ovisi o
 njezinom uspješnom uspostavljanju.
 
 \begin{lstlisting}[caption={Upozorenje o skeniranju portova (\texttt{notice.log})}, label={lst:notice-portscan}]
@@ -97,8 +97,8 @@ detektoru \texttt{SSH::Password\_Guessing} koji radi na temelju zaključene aute
     "src":"10.0.1.94","suppress_for":30.0}
 \end{lstlisting}
 
-Obavijesti su vidljive i na nadzornoj ploči \ref{fig:ssh-grafana}, gdje je za izvor \texttt{10.0.1.94} zabilježeno više detekcija
-\texttt{Custom\_SSH\_Bruteforce} pri pragovima od 15 te 35--36 veza.
+Obavijesti su vidljive i na nadzornoj ploči, na slici \ref{fig:ssh-grafana}, gdje je za izvor \texttt{10.0.1.94} zabilježeno više detekcija
+\texttt{Custom\_SSH\_Bruteforce} pri pragovima od 15 te 35-36 veza.
 
 \begin{figure}[h]
     \centering
@@ -108,15 +108,15 @@ Obavijesti su vidljive i na nadzornoj ploči \ref{fig:ssh-grafana}, gdje je za i
     \label{fig:ssh-grafana}
 \end{figure}
 
-\subsection{Podudaranje s pokazateljem kompromitacije}
+\subsection{Podudaranje s indikatorom kompromitacije}
 
 Podudaranje je izazvano uspostavljanjem veze s klijenta \texttt{10.0.1.94} prema adresi unaprijed unesenoj u datoteku \texttt{intel.dat}. Putem okvira
 \engl{Intel framework} (skripte \texttt{intel/seen} i \texttt{intel/do\_notice}) Zeek poklapa adrese na događaju uspostavljene veze
 (\texttt{connection\_established}); za test je stoga ključno da se veza \emph{uspostavi}, neovisno o ishodu na aplikacijskoj razini. Veza je rezultirala
 neuspjehom pri \engl{TLS} pregovaranju, ali je TCP rukovanje dovršeno, što je dovoljno za poklapanje. Zeek je zabilježio upozorenje tipa
-\texttt{Intel::Notice} \ref{lst:notice-ioc}.
+\texttt{Intel::Notice} u ispisu \ref{lst:notice-ioc}.
 
-\begin{lstlisting}[caption={Upozorenje o podudaranju s pokazateljem kompromitacije (\texttt{notice.log})}, label={lst:notice-ioc}]
+\begin{lstlisting}[caption={Upozorenje o podudaranju s indikatorom kompromitacije (\texttt{notice.log})}, label={lst:notice-ioc}]
     {"ts":1781471801.228362,"id.orig_h":"10.0.1.94","id.resp_h":"172.66.147.243",
     "id.resp_p":443,"proto":"tcp","note":"Intel::Notice",
     "msg":"Intel hit on 172.66.147.243 at Conn::IN_RESP",
@@ -125,15 +125,16 @@ neuspjehom pri \engl{TLS} pregovaranju, ali je TCP rukovanje dovršeno, što je 
 
 Za testni je indikator korištena dostupna javna adresa, što je uobičajena i sigurna praksa pri provjeri Intel okvira. Vrijednost \texttt{suppress\_for}
 ovdje iznosi 3600 sekundi (zadani interval suzbijanja obavijesti); taj se interval prema potrebi snižava postavkom u \texttt{local.zeek}, čime se trguje
-između količine obavijesti i odzivnosti te je on odvojen od \texttt{TIMEOUT} kojeg se postavlja za duljinu trajanja blokade unutar nft tablice \texttt{denylist}.
+između količine obavijesti i odzivnosti te je on odvojen od \texttt{TIMEOUT} kojeg se postavlja za duljinu trajanja blokade unutar nft skupa \texttt{denylist}
+u tablici \texttt{diplomski}.
 
 \section{Testiranje automatske reakcije}
 
 \subsection{Blokiranje izvora i istek blokade}
 
 Reakcija je promatrana na primjeru skeniranja portova iz ispisa \ref{lst:notice-portscan}. Prije testa skup \texttt{denylist} bio je
-prazan; ubrzo nakon detekcije izvorišna se adresa nalazi u skupu, uz preostalo vrijeme do isteka koje očitava jezgra \ref{lst:nft-block}. Skripta
-\texttt{auto\_reaction.py} pritom je ispisala odgovarajuću potvrdu \ref{lst:reaction-portscan}.
+prazan; ubrzo nakon detekcije izvorišna se adresa nalazi u skupu, uz preostalo vrijeme do isteka koje očitava jezgra u ispisu \ref{lst:nft-block}. Skripta
+\texttt{auto\_reaction.py} pritom je ispisala odgovarajuću potvrdu u ispisu \ref{lst:reaction-portscan}.
 
 \begin{lstlisting}[language=bash, caption={Skup \texttt{denylist} prije i tijekom blokade}, label={lst:nft-block}]
     # prije:
@@ -160,14 +161,14 @@ prazan; ubrzo nakon detekcije izvorišna se adresa nalazi u skupu, uz preostalo 
 Trajanje blokade određeno je vremenskim ograničenjem skupa (\texttt{timeout 30s}). Nakon isteka
 blokade jezgra automatski uklanja element, bez intervencije skripte ili operatora. To je moguće potvrditi porukom o isteku u svakom testu te ponovnim pregledom praznog skupa.
 
-Za odlaznu vezu prema pokazatelju kompromitacije skripta blokira polje \texttt{src} iz obavijesti, a to je \emph{unutarnji} klijent koji je ostvario
+Za odlaznu vezu prema indikatoru kompromitacije skripta blokira polje \texttt{src} iz obavijesti, a to je \emph{unutarnji} klijent koji je ostvario
 vezu (\texttt{10.0.1.94}), a ne vanjska maliciozna adresa. Riječ je o namjernom postupku. Vanjska je adresa izvan dosega upravljanja, dok se
 blokiranjem unutarnjeg domaćina ograničava daljnja komunikacija potencijalno kompromitiranog uređaja.
 
-Blokada je potvrđena i pregledom skupa nakon podudaranja s pokazateljem kompromitacije. U skupu \texttt{denylist} nalazi se unutarnji klijent
-\texttt{10.0.1.94}, a ne vanjska adresa indikatora \ref{lst:nft-ioc}.
+Blokada je potvrđena i pregledom skupa nakon podudaranja s indikatorom kompromitacije. U skupu \texttt{denylist} nalazi se unutarnji klijent
+\texttt{10.0.1.94}, a ne vanjska adresa indikatora što je vidljivo u ispisu \ref{lst:nft-ioc}.
 
-\begin{lstlisting}[language=bash, caption={Skup \texttt{denylist} nakon podudaranja s pokazateljem kompromitacije},label={lst:nft-ioc}]
+\begin{lstlisting}[language=bash, caption={Skup \texttt{denylist} nakon podudaranja s indikatorom kompromitacije},label={lst:nft-ioc}]
     table ip diplomski {
             set denylist {
                     type ipv4_addr
@@ -181,7 +182,7 @@ Blokada je potvrđena i pregledom skupa nakon podudaranja s pokazateljem komprom
 
 Provjereno je da skripta ne reagira kad je izvorišna adresa na popisu dopuštenih. U testu je adresa \texttt{10.0.1.94} privremeno dodana na popis,
 nakon čega je ponovljen SSH bruteforce. Zeek je i dalje zabilježio upozorenje \texttt{Custom\_SSH\_Bruteforce} (detekcija nije izostala), no skup
-\texttt{denylist} ostao je prazan, a skripta nije poduzela reakciju \ref{lst:whitelist}. Time je potvrđeno da popis dopuštenih adresa
+\texttt{denylist} ostao je prazan, a skripta nije poduzela reakciju, što je vidljivo u ispisu \ref{lst:whitelist}. Time je potvrđeno da popis dopuštenih adresa
 sprječava blokiranje povjerljivih izvora bez utjecaja na detekciju.
 
 \begin{lstlisting}[caption={Detekcija bez reakcije za adresu na popisu dopuštenih}, label={lst:whitelist}]
@@ -199,7 +200,7 @@ sprječava blokiranje povjerljivih izvora bez utjecaja na detekciju.
 Reakcija se temelji na izvorišnoj adresi iz obavijesti, pa je njezina ispravnost ograničena ispravnošću te adrese. Ograničenje je provjereno
 namjernim lažiranjem izvorišne adrese alatom \texttt{hping3}, kojim je izvedeno skeniranje portova uz krivotvorenu adresu \texttt{185.220.101.1}
 (\texttt{hping3 -S -{}-spoof 185.220.101.1 -{}-scan 1-1000 10.0.1.94}). Zeek je zabilježio upozorenje s krivotvorenom adresom, a skripta je upravo nju dodala u
-skup \texttt{denylist} \ref{lst:spoof}.
+skup \texttt{denylist} u ispisu \ref{lst:spoof}.
 
 \begin{lstlisting}[language=bash, caption={Ispis denylist}, label={lst:spoof}]
     # notice.log:  "note":"Custom_Port_Scan", "src":"185.220.101.1"
